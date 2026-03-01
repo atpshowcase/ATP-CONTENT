@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microservices: Pro Layout</title>
+    <!-- Font Setup: Poppins (Heading), Inter (Body), Gochi Hand (Doodles) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Inter:wght@400;600&family=Poppins:wght@500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #1a1a1a;
+            --paper: #f4f4f0;
+            --blue: #3b82f6;
+            --red: #ef4444;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --gray: #f3f4f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        /* === SLIDE CONTAINER === */
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: var(--bg);
+            position: relative;
+            overflow: hidden;
+            border: 6px solid var(--ink);
+            border-radius: 40px;
+            /* Clean rounded corners */
+            display: flex;
+            flex-direction: column;
+            box-shadow: 20px 20px 0px rgba(0, 0, 0, 1);
+            /* Hard shadow */
+        }
+
+        /* === HEADER (Top Left & Top Right) === */
+        .slide-top {
+            padding: 60px 80px 0;
+            /* Padding konsisten */
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            /* Align top biar rapi */
+            height: 140px;
+            /* Fixed height area for header */
+            z-index: 10;
+        }
+
+        .username {
+            font-family: 'Poppins', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--ink);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+        }
+
+        .slide-number {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+            font-size: 36px;
+            background: var(--ink);
+            color: white;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+
+        /* === CONTENT AREA === */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Center vertically */
+            align-items: center;
+            padding: 0 80px;
+            text-align: center;
+        }
+
+        /* === FOOTER (Bottom Left & Bottom Right) === */
+        .slide-bottom {
+            height: 120px;
+            padding: 0 80px 60px;
+            /* Jarak dari bawah */
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .website-badge {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            border: 3px solid var(--ink);
+            padding: 12px 30px;
+            border-radius: 50px;
+            background: white;
+            color: var(--ink);
+            text-decoration: none;
+            box-shadow: 4px 4px 0 var(--ink);
+            /* Subtle pop */
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .cta-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+
+        /* === TYPOGRAPHY & ELEMENTS === */
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 130px;
+            line-height: 0.9;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: -4px;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 60px;
+            /* Sedikit dikecilin biar muat judul panjang */
+            font-weight: 800;
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+
+        .hand-note {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 40px;
+            color: var(--ink);
+            transform: rotate(-2deg);
+            margin-bottom: 15px;
+        }
+
+        .big-text {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-top: 30px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Sketch Box Style */
+        .sketch-box {
+            font-family: 'Poppins', sans-serif;
+            border: 4px solid var(--ink);
+            padding: 40px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 28px;
+            background: white;
+            box-shadow: 10px 10px 0 var(--ink);
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .sketch-box.dark {
+            background: var(--ink);
+            color: white;
+            box-shadow: 10px 10px 0 #999;
+        }
+
+        .sketch-box.blue {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .sketch-box.red {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .sketch-box.green {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        /* Summary Box for Last Slide */
+        .summary-box {
+            background: #fdfdfd;
+            border: 4px solid var(--ink);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: left;
+            width: 100%;
+            box-shadow: 10px 10px 0 #eee;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            font-size: 28px;
+            margin-bottom: 25px;
+            /* Sedikit lebih renggang */
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .summary-item i {
+            margin-top: 5px;
+            /* Icon adjust */
+        }
+
+        /* PENGUIN VECTOR (Standard) */
+        .penguin-wrapper {
+            width: 300px;
+            height: 350px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .p-body {
+            width: 240px;
+            height: 320px;
+            background: var(--ink);
+            border-radius: 120px 120px 100px 100px;
+            position: absolute;
+            left: 30px;
+            top: 15px;
+        }
+
+        .p-belly {
+            width: 160px;
+            height: 230px;
+            background: var(--bg);
+            border-radius: 80px 80px 70px 70px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 75px;
+            border: 5px solid var(--ink);
+        }
+
+        .p-eye {
+            width: 45px;
+            height: 45px;
+            background: var(--bg);
+            border: 5px solid var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 60px;
+            z-index: 5;
+        }
+
+        .p-eye.left {
+            left: 55px;
+        }
+
+        .p-eye.right {
+            right: 55px;
+        }
+
+        .p-pupil {
+            width: 15px;
+            height: 15px;
+            background: var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .p-beak {
+            width: 50px;
+            height: 25px;
+            background: var(--ink);
+            border-radius: 50px;
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .p-flipper {
+            width: 70px;
+            height: 130px;
+            background: var(--ink);
+            border-radius: 35px;
+            position: absolute;
+            top: 110px;
+            z-index: -1;
+        }
+
+        .p-flipper.left {
+            left: -20px;
+            transform: rotate(20deg);
+        }
+
+        .p-flipper.right {
+            right: -20px;
+            transform: rotate(-20deg);
+        }
+
+        .p-feet {
+            width: 60px;
+            height: 40px;
+            background: var(--ink);
+            border-radius: 30px;
+            position: absolute;
+            bottom: -10px;
+        }
+
+        .p-feet.left {
+            left: 40px;
+        }
+
+        .p-feet.right {
+            right: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="feed-grid">
+
+        <!-- SLIDE 1: COVER (Tetap Intro) -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username"><i class="fa-brands fa-instagram"></i> @code_penguin</div>
+                <div class="slide-number">#1</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Series Arsitektur Nih!</div>
+                <h1>MICRO<br>SERVICES</h1>
+                <div class="penguin-wrapper">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper left" style="transform: rotate(-140deg); top: 50px; left: -20px;"></div>
+                        <div class="p-flipper right"></div>
+                        <div class="p-feet left"></div>
+                        <div class="p-feet right"></div>
+                    </div>
+                </div>
+                <div class="sketch-box">Barang Mahal atau Cuma Gaya? 🤔</div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-globe"></i> www.codepenguin.id</div>
+                <div class="cta-text">Swipe ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: KAPAN PINDAH? (WHEN) -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#2</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Jangan asal gas!</div>
+                <h2>Kapan Waktunya Pindah?</h2>
+
+                <div class="sketch-box" style="text-align: left; border-color: var(--red);">
+                    <i class="fa-solid fa-traffic-light" style="color: var(--red);"></i> <span
+                        style="color: var(--red);">JANGAN MULAI DARI AWAL!</span><br>
+                    <span style="font-weight: 400; font-size: 24px; color: var(--ink);">Ngapain repot di awal kalo user
+                        belum ada?</span>
+                </div>
+
+                <div class="sketch-box" style="text-align: left; border-color: var(--green);">
+                    <i class="fa-solid fa-flag-checkered" style="color: var(--green);"></i> <span
+                        style="color: var(--green);">GAS KALO:</span><br>
+                    <span style="font-weight: 400; font-size: 24px; color: var(--ink);">Tim lu udah kebanyakan orang
+                        sampe kodingan tabrakan mulu.</span>
+                </div>
+
+                <p class="big-text">Pindah cuma kalo monolith lu udah <span
+                        style="background: var(--ink); color: white; padding: 0 5px;">sesak napas</span>.</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Timing is Key</div>
+                <div class="cta-text">Tim Kecil? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: TIM KECIL (MONOLITH) -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#3</div>
+            </div>
+            <div class="content">
+                <h2>Tim Kecil? <br>Monolith Aja Bos!</h2>
+
+                <div class="penguin-wrapper" style="transform: scale(0.8); margin: 0;">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper left" style="transform: rotate(40deg);"></div>
+                        <div class="p-flipper right" style="transform: rotate(-40deg);"></div>
+                    </div>
+                </div>
+
+                <div class="sketch-box" style="padding: 30px;">
+                    <div style="font-size: 80px; margin-bottom: 20px;">🤯</div>
+                    Tim lu cuma 5 orang tapi mau maintain 20 services?? <strong>GOOD LUCK!</strong>
+                </div>
+
+                <p class="big-text">Banyak unicorn di Indo juga awalnya cuma monolith raksasa kok. Santuy.</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Reality Check</div>
+                <div class="cta-text">Hilang Kendali? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: HILANG KENDALI (CONTROL) -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#4</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Siap-siap mental...</div>
+                <h2>Relakan Kendali Menyeluruh!</h2>
+
+                <div style="display: flex; gap: 20px; width: 100%; justify-content: center; margin-bottom: 30px;">
+                    <div class="sketch-box" style="flex: 1; padding: 20px;">
+                        Tim A<br><span style="font-weight: 400; font-size: 18px;">Fokus User</span>
+                    </div>
+                    <div class="sketch-box" style="flex: 1; padding: 20px; background: #eee;">
+                        Tim B<br><span style="font-weight: 400; font-size: 18px;">(Gelap bagi Tim A)</span>
+                    </div>
+                </div>
+
+                <div class="sketch-box dark">
+                    "Lu ga bakal tau daleman semua service."
+                </div>
+                <p class="big-text">Tiap tim cuma peduli sama "kandang" mereka sendiri. Itu wajar.</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Mindset Shift</div>
+                <div class="cta-text">Independensi? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: INDEPENDENSI -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#5</div>
+            </div>
+            <div class="content">
+                <h2>Prinsip: Jomblo Itu Baik (Independen)</h2>
+
+                <div class="sketch-box" style="border-style: dashed; padding: 20px;">
+                    <i class="fa-solid fa-link-slash" style="font-size: 50px;"></i>
+                </div>
+
+                <p class="big-text" style="font-size: 36px; margin-bottom: 30px;">
+                    Kalo Servis A mati gara-gara Servis B mati...<br>
+                    <strong>ITU BUKAN MICROSERVICES!</strong>
+                </p>
+
+                <div class="sketch-box" style="background: var(--yellow);">
+                    Itu namanya <em>Distributed Monolith</em>. <br>Ribetnya dapet, manfaatnya kaga.
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Loosely Coupled</div>
+                <div class="cta-text">Fokus Bisnis ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: DOMAIN BISNIS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#6</div>
+            </div>
+            <div class="content">
+                <h2>Fokus Urusan Masing-Masing</h2>
+
+                <div style="display: flex; gap: 30px; width: 100%; justify-content: center; align-items: center;">
+                    <div class="sketch-box" style="flex: 1; border-color: var(--blue);">
+                        👨‍💼 Customer<br>
+                        <span style="font-weight: 400; font-size: 18px;">Peduli amat sama stok barang.</span>
+                    </div>
+                    <div style="font-size: 40px;">🚫</div>
+                    <div class="sketch-box" style="flex: 1; border-color: var(--green);">
+                        📦 Inventory<br>
+                        <span style="font-weight: 400; font-size: 18px;">Peduli amat siapa yang beli.</span>
+                    </div>
+                </div>
+
+                <p class="big-text">Bikin servis lu <strong>sempurna</strong> di satu urusan aja. Jangan maruk mau
+                    ngurusin semua.</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Domain Driven</div>
+                <div class="cta-text">Peran Senior? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: PERAN SENIOR -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#7</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Buat para Tech Lead...</div>
+                <h2>Kerjaan Senior Ngapain?</h2>
+
+                <div class="penguin-wrapper" style="transform: scale(0.7); height: 220px; margin: 0;">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper right" style="transform: rotate(-90deg); top: 60px;"></div>
+                    </div>
+                </div>
+
+                <div class="sketch-box" style="text-align: left;">
+                    <span style="color:red; text-decoration: line-through;">Ngurusin kodingan per baris.</span><br>
+                    <span style="color:var(--green); font-weight: 800;">Bikin Aturan Main (Standard).</span> ✅
+                </div>
+                <p class="big-text" style="margin-top: 10px; font-size: 28px;">Lu cuma kasih rel kereta, biar tim lu
+                    jalan sendiri tanpa nabrak.</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Leadership</div>
+                <div class="cta-text">Mahal Gak? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: BIAYA (COST) -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#8</div>
+            </div>
+            <div class="content">
+                <h2>Mahal & Ribet Bos!</h2>
+
+                <div class="sketch-box" style="text-align: left; background: #eee; border: none;">
+                    💸 <strong>Infrastructure Cost</strong> (Server bengkak)<br><br>
+                    🧠 <strong>Cognitive Load</strong> (Pusing mikirin flow)<br><br>
+                    👥 <strong>Team Size</strong> (Butuh banyak orang)
+                </div>
+
+                <div class="hand-note" style="margin-top: 20px; rotate: 2deg;">Optimasi monolith jauh lebih murah cuy.
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Cost Analysis</div>
+                <div class="cta-text">Bukan Dewa ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: BUKAN SOLUSI AKHIR -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#9</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Ini paling penting!</div>
+                <h2>Microservices Bukan Obat Dewa</h2>
+
+                <div class="penguin-wrapper" style="transform: scale(0.8); margin: 0;">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil" style="top:5px; left:5px;"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil" style="bottom:5px; right:5px;"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper left" style="transform: rotate(130deg); top: 30px;"></div>
+                        <div class="p-flipper right" style="transform: rotate(-130deg); top: 30px;"></div>
+                    </div>
+                </div>
+
+                <p class="big-text">Masalah performa gak selalu solusinya "pecah service".</p>
+                <div class="sketch-box">
+                    Bisa jadi kodingan lu aja yang jelek, bukan arsitekturnya yang salah. ✌️
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Hard Truth</div>
+                <div class="cta-text">Kesimpulan ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: KESIMPULAN (SUMMARY) -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#10</div>
+            </div>
+            <div class="content">
+                <h2>KESIMPULAN</h2>
+
+                <div class="summary-box">
+                    <div class="summary-item">
+                        <i class="fa-solid fa-1"></i>
+                        <div><strong>Start Small:</strong> Jangan maksa Microservices di awal. Monolith is fine.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-2"></i>
+                        <div><strong>Ownership:</strong> Pindah pas struktur tim butuh kemandirian.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-3"></i>
+                        <div><strong>Optimasi Dulu:</strong> Fix kodingan lu sebelum salahin arsitektur.</div>
+                    </div>
+                </div>
+
+                <div class="hand-note" style="margin-top: 30px;">Save buat bekel debat sama bos!</div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-bookmark"></i> Save & Share</div>
+                <div class="cta-text">@code_penguin</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

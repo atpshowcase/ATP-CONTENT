@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Research: Skill Drop 17%</title>
+    <!-- Font Setup: Poppins (Heading), Inter (Body), Gochi Hand (Doodles) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Inter:wght@400;600&family=Poppins:wght@500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #1a1a1a;
+            --paper: #f4f4f0;
+            --blue: #3b82f6;
+            --red: #ef4444;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --gray: #f3f4f6;
+            --purple: #8b5cf6;
+            --orange: #f97316;
+            --ai-blue: #0066cc;
+            --ai-red: #ff4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        /* === SLIDE CONTAINER === */
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: var(--bg);
+            position: relative;
+            overflow: hidden;
+            border: 6px solid var(--ink);
+            border-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 20px 20px 0px rgba(0, 0, 0, 1);
+            margin-bottom: 40px;
+        }
+
+        /* === HEADER === */
+        .slide-top {
+            padding: 60px 80px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 140px;
+            z-index: 10;
+        }
+
+        .username {
+            font-family: 'Poppins', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--ink);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+        }
+
+        .slide-number {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+            font-size: 36px;
+            background: var(--ink);
+            color: white;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+
+        /* === CONTENT AREA === */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 80px;
+            text-align: center;
+        }
+
+        /* === FOOTER === */
+        .slide-bottom {
+            height: 120px;
+            padding: 0 80px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .website-badge {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            border: 3px solid var(--ink);
+            padding: 12px 30px;
+            border-radius: 50px;
+            background: white;
+            color: var(--ink);
+            text-decoration: none;
+            box-shadow: 4px 4px 0 var(--ink);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .cta-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+
+        /* === TYPOGRAPHY & ELEMENTS === */
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 130px;
+            line-height: 0.9;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: -4px;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 60px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+
+        .hand-note {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 40px;
+            color: var(--ink);
+            transform: rotate(-2deg);
+            margin-bottom: 15px;
+        }
+
+        .big-text {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-top: 30px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Sketch Box Style */
+        .sketch-box {
+            font-family: 'Poppins', sans-serif;
+            border: 4px solid var(--ink);
+            padding: 40px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 28px;
+            background: white;
+            box-shadow: 10px 10px 0 var(--ink);
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .sketch-box.dark {
+            background: var(--ink);
+            color: white;
+            box-shadow: 10px 10px 0 #999;
+        }
+
+        .sketch-box.blue {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .sketch-box.red {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .sketch-box.green {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .sketch-box.ai {
+            border-color: var(--ai-blue);
+            color: var(--ai-blue);
+            background: #f0f7ff;
+        }
+
+        .sketch-box.warning {
+            border-color: var(--ai-red);
+            color: var(--ai-red);
+            background: #fff5f5;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: #fdfdfd;
+            border: 4px solid var(--ink);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: left;
+            width: 100%;
+            box-shadow: 10px 10px 0 #eee;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            font-size: 28px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* PENGUIN VECTOR */
+        .penguin-wrapper {
+            width: 300px;
+            height: 350px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .p-body {
+            width: 240px;
+            height: 320px;
+            background: var(--ink);
+            border-radius: 120px 120px 100px 100px;
+            position: absolute;
+            left: 30px;
+            top: 15px;
+        }
+
+        .p-belly {
+            width: 160px;
+            height: 230px;
+            background: var(--bg);
+            border-radius: 80px 80px 70px 70px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 75px;
+            border: 5px solid var(--ink);
+        }
+
+        .p-eye {
+            width: 45px;
+            height: 45px;
+            background: var(--bg);
+            border: 5px solid var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 60px;
+            z-index: 5;
+        }
+
+        .p-eye.left {
+            left: 55px;
+        }
+
+        .p-eye.right {
+            right: 55px;
+        }
+
+        .p-pupil {
+            width: 15px;
+            height: 15px;
+            background: var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .p-beak {
+            width: 50px;
+            height: 25px;
+            background: var(--ink);
+            border-radius: 50px;
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .p-flipper {
+            width: 70px;
+            height: 130px;
+            background: var(--ink);
+            border-radius: 35px;
+            position: absolute;
+            top: 110px;
+            z-index: -1;
+        }
+
+        .p-flipper.left {
+            left: -20px;
+            transform: rotate(20deg);
+        }
+
+        .p-flipper.right {
+            right: -20px;
+            transform: rotate(-20deg);
+        }
+
+        .p-feet {
+            width: 60px;
+            height: 40px;
+            background: var(--ink);
+            border-radius: 30px;
+            position: absolute;
+            bottom: -10px;
+        }
+
+        .p-feet.left {
+            left: 40px;
+        }
+
+        .p-feet.right {
+            right: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="feed-grid">
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username"><i class="fa-brands fa-instagram"></i> @code_penguin</div>
+                <div class="slide-number">#1</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">AI Bikin Bodoh? 🤖</div>
+                <h1>AI RESEARCH<br>SHOCKING!</h1>
+                <div class="penguin-wrapper">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper left" style="transform: rotate(-140deg); top: 50px; left: -20px;"></div>
+                        <div class="p-flipper right" style="transform: rotate(45deg); top: 50px; right: -20px;"></div>
+                        <div class="p-feet left"></div>
+                        <div class="p-feet right"></div>
+                    </div>
+                </div>
+                <div class="sketch-box warning">Skill Drop 17% Pakai AI! 😱</div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-globe"></i> www.codepenguin.id</div>
+                <div class="cta-text">Gas Riset! ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: THE RESEARCH -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#2</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Riset dari Anthropic!</div>
+                <h2>Riset Mengejutkan!</h2>
+
+                <div class="sketch-box ai" style="text-align: left;">
+                    📊 <strong>52 Programmer</strong> - Mayoritas junior (coding >1 tahun)<br><br>
+                    🆚 <strong>Dua Grup:</strong> Pakai AI vs Tanpa AI<br><br>
+                    🎯 <strong>Tugas:</strong> Belajar teknologi baru + kuis<br><br>
+                    📈 <strong>Hasil:</strong> Super mengejutkan!
+                </div>
+
+                <p class="big-text">Kita mikirnya AI bikin <span
+                        style="background: var(--ai-blue); color: white; padding: 0 5px;">lebih cepet</span>, tapi...</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Anthropic Research</div>
+                <div class="cta-text">Kecepatan? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: SPEED MYTH -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#3</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Cepet Kok?</div>
+                <h2>Kecepatan: Myth Busted!</h2>
+
+                <div class="penguin-wrapper" style="transform: scale(0.8); margin: 0;">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper left" style="transform: rotate(40deg); left: -30px;"></div>
+                        <div class="p-flipper right" style="transform: rotate(-40deg); right: -30px;"></div>
+                    </div>
+                </div>
+
+                <div class="sketch-box" style="padding: 30px;">
+                    <div style="font-size: 80px; margin-bottom: 20px;">⏰</div>
+                    <strong>Perbedaan kecepatan <strong>GAK SIGNIFIKAN!</strong></strong><br>
+                    <span style="font-size: 24px;">Kenapa? <strong>30% Waktu BUAT NULIS PROMPT!</strong> 😭</span>
+                </div>
+
+                <p class="big-text">Waktu kerja malah <strong>habis mikirin prompt!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Time Waster</div>
+                <div class="cta-text">Skill Drop? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: SKILL DROP -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#4</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Nilai Jelek!</div>
+                <h2>Skill Drop 17%!</h2>
+
+                <div class="sketch-box warning" style="border-style: dashed; padding: 20px; font-size: 50px;">
+                    📉
+                </div>
+
+                <p class="big-text" style="font-size: 34px;">
+                    Grup Pakai AI: <strong>50%</strong><br>
+                    Grup Tanpa AI: <strong>67%</strong><br>
+                    <span style="color: var(--ai-red);">Selisih 17%!</span>
+                </p>
+
+                <div class="sketch-box" style="background: var(--yellow);">
+                    <strong>Ironi:</strong> Yang gak pakai AI justru <strong>lebih pinter!</strong><br>
+                    <span style="font-size: 20px;">Padahal kita pikir AI bikin jenius!</span>
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Skill Crisis</div>
+                <div class="cta-text">Debugging Problem? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: DEBUGGING DISASTER -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#5</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Debugging Lemah!</div>
+                <h2>Debugging: Area Terparah!</h2>
+
+                <div class="sketch-box" style="text-align: left;">
+                    🐛 <strong>Programmer wajib punya debugging skill!</strong><br><br>
+                    
+                    😱 <strong>Grup Pakai AI:</strong> Paling lemah di debugging!<br><br>
+                    
+                    ❓ <strong>Kenapa?</strong> Dikit-dikit nanya AI, mentok langsung serahin!<br><br>
+                    
+                    💪 <strong>Grup Tanpa AI:</strong> Lebih bagus debuggingnya!
+                </div>
+
+                <p class="big-text">Debugging itu <strong>skill paling penting</strong> buat programmer!</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Debug Crisis</div>
+                <div class="cta-text">Tipe Gagal? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: FAILED AI USERS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#6</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">3 Tipe Gagal!</div>
+                <h2>Tipe Pengguna AI yang Gagal</h2>
+
+                <div style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
+                    <div class="sketch-box" style="border-color: var(--red); text-align: left; padding: 20px;">
+                        🚫 <strong>Tipe 1 - Menyerah Total:</strong><br>
+                        <span style="font-size: 18px;">Serahin semuanya ke AI, gak ngerti apa-apa. Nilai <40%!</span>
+                    </div>
+                    <div class="sketch-box" style="border-color: var(--orange); text-align: left; padding: 20px;">
+                        🔄 <strong>Tipe 2 - Pura-Pura Usaha:</strong><br>
+                        <span style="font-size: 18px;">Awalnya nyoba, mentok langsung serahin ke AI!</span>
+                    </div>
+                    <div class="sketch-box" style="border-color: var(--yellow); text-align: left; padding: 20px;">
+                        📋 <strong>Tipe 3 - Copy Paste:</strong><br>
+                        <span style="font-size: 18px;">Jawaban AI langsung copy paste tanpa review!</span>
+                    </div>
+                </div>
+
+                <p class="big-text">Ketiga tipe ini <strong>nilainya paling jelek!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Failed Patterns</div>
+                <div class="cta-text">Tipe Sukses? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: SUCCESSFUL AI USERS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#7</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Tipe Sukses!</div>
+                <h2>Pengguna AI yang Sukses</h2>
+
+                <div class="sketch-box ai" style="text-align: left;">
+                    🎯 <strong>AI sebagai Learning Partner:</strong><br>
+                    Bukan ghost writer yang disuruh-suruh!<br><br>
+                    
+                    🤔 <strong>Tetap Kerjain Sendiri:</strong><br>
+                    Ngerjain sendiri, AI cuma buat tanya kalau mentok<br><br>
+                    
+                    🔍 <strong>Kritis terhadap Jawaban AI:</strong><br>
+                    "Kenapa jawabannya kayak gitu?"<br>
+                    "Kenapa beda sama punya gua?"<br><br>
+                    
+                    📚 <strong>Minta Penjelasan Konseptual:</strong><br>
+                    Bukan cuma minta hasil jadi!<br><br>
+                    
+                    ✅ <strong>Validasi Pemahaman:</strong><br>
+                    Pakai AI buat validasi, bukan gantiin!
+                </div>
+
+                <p class="big-text">Mereka pakai AI buat <strong>belajar, bukan buat nyontek!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Smart AI Usage</div>
+                <div class="cta-text">Cognitive Offloading? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: COGNITIVE OFFLOADING -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#8</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Otak Lupa Mikir!</div>
+                <h2>Cognitive Offloading</h2>
+
+                <div class="sketch-box warning" style="border-style: dashed; padding: 20px; font-size: 50px;">
+                    🧠 ➡️ 🤖
+                </div>
+
+                <p class="big-text" style="font-size: 34px;">
+                    <strong>Memindahkan proses berpikir ke AI!</strong><br>
+                    <span style="color: var(--ai-red);">Riset Microsoft: Kebanyakan pakai AI = kurang effort!</span>
+                </p>
+
+                <div class="sketch-box" style="background: var(--yellow);">
+                    <strong>Analogi Belajar Nyetir:</strong><br>
+                    <span style="font-size: 20px;">Mobil ada autopilot, setiap sulit langsung pakai autopilot. Sampai tujuan tapi <strong>GAK PERNAH BELAJAR!</strong></span>
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Brain Drain</div>
+                <div class="cta-text">Solusi? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: SOLUTION -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#9</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Solusi Cerdas!</div>
+                <h2>Cara Pakai AI yang Bijak</h2>
+
+                <div class="sketch-box ai" style="text-align: left;">
+                    💡 <strong>Coba Sendiri Dulu:</strong><br>
+                    Kerjain sendiri dulu, kalau mentok baru pakai AI<br><br>
+                    
+                    🔍 <strong>Tetap Kritis:</strong><br>
+                    Review jawaban AI, tanya kenapa, cari referensi<br><br>
+                    
+                    👨‍💼 <strong>Anggap AI Junior:</strong><br>
+                    Kalau senior, AI itu kayak junior yang harus direview<br><br>
+                    
+                    🚫 <strong>Jangan Blindly Trust:</strong><br>
+                    Jangan terima jawaban AI apa adanya!
+                </div>
+
+                <p class="big-text">AI itu <strong>alat bantu, bukan pengganti otak!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Smart Solutions</div>
+                <div class="cta-text">Kesimpulan? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: CONCLUSION -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#10</div>
+            </div>
+            <div class="content">
+                <h2>KESIMPULAN AI</h2>
+
+                <div class="summary-box">
+                    <div class="summary-item">
+                        <i class="fa-solid fa-chart-line" style="color: var(--ai-blue);"></i>
+                        <div><strong>Cara Pakai Nentuin Hasil:</strong> Bisa bikin lebih produktif & pintar atau cuma produktif tapi makin bodoh.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-brain" style="color: var(--ai-red);"></i>
+                        <div><strong>Cognitive Offloading Bahaya:</strong> Memindahkan berpikir ke AI bikin skill turun.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-handshake" style="color: var(--green);"></i>
+                        <div><strong>AI sebagai Learning Partner:</strong> Pakai untuk belajar, bukan untuk nyontek.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-user-check" style="color: var(--orange);"></i>
+                        <div><strong>Kritis & Review:</strong> Selalu review jawaban AI dan tetap mikir.</div>
+                    </div>
+                </div>
+
+                <div class="hand-note" style="margin-top: 30px;">Pilihan di tangan kita: Partner buat belajar atau pengganti? 🤔</div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-bookmark"></i> Save & Share</div>
+                <div class="cta-text">@code_penguin</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4 Shapes of Software Developers</title>
+    <!-- Font Setup: Poppins (Heading), Inter (Body), Gochi Hand (Doodles) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Inter:wght@400;600&family=Poppins:wght@500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #1a1a1a;
+            --paper: #f4f4f0;
+            --blue: #3b82f6;
+            --red: #ef4444;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --gray: #f3f4f6;
+            --purple: #8b5cf6;
+            --orange: #f97316;
+            --shape-blue: #0ea5e9;
+            --shape-purple: #8b5cf6;
+            --shape-green: #22c55e;
+            --shape-orange: #f97316;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        /* === SLIDE CONTAINER === */
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: var(--bg);
+            position: relative;
+            overflow: hidden;
+            border: 6px solid var(--ink);
+            border-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 20px 20px 0px rgba(0, 0, 0, 1);
+            margin-bottom: 40px;
+        }
+
+        /* === HEADER === */
+        .slide-top {
+            padding: 60px 80px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 140px;
+            z-index: 10;
+        }
+
+        .username {
+            font-family: 'Poppins', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--ink);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+        }
+
+        .slide-number {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+            font-size: 36px;
+            background: var(--ink);
+            color: white;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+
+        /* === CONTENT AREA === */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 80px;
+            text-align: center;
+        }
+
+        /* === FOOTER === */
+        .slide-bottom {
+            height: 120px;
+            padding: 0 80px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .website-badge {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            border: 3px solid var(--ink);
+            padding: 12px 30px;
+            border-radius: 50px;
+            background: white;
+            color: var(--ink);
+            text-decoration: none;
+            box-shadow: 4px 4px 0 var(--ink);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .cta-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+
+        /* === TYPOGRAPHY & ELEMENTS === */
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 130px;
+            line-height: 0.9;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: -4px;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 60px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+
+        .hand-note {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 40px;
+            color: var(--ink);
+            transform: rotate(-2deg);
+            margin-bottom: 15px;
+        }
+
+        .big-text {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-top: 30px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Sketch Box Style */
+        .sketch-box {
+            font-family: 'Poppins', sans-serif;
+            border: 4px solid var(--ink);
+            padding: 40px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 28px;
+            background: white;
+            box-shadow: 10px 10px 0 var(--ink);
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .sketch-box.dark {
+            background: var(--ink);
+            color: white;
+            box-shadow: 10px 10px 0 #999;
+        }
+
+        .sketch-box.blue {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .sketch-box.red {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .sketch-box.green {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .sketch-box.shape-i {
+            border-color: var(--shape-blue);
+            color: var(--shape-blue);
+            background: #f0f9ff;
+        }
+
+        .sketch-box.shape-t {
+            border-color: var(--shape-purple);
+            color: var(--shape-purple);
+            background: #faf5ff;
+        }
+
+        .sketch-box.shape-pi {
+            border-color: var(--shape-green);
+            color: var(--shape-green);
+            background: #f0fdf4;
+        }
+
+        .sketch-box.shape-comb {
+            border-color: var(--shape-orange);
+            color: var(--shape-orange);
+            background: #fff7ed;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: #fdfdfd;
+            border: 4px solid var(--ink);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: left;
+            width: 100%;
+            box-shadow: 10px 10px 0 #eee;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            font-size: 28px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* Shape Visuals */
+        .shape-visual {
+            font-size: 120px;
+            font-weight: 900;
+            margin: 20px 0;
+            line-height: 1;
+        }
+
+        .shape-i-visual {
+            color: var(--shape-blue);
+        }
+
+        .shape-t-visual {
+            color: var(--shape-purple);
+        }
+
+        .shape-pi-visual {
+            color: var(--shape-green);
+        }
+
+        .shape-comb-visual {
+            color: var(--shape-orange);
+        }
+
+        /* PENGUIN VECTOR */
+        .penguin-wrapper {
+            width: 300px;
+            height: 350px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .p-body {
+            width: 240px;
+            height: 320px;
+            background: var(--ink);
+            border-radius: 120px 120px 100px 100px;
+            position: absolute;
+            left: 30px;
+            top: 15px;
+        }
+
+        .p-belly {
+            width: 160px;
+            height: 230px;
+            background: var(--bg);
+            border-radius: 80px 80px 70px 70px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 75px;
+            border: 5px solid var(--ink);
+        }
+
+        .p-eye {
+            width: 45px;
+            height: 45px;
+            background: var(--bg);
+            border: 5px solid var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 60px;
+            z-index: 5;
+        }
+
+        .p-eye.left {
+            left: 55px;
+        }
+
+        .p-eye.right {
+            right: 55px;
+        }
+
+        .p-pupil {
+            width: 15px;
+            height: 15px;
+            background: var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .p-beak {
+            width: 50px;
+            height: 25px;
+            background: var(--ink);
+            border-radius: 50px;
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .p-flipper {
+            width: 70px;
+            height: 130px;
+            background: var(--ink);
+            border-radius: 35px;
+            position: absolute;
+            top: 110px;
+            z-index: -1;
+        }
+
+        .p-flipper.left {
+            left: -20px;
+            transform: rotate(20deg);
+        }
+
+        .p-flipper.right {
+            right: -20px;
+            transform: rotate(-20deg);
+        }
+
+        .p-feet {
+            width: 60px;
+            height: 40px;
+            background: var(--ink);
+            border-radius: 30px;
+            position: absolute;
+            bottom: -10px;
+        }
+
+        .p-feet.left {
+            left: 40px;
+        }
+
+        .p-feet.right {
+            right: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="feed-grid">
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username"><i class="fa-brands fa-instagram"></i> @code_penguin</div>
+                <div class="slide-number">#1</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Bentuk Developer! 🔷</div>
+                <h1>4 SHAPES OF<br>DEVELOPERS</h1>
+                <div class="penguin-wrapper">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper left" style="transform: rotate(-140deg); top: 50px; left: -20px;"></div>
+                        <div class="p-flipper right" style="transform: rotate(45deg); top: 50px; right: -20px;"></div>
+                        <div class="p-feet left"></div>
+                        <div class="p-feet right"></div>
+                    </div>
+                </div>
+                <div class="sketch-box">I, T, PI, Comb: Which Shape Are You? 🤔</div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-globe"></i> www.codepenguin.id</div>
+                <div class="cta-text">Kenali Dirimu! ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: WHY SHAPES MATTER -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#2</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Kenapa Penting?</div>
+                <h2>Why Shapes Matter</h2>
+
+                <div class="sketch-box shape-t" style="text-align: left;">
+                    🎯 <strong>Career Guidance:</strong><br>
+                    <span style="font-weight: 400; font-size: 24px;">Tau strength & area for growth lu!</span>
+                </div>
+
+                <div class="sketch-box shape-i" style="text-align: left;">
+                    🔄 <strong>Adaptability:</strong><br>
+                    <span style="font-weight: 400; font-size: 24px;">Bisa adapt ke perubahan tech industry!</span>
+                </div>
+
+                <div class="sketch-box shape-pi" style="text-align: left;">
+                    👥 <strong>Team Efficiency:</strong><br>
+                    <span style="font-weight: 400; font-size: 24px;">Build balanced teams yang solid!</span>
+                </div>
+
+                <p class="big-text">Understanding shapes = <span
+                        style="background: var(--ink); color: white; padding: 0 5px;">better career navigation!</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Shape Benefits</div>
+                <div class="cta-text">I-Shaped? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: I-SHAPED -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#3</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Spesialis Galak!</div>
+                <h2>I - Shaped Developer</h2>
+
+                <div class="shape-visual shape-i-visual">I</div>
+
+                <div class="sketch-box shape-i">
+                    <strong>Deep knowledge in ONE domain</strong><br>
+                    <span style="font-size: 24px;">Specialist yang expert di niche area!</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
+                    <div class="sketch-box" style="padding: 20px; background: #f0f9ff;">
+                        ✅ <strong>Pros:</strong><br>
+                        Expert di specialized tasks
+                    </div>
+                    <div class="sketch-box" style="padding: 20px; background: #fff5f5;">
+                        ❌ <strong>Cons:</strong><br>
+                        Limited versatility
+                    </div>
+                </div>
+
+                <p class="big-text">Perfect untuk <strong>highly specialized roles!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">The Specialist</div>
+                <div class="cta-text">T-Shaped? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: T-SHAPED -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#4</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Serba Bisa!</div>
+                <h2>T - Shaped Developer</h2>
+
+                <div class="shape-visual shape-t-visual">T</div>
+
+                <div class="sketch-box shape-t">
+                    <strong>Broad understanding + Deep in ONE</strong><br>
+                    <span style="font-size: 24px;">Bridge antar specialties dengan versatility!</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
+                    <div class="sketch-box" style="padding: 20px; background: #faf5ff;">
+                        ✅ <strong>Pros:</strong><br>
+                        Flexible & adaptable
+                    </div>
+                    <div class="sketch-box" style="padding: 20px; background: #fff5f5;">
+                        ❌ <strong>Cons:</strong><br>
+                        "Jack of all trades, master of one"
+                    </div>
+                </div>
+
+                <p class="big-text">Perfect untuk <strong>cross-functional teams!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">The Bridge</div>
+                <div class="cta-text">PI-Shaped? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: PI-SHAPED -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#5</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Dua Master!</div>
+                <h2>PI - Shaped Developer</h2>
+
+                <div class="shape-visual shape-pi-visual">Π</div>
+
+                <div class="sketch-box shape-pi">
+                    <strong>Deep knowledge in TWO areas</strong><br>
+                    <span style="font-size: 24px;">Integrate multiple domains dengan broad skills!</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
+                    <div class="sketch-box" style="padding: 20px; background: #f0fdf4;">
+                        ✅ <strong>Pros:</strong><br>
+                        Bridge diverse fields
+                    </div>
+                    <div class="sketch-box" style="padding: 20px; background: #fff5f5;">
+                        ❌ <strong>Cons:</strong><br>
+                        Maintaining 2 domains = challenging
+                    </div>
+                </div>
+
+                <p class="big-text">Perfect untuk <strong>complex multi-disciplinary projects!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">The Integrator</div>
+                <div class="cta-text">M-Shaped? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: M-SHAPED -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#6</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Tiga Master!</div>
+                <h2>M - Shaped Developer</h2>
+
+                <div class="shape-visual shape-pi-visual">M</div>
+
+                <div class="sketch-box shape-pi">
+                    <strong>Deep knowledge in THREE areas</strong><br>
+                    <span style="font-size: 24px;">Same as PI tapi dengan extra expertise!</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
+                    <div class="sketch-box" style="padding: 20px; background: #f0fdf4;">
+                        ✅ <strong>Pros:</strong><br>
+                        Triple threat expertise
+                    </div>
+                    <div class="sketch-box" style="padding: 20px; background: #fff5f5;">
+                        ❌ <strong>Cons:</strong><br>
+                        Maintaining 3 domains = very challenging
+                    </div>
+                </div>
+
+                <p class="big-text">Perfect untuk <strong>highly complex roles!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">The Triple Expert</div>
+                <div class="cta-text">Comb-Shaped? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: COMB-SHAPED -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#7</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Master Banyak!</div>
+                <h2>Comb - Shaped Developer</h2>
+
+                <div class="shape-visual shape-comb-visual">🔧</div>
+
+                <div class="sketch-box shape-comb">
+                    <strong>Deep knowledge in MANY areas</strong><br>
+                    <span style="font-size: 24px;">Seasoned pro dengan multiple expertise!</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
+                    <div class="sketch-box" style="padding: 20px; background: #fff7ed;">
+                        ✅ <strong>Pros:</strong><br>
+                        Lead diverse teams & projects
+                    </div>
+                    <div class="sketch-box" style="padding: 20px; background: #fff5f5;">
+                        ❌ <strong>Cons:</strong><br>
+                        Mastering many fields = super challenging
+                    </div>
+                </div>
+
+                <p class="big-text">Perfect untuk <strong>large-scale project leadership!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">The Multi-Master</div>
+                <div class="cta-text">Team Perspective? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: TEAM PERSPECTIVE -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#8</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Team Dream!</div>
+                <h2>Team's Perspective</h2>
+
+                <div class="sketch-box" style="text-align: left;">
+                    <strong>I-Shaped:</strong> Handle specialized tasks<br><br>
+                    <strong>T-Shaped:</strong> Foster communication antar domains<br><br>
+                    <strong>PI/M-Shaped:</strong> Lead complex multi-disciplinary projects<br><br>
+                    <strong>Comb-Shaped:</strong> Oversee & integrate large-scale projects
+                </div>
+
+                <p class="big-text">Balanced team = <strong>mix of all shapes!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Team Balance</div>
+                <div class="cta-text">Choose Your Path? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: CHOOSE YOUR PATH -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#9</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Pilih Jalanmu!</div>
+                <h2>Choose Your Path</h2>
+
+                <div class="penguin-wrapper" style="transform: scale(0.8); margin: 0;">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper left" style="transform: rotate(40deg); left: -30px;"></div>
+                        <div class="p-flipper right" style="transform: rotate(-40deg); right: -30px;"></div>
+                    </div>
+                </div>
+
+                <div class="sketch-box" style="padding: 30px;">
+                    <strong>Consider:</strong><br>
+                    • Your interests<br>
+                    • Existing skills<br>
+                    • Career aspirations<br>
+                    • Market needs
+                </div>
+
+                <p class="big-text">Front-End example: <strong>HTML → JS → DOM → React/Angular/Vue</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Path Selection</div>
+                <div class="cta-text">Key Takeaways? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: CONCLUSION -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#10</div>
+            </div>
+            <div class="content">
+                <h2>KEY TAKEAWAYS</h2>
+
+                <div class="summary-box">
+                    <div class="summary-item">
+                        <i class="fa-solid fa-bullseye" style="color: var(--shape-blue);"></i>
+                        <div><strong>Know Your Shape:</strong> Understand whether you optimize for breadth or depth.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-route" style="color: var(--shape-purple);"></i>
+                        <div><strong>Choose Deliberately:</strong> Work towards the shape that aligns with your goals.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-users" style="color: var(--shape-green);"></i>
+                        <div><strong>Team Balance:</strong> Different shapes bring unique strengths to teams.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-balance-scale" style="color: var(--shape-orange);"></i>
+                        <div><strong>We Can't Master Everything:</strong> Awareness of your shape is crucial.</div>
+                    </div>
+                </div>
+
+                <div class="hand-note" style="margin-top: 30px;">Find your shape, own your journey! 🎯</div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-bookmark"></i> Save & Share</div>
+                <div class="cta-text">@code_penguin</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

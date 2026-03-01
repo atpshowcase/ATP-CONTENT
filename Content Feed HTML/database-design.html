@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Design: Start With Consequences</title>
+    <!-- Font Setup: Poppins (Heading), Inter (Body), Gochi Hand (Doodles) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Inter:wght@400;600&family=Poppins:wght@500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #1a1a1a;
+            --paper: #f4f4f0;
+            --blue: #3b82f6;
+            --red: #ef4444;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --gray: #f3f4f6;
+            --purple: #8b5cf6;
+            --orange: #f97316;
+            --db-blue: #336791;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        /* === SLIDE CONTAINER === */
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: var(--bg);
+            position: relative;
+            overflow: hidden;
+            border: 6px solid var(--ink);
+            border-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 20px 20px 0px rgba(0, 0, 0, 1);
+            margin-bottom: 40px;
+        }
+
+        /* === HEADER === */
+        .slide-top {
+            padding: 60px 80px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 140px;
+            z-index: 10;
+        }
+
+        .username {
+            font-family: 'Poppins', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--ink);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+        }
+
+        .slide-number {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+            font-size: 36px;
+            background: var(--ink);
+            color: white;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+
+        /* === CONTENT AREA === */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 80px;
+            text-align: center;
+        }
+
+        /* === FOOTER === */
+        .slide-bottom {
+            height: 120px;
+            padding: 0 80px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .website-badge {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            border: 3px solid var(--ink);
+            padding: 12px 30px;
+            border-radius: 50px;
+            background: white;
+            color: var(--ink);
+            text-decoration: none;
+            box-shadow: 4px 4px 0 var(--ink);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .cta-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+
+        /* === TYPOGRAPHY & ELEMENTS === */
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 130px;
+            line-height: 0.9;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: -4px;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 60px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+
+        .hand-note {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 40px;
+            color: var(--ink);
+            transform: rotate(-2deg);
+            margin-bottom: 15px;
+        }
+
+        .big-text {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-top: 30px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Sketch Box Style */
+        .sketch-box {
+            font-family: 'Poppins', sans-serif;
+            border: 4px solid var(--ink);
+            padding: 40px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 28px;
+            background: white;
+            box-shadow: 10px 10px 0 var(--ink);
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .sketch-box.dark {
+            background: var(--ink);
+            color: white;
+            box-shadow: 10px 10px 0 #999;
+        }
+
+        .sketch-box.blue {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .sketch-box.red {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .sketch-box.green {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .sketch-box.db {
+            border-color: var(--db-blue);
+            color: var(--db-blue);
+            background: #f0f7ff;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: #fdfdfd;
+            border: 4px solid var(--ink);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: left;
+            width: 100%;
+            box-shadow: 10px 10px 0 #eee;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            font-size: 28px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* PENGUIN VECTOR */
+        .penguin-wrapper {
+            width: 300px;
+            height: 350px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .p-body {
+            width: 240px;
+            height: 320px;
+            background: var(--ink);
+            border-radius: 120px 120px 100px 100px;
+            position: absolute;
+            left: 30px;
+            top: 15px;
+        }
+
+        .p-belly {
+            width: 160px;
+            height: 230px;
+            background: var(--bg);
+            border-radius: 80px 80px 70px 70px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 75px;
+            border: 5px solid var(--ink);
+        }
+
+        .p-eye {
+            width: 45px;
+            height: 45px;
+            background: var(--bg);
+            border: 5px solid var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 60px;
+            z-index: 5;
+        }
+
+        .p-eye.left {
+            left: 55px;
+        }
+
+        .p-eye.right {
+            right: 55px;
+        }
+
+        .p-pupil {
+            width: 15px;
+            height: 15px;
+            background: var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .p-beak {
+            width: 50px;
+            height: 25px;
+            background: var(--ink);
+            border-radius: 50px;
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .p-flipper {
+            width: 70px;
+            height: 130px;
+            background: var(--ink);
+            border-radius: 35px;
+            position: absolute;
+            top: 110px;
+            z-index: -1;
+        }
+
+        .p-flipper.left {
+            left: -20px;
+            transform: rotate(20deg);
+        }
+
+        .p-flipper.right {
+            right: -20px;
+            transform: rotate(-20deg);
+        }
+
+        .p-feet {
+            width: 60px;
+            height: 40px;
+            background: var(--ink);
+            border-radius: 30px;
+            position: absolute;
+            bottom: -10px;
+        }
+
+        .p-feet.left {
+            left: 40px;
+        }
+
+        .p-feet.right {
+            right: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="feed-grid">
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username"><i class="fa-brands fa-instagram"></i> @code_penguin</div>
+                <div class="slide-number">#1</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Database Edan! 🗄️</div>
+                <h1>DATABASE<br>DESIGN</h1>
+                <div class="penguin-wrapper">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper left" style="transform: rotate(-140deg); top: 50px; left: -20px;"></div>
+                        <div class="p-flipper right" style="transform: rotate(45deg); top: 50px; right: -20px;"></div>
+                        <div class="p-feet left"></div>
+                        <div class="p-feet right"></div>
+                    </div>
+                </div>
+                <div class="sketch-box db">Mulai dari Konsekuensi, Bukan Table! 🎯</div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-globe"></i> www.codepenguin.id</div>
+                <div class="cta-text">Gas Schema! ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: THE PROBLEM -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#2</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Drama 8 Detik Gila!</div>
+                <h2>Query 8 Detik? Apa-apaan!</h2>
+
+                <div class="sketch-box" style="text-align: left; border-color: var(--red);">
+                    😱 <strong>Horror Story:</strong><br>
+                    <span style="font-weight: 400; font-size: 24px;">Query 8 detik instead of 80ms!</span>
+                </div>
+
+                <div class="sketch-box dark">
+                    "Engineers: Add index! Add cache! Add replica! <br>
+                    <span style="font-size: 24px;">Result: <strong>GAK NGARUH SAMA SEKALI!</strong></span>"
+                </div>
+
+                <p class="big-text">Problem bukan performance, tapi <span
+                        style="background: var(--ink); color: white; padding: 0 5px;">DATABASE DESIGN KACAU!</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Schema Hell</div>
+                <div class="cta-text">Long-term Bet? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: LONG-TERM BETS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#3</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Janji Setia Database!</div>
+                <h2>Keputusan Database = Taruhan Jangka Panjang</h2>
+
+                <div class="penguin-wrapper" style="transform: scale(0.8); margin: 0;">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper left" style="transform: rotate(40deg); left: -30px;"></div>
+                        <div class="p-flipper right" style="transform: rotate(-40deg); right: -30px;"></div>
+                    </div>
+                </div>
+
+                <div class="sketch-box" style="padding: 30px;">
+                    <div style="font-size: 80px; margin-bottom: 20px;">⏰</div>
+                    <strong>200M rows di production?</strong><br>
+                    <span style="font-size: 24px;">Schema migration = <strong>BULAN-BULAN!</strong> 😭</span>
+                </div>
+
+                <p class="big-text">Code lu refactor weekend, schema butuh <strong>berbulan-bulan!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Schema Forever</div>
+                <div class="cta-text">Start Where? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: START WITH REALITY -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#4</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Dunia Nyata Dulu Bos!</div>
+                <h2>Mulai dari Realita, Bukan Table</h2>
+
+                <div style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
+                    <div class="sketch-box" style="border-color: var(--blue); text-align: left; padding: 20px;">
+                        🏢 <strong>Entities:</strong> Apa aja yang ada di dunia nyata?<br>
+                        <span style="font-size: 18px;">User, Company, Job, Application</span>
+                    </div>
+                    <div class="sketch-box" style="border-color: var(--green); text-align: left; padding: 20px;">
+                        🔗 <strong>Relationships:</strong> Hubungan apa yang penting sih?<br>
+                        <span style="font-size: 18px;">Job belongs to Company, User applies to Job</span>
+                    </div>
+                    <div class="sketch-box" style="border-color: var(--purple); text-align: left; padding: 20px;">
+                        ⚠️ <strong>Constraints:</strong> Batasan dari dunia nyata?<br>
+                        <span style="font-size: 18px;">Job lifecycle: draft → published → filled → expired</span>
+                    </div>
+                </div>
+
+                <p class="big-text">Schema harus enforce <strong>realita!</strong> Gak boleh ada impossible state!</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Domain First</div>
+                <div class="cta-text">Normalization? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: NORMALIZATION -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#5</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Normalize Dulu Coy!</div>
+                <h2>Normalization: Teman Sampe Diserang</h2>
+
+                <div class="sketch-box db" style="text-align: left;">
+                    🎯 <strong>Third Normal Form (3NF):</strong><br>
+                    Every column depends on the primary key,<br>
+                    the whole key, and nothing but the key!<br><br>
+                    
+                    👤 <strong>Users Table:</strong> email, name, password<br>
+                    🏠 <strong>Addresses Table:</strong> street, city, country<br>
+                    📦 <strong>Orders Table:</strong> order_date, total, status
+                </div>
+
+                <p class="big-text">Update email? <strong>Cukup sekali aja!</strong> Gak di 17 tempat!</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">3NF Rules</div>
+                <div class="cta-text">Over-normalized? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: DENORMALIZATION -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#6</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Performance Utamakan!</div>
+                <h2>Denormalize Pake Perhitungan</h2>
+
+                <div class="sketch-box" style="border-style: dashed; padding: 20px; font-size: 50px;">
+                    🐌 ➡️ 🚀
+                </div>
+
+                <p class="big-text" style="font-size: 34px;">
+                    User profile + last 10 orders = <strong>5 JOINS?</strong><br>
+                    <span style="color: var(--red);">LELET!</span>
+                </p>
+
+                <div class="sketch-box" style="background: var(--yellow);">
+                    <strong>Solution:</strong> Materialized view atau denormalize!<br>
+                    <span style="font-size: 20px;">Tapi harus <strong>pake perhitungan</strong>, bukan asal!</span>
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Performance Tradeoff</div>
+                <div class="cta-text">Indexes Magic? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: INDEXES -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#7</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Kontrak sama Masa Depan!</div>
+                <h2>Indexes: Masa Depan Lu Bakal Thank You</h2>
+
+                <div class="sketch-box" style="text-align: left;">
+                    ⚡ <strong>Apa yang di-Index:</strong><br>
+                    • Foreign keys<br>
+                    • WHERE clause columns<br>
+                    • JOIN columns<br>
+                    • ORDER BY columns<br><br>
+                    
+                    🚫 <strong>Apa yang di-Avoid:</strong><br>
+                    • Low cardinality (boolean flags)<br>
+                    • Columns yang jarang di-query<br>
+                    • Too many indexes pada write-heavy tables
+                </div>
+
+                <p class="big-text">Index slow down writes! <strong>Pake EXPLAIN ANALYZE!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Index Strategy</div>
+                <div class="cta-text">Constraints Power? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: CONSTRAINTS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#8</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Documentation Paling Joss!</div>
+                <h2>Constraints: Documentation Paling Mantap</h2>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
+                    <div class="sketch-box" style="padding: 20px; background: #e6fffa;">
+                        🔗 <strong>Foreign Keys</strong><br>
+                        <span style="font-size: 18px;">Gak ada orphaned orders!</span>
+                    </div>
+                    <div class="sketch-box" style="padding: 20px; background: #f0f9ff;">
+                        ✅ <strong>NOT NULL</strong><br>
+                        <span style="font-size: 18px;">Value dijamin ada!</span>
+                    </div>
+                    <div class="sketch-box" style="padding: 20px; background: #fef3c7;">
+                        🔄 <strong>UNIQUE</strong><br>
+                        <span style="font-size: 18px;">Gak ada duplicate!</span>
+                    </div>
+                    <div class="sketch-box" style="padding: 20px; background: #f0fdf4;">
+                        ✅ <strong>CHECK</strong><br>
+                        <span style="font-size: 18px;">Age > 0, status valid!</span>
+                    </div>
+                </div>
+
+                <p class="big-text">Constraints catch bugs <strong>sebelum</strong> mereka corrupt data!</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Data Integrity</div>
+                <div class="cta-text">Performance Myth? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: PERFORMANCE MYTH -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#9</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Design, Bukan Tuning!</div>
+                <h2>Performance = Pilihan Design</h2>
+
+                <div class="sketch-box" style="text-align: left;">
+                    🚫 <strong>Salah Approach:</strong><br>
+                    • Weeks tuning query plans<br>
+                    • Adding cache everywhere<br>
+                    • Chasing connection pools<br><br>
+                    
+                    ✅ <strong>Bener Approach:</strong><br>
+                    • Move frequently-joined column ke main table<br>
+                    • Split bloated table (hot/cold)<br>
+                    • Add covering index<br>
+                    • Partition by time range
+                </div>
+
+                <p class="big-text">Single schema redesign = <strong>fix selamanya!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Design First</div>
+                <div class="cta-text">Design for Change? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: DESIGN FOR CHANGE -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#10</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Plan untuk Evolution!</div>
+                <h2>Design untuk Perubahan</h2>
+
+                <div class="sketch-box" style="border-style: dashed; padding: 20px;">
+                    <div style="font-size: 50px; margin-bottom: 20px;">🔄</div>
+                    <strong>Requirements evolve. Query patterns change.</strong><br>
+                    <span style="font-size: 24px;">Answer: <strong>Design untuk perubahan!</strong></span>
+                </div>
+
+                <div class="sketch-box" style="text-align: left;">
+                    💡 <strong>Keep things simple & extensible</strong><br><br>
+                    🎯 <strong>Naming conventions yang jelas</strong><br><br>
+                    ⏰ <strong>Avoid premature optimization</strong><br><br>
+                    🛠️ <strong>Jangan takut migrate pas lu belajar!</strong>
+                </div>
+
+                <p class="big-text">Well-designed schema handle <strong>10x growth</strong> dengan minor adjustments!</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Future-Proof</div>
+                <div class="cta-text">Pro Tips? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: PRO TIPS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#11</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Tips dari Pro!</div>
+                <h2>Yang Pengen Gua Bilang ke Lu Dulu</h2>
+
+                <div class="sketch-box" style="text-align: left;">
+                    📝 <strong>Practice di Real Systems:</strong><br>
+                    Design LinkedIn, Twitter, Airbnb schemas di kertas!<br><br>
+                    
+                    🧠 <strong>Learn SQL Dalem Banget:</strong><br>
+                    Window functions, CTEs, query plans, execution order!<br><br>
+                    
+                    🌱 <strong>Mulai Simple, Extensible:</strong><br>
+                    Jangan build untuk scale yang lu gak punya, tapi kasih ruang buat grow!<br><br>
+                    
+                    📊 <strong>Measure Semuanya:</strong><br>
+                    Query times, index usage, table sizes, slow query logs!
+                </div>
+
+                <p class="big-text">Best engineers treat database design like <strong>architecture!</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Pro Wisdom</div>
+                <div class="cta-text">Final Thoughts ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: FINAL THOUGHTS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#12</div>
+            </div>
+            <div class="content">
+                <h2>MANTRA DATABASE DESIGN</h2>
+
+                <div class="summary-box">
+                    <div class="summary-item">
+                        <i class="fa-solid fa-globe" style="color: var(--blue);"></i>
+                        <div><strong>Mulai dari Realita:</strong> Pahami domain sebelum CREATE TABLE.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-shuffle" style="color: var(--green);"></i>
+                        <div><strong>Normalize Dulu:</strong> Denormalize pake data yang bener.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-bolt" style="color: var(--yellow);"></i>
+                        <div><strong>Index Pinter:</strong> Masa depan lu bakal thank you ke lu sekarang.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-shield-halved" style="color: var(--purple);"></i>
+                        <div><strong>Constraints Rule:</strong> Encode business rules di database.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-chart-line" style="color: var(--orange);"></i>
+                        <div><strong>Design untuk Perubahan:</strong> Schema outlives code, plan accordingly.</div>
+                    </div>
+                </div>
+
+                <div class="hand-note" style="margin-top: 30px;">Database gak lupa mistakes, tapi maafin improvements! 🙏</div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-bookmark"></i> Save & Share</div>
+                <div class="cta-text">@code_penguin</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

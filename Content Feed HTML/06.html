@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<!-- Source: "The Rise of Terminal Tools" - Feb 14, 2026 -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rise of Terminal Tools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Inter:wght@400;600&family=Poppins:wght@500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #1a1a1a;
+            --paper: #f4f4f0;
+            --blue: #3b82f6;
+            --red: #ef4444;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --purple: #8b5cf6;
+            --orange: #f97316;
+            --rust: #ce4a29;
+            --terminal: #0d1117;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: var(--bg);
+            position: relative;
+            overflow: hidden;
+            border: 6px solid var(--ink);
+            border-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 20px 20px 0px rgba(0, 0, 0, 1);
+            margin-bottom: 40px;
+        }
+
+        .slide-top {
+            padding: 60px 80px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 140px;
+            z-index: 10;
+        }
+
+        .username {
+            font-family: 'Poppins', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--ink);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+        }
+
+        .slide-number {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+            font-size: 36px;
+            background: var(--ink);
+            color: white;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 80px;
+            text-align: center;
+        }
+
+        .slide-bottom {
+            height: 120px;
+            padding: 0 80px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .website-badge {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            border: 3px solid var(--ink);
+            padding: 12px 30px;
+            border-radius: 50px;
+            background: white;
+            color: var(--ink);
+            text-decoration: none;
+            box-shadow: 4px 4px 0 var(--ink);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .cta-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 110px;
+            line-height: 0.88;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            letter-spacing: -4px;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 35px;
+            line-height: 1.1;
+        }
+
+        .hand-note {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 40px;
+            color: var(--ink);
+            transform: rotate(-2deg);
+            margin-bottom: 15px;
+        }
+
+        .big-text {
+            font-size: 29px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-top: 25px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .sketch-box {
+            font-family: 'Poppins', sans-serif;
+            border: 4px solid var(--ink);
+            padding: 35px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 27px;
+            background: white;
+            box-shadow: 10px 10px 0 var(--ink);
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .sketch-box.dark {
+            background: var(--ink);
+            color: white;
+            box-shadow: 10px 10px 0 #999;
+        }
+
+        .summary-box {
+            background: #fdfdfd;
+            border: 4px solid var(--ink);
+            border-radius: 20px;
+            padding: 38px;
+            text-align: left;
+            width: 100%;
+            box-shadow: 10px 10px 0 #eee;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            font-size: 25px;
+            margin-bottom: 24px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .summary-item i {
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        /* Terminal mockup */
+        .terminal-box {
+            background: var(--terminal);
+            border: 4px solid var(--ink);
+            border-radius: 20px;
+            padding: 30px 35px;
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            text-align: left;
+            width: 100%;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            box-shadow: 10px 10px 0 var(--ink);
+            position: relative;
+        }
+
+        .terminal-box::before {
+            content: "● ● ●";
+            position: absolute;
+            top: 14px;
+            left: 22px;
+            font-size: 22px;
+            letter-spacing: 8px;
+            color: #555;
+        }
+
+        .terminal-box .prompt {
+            color: #a6e3a1;
+        }
+
+        .terminal-box .cmd {
+            color: #cdd6f4;
+        }
+
+        .terminal-box .fast {
+            color: #f9e2af;
+            font-weight: bold;
+        }
+
+        .terminal-box .dimmed {
+            color: #6c7086;
+        }
+
+        .terminal-box .output {
+            color: #89dceb;
+        }
+
+        .terminal-box .lines {
+            margin-top: 32px;
+        }
+
+        /* PENGUIN */
+        .penguin-wrapper {
+            width: 300px;
+            height: 350px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .p-body {
+            width: 240px;
+            height: 320px;
+            background: var(--ink);
+            border-radius: 120px 120px 100px 100px;
+            position: absolute;
+            left: 30px;
+            top: 15px;
+        }
+
+        .p-belly {
+            width: 160px;
+            height: 230px;
+            background: var(--bg);
+            border-radius: 80px 80px 70px 70px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 75px;
+            border: 5px solid var(--ink);
+        }
+
+        .p-eye {
+            width: 45px;
+            height: 45px;
+            background: var(--bg);
+            border: 5px solid var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 60px;
+            z-index: 5;
+        }
+
+        .p-eye.left {
+            left: 55px;
+        }
+
+        .p-eye.right {
+            right: 55px;
+        }
+
+        .p-pupil {
+            width: 15px;
+            height: 15px;
+            background: var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .p-beak {
+            width: 50px;
+            height: 25px;
+            background: var(--ink);
+            border-radius: 50px;
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .p-flipper {
+            width: 70px;
+            height: 130px;
+            background: var(--ink);
+            border-radius: 35px;
+            position: absolute;
+            top: 110px;
+            z-index: -1;
+        }
+
+        .p-flipper.left {
+            left: -20px;
+            transform: rotate(20deg);
+        }
+
+        .p-flipper.right {
+            right: -20px;
+            transform: rotate(-20deg);
+        }
+
+        .p-feet {
+            width: 60px;
+            height: 40px;
+            background: var(--ink);
+            border-radius: 30px;
+            position: absolute;
+            bottom: -10px;
+        }
+
+        .p-feet.left {
+            left: 40px;
+        }
+
+        .p-feet.right {
+            right: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="feed-grid">
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide" style="background: var(--terminal);">
+            <div class="slide-top">
+                <div class="username" style="background: #a6e3a1; color: #0d1117;"><i
+                        class="fa-brands fa-instagram"></i> @code_penguin</div>
+                <div class="slide-number" style="background: #a6e3a1; color: #0d1117;">#1</div>
+            </div>
+            <div class="content">
+                <div class="hand-note" style="color: #a6e3a1;">Terminal is back, bos! 🖥️</div>
+                <h1 style="color: white; letter-spacing: -3px;">THE<br>RISE<br>OF CLI</h1>
+                <div class="sketch-box"
+                    style="background: #a6e3a1; border-color: #a6e3a1; color: #0d1117; font-size: 26px; box-shadow: 10px 10px 0 #555;">
+                    ⚡ Rust. AI. Neovim. Semua nyatu di Terminal!
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"
+                    style="background: #0d1117; color: #a6e3a1; border-color: #a6e3a1; box-shadow: 4px 4px 0 #a6e3a1;">
+                    <i class="fa-solid fa-globe"></i> www.codepenguin.id</div>
+                <div class="cta-text" style="color: #a6e3a1;">Gas Cuy ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: RIPGREP STORY -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#2</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Awalnya dari satu tool...</div>
+                <h2>ripgrep: Benchmark yang Jadi Revolusi!</h2>
+
+                <div class="terminal-box">
+                    <div class="lines">
+                        <div><span class="prompt">$</span> <span class="cmd">grep -r "pattern" .</span></div>
+                        <div><span class="dimmed">⏳ 30 detik berlalu...</span></div>
+                        <div style="margin-top: 12px;"><span class="prompt">$</span> <span class="cmd">rg
+                                "pattern"</span></div>
+                        <div><span class="fast">⚡ Selesai: 2 detik.</span> <span class="output">10-100x lebih
+                                cepat!</span></div>
+                    </div>
+                </div>
+
+                <div class="sketch-box"
+                    style="text-align: left; padding: 28px; font-size: 24px; border-color: var(--rust);">
+                    🦀 BurntSushi nulis <strong>ripgrep</strong> cuma buat test Rust regex engine.<br><br>
+                    Hasilnya? Dipakai Amazon, Google, Microsoft di CI/CD. Jutaan download!
+                </div>
+
+                <p class="big-text" style="font-size: 25px;">Satu tool ngebuka pertanyaan: kalau <code
+                        style="background:#eee; padding: 2px 8px; border-radius: 6px;">grep</code> bisa 100x lebih
+                    cepat, gimana tool lainnya?</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">The Catalyst</div>
+                <div class="cta-text">Gelombang Baru ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: MODERN CLI TOOLS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#3</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Rewrite it in Rust! 🦀</div>
+                <h2>Generasi Baru CLI yang Lebih Keren!</h2>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; width: 100%;">
+                    <div class="sketch-box"
+                        style="padding: 24px; font-size: 22px; margin-bottom: 0; text-align: left; border-color: var(--rust);">
+                        🦀 <strong>bat</strong><br>
+                        <span style="font-weight:400; font-size: 19px;">cat tapi dengan syntax highlight</span>
+                    </div>
+                    <div class="sketch-box"
+                        style="padding: 24px; font-size: 22px; margin-bottom: 0; text-align: left; border-color: var(--rust);">
+                        🦀 <strong>eza</strong><br>
+                        <span style="font-weight:400; font-size: 19px;">ls tapi dengan icons & colors</span>
+                    </div>
+                    <div class="sketch-box"
+                        style="padding: 24px; font-size: 22px; margin-bottom: 0; text-align: left; border-color: var(--rust);">
+                        🦀 <strong>fd</strong><br>
+                        <span style="font-weight:400; font-size: 19px;">find tapi manusiawi & cepat</span>
+                    </div>
+                    <div class="sketch-box"
+                        style="padding: 24px; font-size: 22px; margin-bottom: 0; text-align: left; border-color: var(--rust);">
+                        🦀 <strong>zoxide</strong><br>
+                        <span style="font-weight:400; font-size: 19px;">cd tapi bisa lompat folder pintar</span>
+                    </div>
+                    <div class="sketch-box"
+                        style="padding: 24px; font-size: 22px; margin-bottom: 0; text-align: left; border-color: var(--rust);">
+                        🦀 <strong>atuin</strong><br>
+                        <span style="font-weight:400; font-size: 19px;">history shell yang synced & searchable</span>
+                    </div>
+                    <div class="sketch-box"
+                        style="padding: 24px; font-size: 22px; margin-bottom: 0; text-align: left; border-color: var(--rust);">
+                        🦀 <strong>yazi + fzf</strong><br>
+                        <span style="font-weight:400; font-size: 19px;">file manager & fuzzy finder kelas dewa</span>
+                    </div>
+                </div>
+
+                <p class="big-text" style="font-size: 24px; margin-top: 20px;">Bukan sekedar pengganti — ini
+                    <strong>upgrade</strong>. Faster, prettier, more intuitive.</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">CLI Upgrades</div>
+                <div class="cta-text">Terminal Modern ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: TERMINAL EMULATOR RENAISSANCE -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#4</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Terminal-nya juga upgraded!</div>
+                <h2>Terminal Emulator Generasi Baru!</h2>
+
+                <div class="sketch-box" style="text-align: left; padding: 28px; font-size: 22px; margin-bottom: 16px;">
+                    <div style="margin-bottom: 14px;">⚡ <strong>Alacritty</strong> (Rust) — GPU-based, blazing fast,
+                        zero bloat</div>
+                    <div style="margin-bottom: 14px;">🐱 <strong>Kitty</strong> — GPU-accelerated, ligatures, zero
+                        latency</div>
+                    <div style="margin-bottom: 14px;">🌊 <strong>WezTerm</strong> (Rust) — cross-platform, splits,
+                        highly configurable</div>
+                    <div style="margin-bottom: 14px;">👾 <strong>Warp</strong> (Rust) — AI-powered, UI cantik,
+                        collaborative</div>
+                    <div>👻 <strong>Ghostty</strong> (Zig) — by Mitchell Hashimoto (founder HashiCorp!)</div>
+                </div>
+
+                <div class="sketch-box dark" style="font-size: 26px;">
+                    GPU rendering. Ligatures. Modern themes. Splits.<br>Terminal hitam-putih zaman dulu? <strong>Udah
+                        punah!</strong> ✌️
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Terminal Glow Up</div>
+                <div class="cta-text">Era AI ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: AI IN THE TERMINAL -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#5</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">AI pun pindah ke terminal!</div>
+                <h2>AI Coding Agent Sekarang Tinggal di CLI!</h2>
+
+                <div style="display: flex; gap: 20px; width: 100%; margin-bottom: 20px;">
+                    <div class="sketch-box"
+                        style="flex: 1; padding: 24px; font-size: 21px; text-align: left; border-color: var(--purple); margin-bottom: 0;">
+                        🤖 <strong>Claude Code</strong><br>
+                        <span style="font-weight:400;">Baca codebase, edit file, jalanin test, bikin commit. Via
+                            terminal!</span>
+                    </div>
+                    <div class="sketch-box"
+                        style="flex: 1; padding: 24px; font-size: 21px; text-align: left; border-color: var(--blue); margin-bottom: 0;">
+                        🐙 <strong>GitHub Copilot CLI</strong><br>
+                        <span style="font-weight:400;">Manage PR, review, & issues langsung dari terminal.</span>
+                    </div>
+                </div>
+
+                <div class="sketch-box"
+                    style="border-color: var(--green); text-align: left; padding: 28px; font-size: 24px;">
+                    <strong style="color: var(--green);">Kenapa CLI sempurna buat AI?</strong><br><br>
+                    ✅ Works via SSH, Docker, Cloud VM — <em>no GUI needed</em><br>
+                    ✅ Unix pipes: input/output yang jelas<br>
+                    ✅ Error codes yang AI bisa parse<br>
+                    ✅ Works the same <strong>everywhere</strong>
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">AI × CLI</div>
+                <div class="cta-text">Kenapa Neovim? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: NEOVIM RENAISSANCE -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#6</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Editor paling dicintai dev!</div>
+                <h2>Neovim di 2025: Gampang & Powerful!</h2>
+
+                <div class="sketch-box"
+                    style="text-align: left; padding: 28px; font-size: 22px; margin-bottom: 16px; border-color: var(--purple);">
+                    <strong style="color: var(--purple);">Built-in Modern Features:</strong><br><br>
+                    <div style="margin-bottom: 10px;">🧠 <strong>Native LSP</strong> — code intelligence tanpa plugin
+                        berat</div>
+                    <div style="margin-bottom: 10px;">🌳 <strong>Treesitter</strong> — syntax highlighting yang akurat
+                    </div>
+                    <div style="margin-bottom: 10px;">🌙 <strong>Lua config</strong> — gak perlu Vimscript yang bikin
+                        pusing</div>
+                    <div>📦 <strong>vim.pack</strong> — built-in package manager (v0.12+)</div>
+                </div>
+
+                <div style="display: flex; gap: 16px; width: 100%;">
+                    <div class="sketch-box"
+                        style="flex: 1; padding: 20px; font-size: 20px; margin-bottom: 0; text-align: center;">😴
+                        <strong>LazyVim</strong><br><span style="font-weight:400; font-size:18px;">Batteries
+                            included</span></div>
+                    <div class="sketch-box"
+                        style="flex: 1; padding: 20px; font-size: 20px; margin-bottom: 0; text-align: center;">🚀
+                        <strong>NvChad</strong><br><span style="font-weight:400; font-size:18px;">Cantik & cepat</span>
+                    </div>
+                    <div class="sketch-box"
+                        style="flex: 1; padding: 20px; font-size: 20px; margin-bottom: 0; text-align: center;">🌟
+                        <strong>AstroNvim</strong><br><span style="font-weight:400; font-size:18px;">Opinionated</span>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Neovim FTW</div>
+                <div class="cta-text">Stats-nya ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: STATS & VS GUI -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#7</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Data dari Stack Overflow!</div>
+                <h2>Neovim vs GUI Editor: The Numbers!</h2>
+
+                <div style="display: flex; gap: 20px; width: 100%; margin-bottom: 22px;">
+                    <div class="sketch-box"
+                        style="flex:1; padding: 24px; border-color: var(--blue); margin-bottom: 0; font-size: 22px; text-align: left;">
+                        💙 <strong>VSCode</strong><br>
+                        <span style="font-size: 44px; font-weight: 900; color: var(--blue);">74%</span><br>
+                        usage — tapi berat di RAM & CPU.<br>Works only with GUI.
+                    </div>
+                    <div class="sketch-box"
+                        style="flex:1; padding: 24px; border-color: var(--purple); margin-bottom: 0; font-size: 22px; text-align: left;">
+                        💜 <strong>Neovim</strong><br>
+                        <span style="font-size: 44px; font-weight: 900; color: var(--purple);">#1</span><br>
+                        <span style="color: var(--purple);">Most Admired Editor</span><br>Start: ~100ms. RAM: ~80MB.
+                    </div>
+                </div>
+
+                <div class="sketch-box"
+                    style="text-align: left; padding: 28px; font-size: 24px; border-color: var(--green);">
+                    <strong style="color: var(--green);">Vim + Neovim gabungan = ~33% market.</strong><br><br>
+                    🏃 Startup ~100ms &nbsp; | &nbsp; 💾 ~80MB RAM<br>
+                    🌍 Works di laptop, server, Docker, SSH — <em>everywhere!</em>
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">SO Survey 2024</div>
+                <div class="cta-text">Freedom! ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: WHY IT ALL CONVERGED -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#8</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Semua nyambung di waktu yang tepat!</div>
+                <h2>4 Tren yang Konvergen!</h2>
+
+                <div class="penguin-wrapper" style="transform: scale(0.75); height: 240px; margin: 0;">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper right" style="transform: rotate(-90deg); top: 60px;"></div>
+                    </div>
+                </div>
+
+                <div class="sketch-box" style="text-align: left; padding: 28px; font-size: 23px; margin-top: 10px;">
+                    <div style="margin-bottom: 16px;">🦀 <strong>Rust/Go/Zig</strong> — bangun CLI tools yang cepat &
+                        cross-platform</div>
+                    <div style="margin-bottom: 16px;">🤖 <strong>AI Agents</strong> — butuh terminal karena bisa run di
+                        mana aja</div>
+                    <div style="margin-bottom: 16px;">🖥️ <strong>Terminal Baru</strong> — GPU rendering, cantik kayak
+                        GUI app</div>
+                    <div>💜 <strong>Neovim Mature</strong> — Lua, LSP, eco-system stabil, setup 10 menit</div>
+                </div>
+
+                <p class="big-text" style="font-size: 24px; margin-top: 15px;">Terminal gak pernah pergi. Dia makin
+                    bagus waktu kita gak lihat. <strong>Your tools. Everywhere. Portable.</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Perfect Storm</div>
+                <div class="cta-text">Kesimpulan ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: SUMMARY -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#9</div>
+            </div>
+            <div class="content">
+                <h2>RANGKUMANNYA</h2>
+
+                <div class="summary-box">
+                    <div class="summary-item">
+                        <i class="fa-brands fa-rust" style="color: var(--rust);"></i>
+                        <div><strong>Rust Mulai Segalanya:</strong> ripgrep 10–100x lebih cepat dari grep. Lahirlah bat,
+                            eza, fd, zoxide, atuin, yazi, dan ratusan lainnya.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-robot" style="color: var(--purple);"></i>
+                        <div><strong>AI Butuh CLI:</strong> Claude Code, Copilot CLI, Gemini CLI — semua pindah ke
+                            terminal karena bisa jalan via SSH, Docker, & cloud VM.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-terminal" style="color: var(--blue);"></i>
+                        <div><strong>Terminal Makin Cantik:</strong> Ghostty, Warp, WezTerm — GPU rendering, ligatures,
+                            UI setara GUI app. No more terminal jelek!</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-heart" style="color: var(--green);"></i>
+                        <div><strong>Neovim #1 Most Loved:</strong> Startup 100ms, 80MB RAM, Lua config, LazyVim/NvChad.
+                            Setup < 10 menit. Works everywhere.</div>
+                        </div>
+                    </div>
+
+                    <div class="hand-note" style="margin-top: 25px;">Belum coba Neovim? Sekarang saat terbaik! 🚀</div>
+                </div>
+                <div class="slide-bottom">
+                    <div class="website-badge"><i class="fa-solid fa-bookmark"></i> Save & Share</div>
+                    <div class="cta-text">@code_penguin</div>
+                </div>
+            </div>
+
+        </div>
+</body>
+
+</html>

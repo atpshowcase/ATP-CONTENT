@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<!-- https://ozkanpakdil.github.io/posts/my_collections/2026/2026-01-10-bun-microservice-framework-benchmark/?ref=dailydev -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bun: JavaScript Rasa Rust</title>
+    <!-- Font Setup: Poppins (Heading), Inter (Body), Gochi Hand (Doodles) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Inter:wght@400;600&family=Poppins:wght@500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #1a1a1a;
+            --paper: #f4f4f0;
+            --blue: #3b82f6;
+            --red: #ef4444;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --purple: #8b5cf6;
+            --gray: #f3f4f6;
+            --orange: #f97316;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        /* === SLIDE CONTAINER === */
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: var(--bg);
+            position: relative;
+            overflow: hidden;
+            border: 6px solid var(--ink);
+            border-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 20px 20px 0px rgba(0, 0, 0, 1);
+            margin-bottom: 40px;
+        }
+
+        /* === HEADER === */
+        .slide-top {
+            padding: 60px 80px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 140px;
+            z-index: 10;
+        }
+
+        .username {
+            font-family: 'Poppins', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--ink);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+        }
+
+        .slide-number {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+            font-size: 36px;
+            background: var(--ink);
+            color: white;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+
+        /* === CONTENT AREA === */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 80px;
+            text-align: center;
+        }
+
+        /* === FOOTER === */
+        .slide-bottom {
+            height: 120px;
+            padding: 0 80px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .website-badge {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            border: 3px solid var(--ink);
+            padding: 12px 30px;
+            border-radius: 50px;
+            background: white;
+            color: var(--ink);
+            text-decoration: none;
+            box-shadow: 4px 4px 0 var(--ink);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .cta-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+
+        /* === TYPOGRAPHY & ELEMENTS === */
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 130px;
+            line-height: 0.9;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: -4px;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 60px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+
+        .hand-note {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 40px;
+            color: var(--ink);
+            transform: rotate(-2deg);
+            margin-bottom: 15px;
+        }
+
+        .big-text {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-top: 30px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Sketch Box Style */
+        .sketch-box {
+            font-family: 'Poppins', sans-serif;
+            border: 4px solid var(--ink);
+            padding: 40px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 28px;
+            background: white;
+            box-shadow: 10px 10px 0 var(--ink);
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .sketch-box.dark {
+            background: var(--ink);
+            color: white;
+            box-shadow: 10px 10px 0 #999;
+        }
+
+        .sketch-box.blue {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .sketch-box.red {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .sketch-box.green {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: #fdfdfd;
+            border: 4px solid var(--ink);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: left;
+            width: 100%;
+            box-shadow: 10px 10px 0 #eee;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            font-size: 28px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* PENGUIN VECTOR */
+        .penguin-wrapper {
+            width: 300px;
+            height: 350px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .p-body {
+            width: 240px;
+            height: 320px;
+            background: var(--ink);
+            border-radius: 120px 120px 100px 100px;
+            position: absolute;
+            left: 30px;
+            top: 15px;
+        }
+
+        .p-belly {
+            width: 160px;
+            height: 230px;
+            background: var(--bg);
+            border-radius: 80px 80px 70px 70px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 75px;
+            border: 5px solid var(--ink);
+        }
+
+        .p-eye {
+            width: 45px;
+            height: 45px;
+            background: var(--bg);
+            border: 5px solid var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 60px;
+            z-index: 5;
+        }
+
+        .p-eye.left {
+            left: 55px;
+        }
+
+        .p-eye.right {
+            right: 55px;
+        }
+
+        .p-pupil {
+            width: 15px;
+            height: 15px;
+            background: var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .p-beak {
+            width: 50px;
+            height: 25px;
+            background: var(--ink);
+            border-radius: 50px;
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .p-flipper {
+            width: 70px;
+            height: 130px;
+            background: var(--ink);
+            border-radius: 35px;
+            position: absolute;
+            top: 110px;
+            z-index: -1;
+        }
+
+        .p-feet {
+            width: 60px;
+            height: 40px;
+            background: var(--ink);
+            border-radius: 30px;
+            position: absolute;
+            bottom: -10px;
+        }
+
+        .p-feet.left {
+            left: 40px;
+        }
+
+        .p-feet.right {
+            right: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="feed-grid">
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username"><i class="fa-brands fa-instagram"></i> @code_penguin</div>
+                <div class="slide-number">#1</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Berita Hangat! 🔥</div>
+                <h1>BUN:<br>SPEED DEMON</h1>
+                <div class="penguin-wrapper">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <!-- Flipper gaya lari -->
+                        <div class="p-flipper left" style="transform: rotate(60deg); top: 80px; left: -30px;"></div>
+                        <div class="p-flipper right" style="transform: rotate(-60deg); top: 80px; right: -30px;"></div>
+                        <div class="p-feet left"></div>
+                        <div class="p-feet right"></div>
+                    </div>
+                </div>
+                <div class="sketch-box">JavaScript Kok Bisa Sen-gebut Rust? 🤯</div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-globe"></i> www.codepenguin.id</div>
+                <div class="cta-text">Cek Bench-nya ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: INTRO BUN -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#2</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Anak Baru Nih!</div>
+                <h2>Kenalan Dulu Sama BUN</h2>
+
+                <div class="sketch-box" style="text-align: left; border-color: var(--orange);">
+                    🥟 <strong>Apa itu Bun?</strong><br>
+                    Runtime JS baru yang niatnya jadi "Drop-in Replacement" buat Node.js.
+                </div>
+
+                <div class="sketch-box dark">
+                    Tapi Isinya "Daging" Semua:
+                    <ul
+                        style="font-size: 24px; text-align: left; margin-top: 10px; margin-left: 30px; font-weight: 400;">
+                        <li>Built with Zig (Low level beast)</li>
+                        <li>JavaScriptCore (Mesinnya Safari)</li>
+                        <li>All-in-one (Runtime, Bundler, Test Runner)</li>
+                    </ul>
+                </div>
+
+                <p class="big-text">Bukan cuma ganti kulit, tapi ganti mesin balap!</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">New Kid</div>
+                <div class="cta-text">Seberapa Kenceng? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: BENCHMARK -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#3</div>
+            </div>
+            <div class="content">
+                <h2>Benchmark Gila-gilaan! 📈</h2>
+
+                <div class="sketch-box" style="text-align: left; padding: 30px;">
+                    <div
+                        style="display: flex; justify-content: space-between; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 10px;">
+                        <span>🥇 Rust (Warp)</span> <span>144ms</span>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-bottom: 10px; font-weight: 900; color: var(--blue);">
+                        <span>🚀 BUN</span> <span>157ms</span> (Gile!)
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 10px;">
+                        <span>🐢 Golang</span> <span>227ms</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>🐘 .NET 9</span> <span>255ms</span>
+                    </div>
+                </div>
+
+                <div class="sketch-box dark" style="background: var(--green);">
+                    BUN masuk TIER 1 bareng Rust! <br>Golang & Java lewat bos.
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Benchmarks</div>
+                <div class="cta-text">Lawan Node? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: VS EXPRESS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#4</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Maaf ya Node...</div>
+                <h2>Pembantaian Sadis</h2>
+
+                <div style="display: flex; gap: 20px; width: 100%; justify-content: center; margin-bottom: 20px;">
+                    <div class="sketch-box" style="flex: 1; border-color: var(--green); background: #e6fffa;">
+                        <strong>BUN</strong><br>
+                        <span style="font-size: 40px;">0</span> Error<br>
+                        <span style="font-size: 20px;">6,400 Req/sec</span>
+                    </div>
+                    <div style="font-size: 40px; align-self: center;">VS</div>
+                    <div class="sketch-box" style="flex: 1; border-color: var(--red); background: #fff5f5;">
+                        <strong>Express</strong><br>
+                        <span style="font-size: 40px; color: var(--red);">75%</span> Error<br>
+                        <span style="font-size: 20px;">Lemot Parah</span>
+                    </div>
+                </div>
+
+                <div class="sketch-box dark">
+                    "Bun 5x lebih cepet dari Express & 10x lebih kuat nahan beban."
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Comparison</div>
+                <div class="cta-text">Kok Bisa? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: RAHASIA DAPUR -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#5</div>
+            </div>
+            <div class="content">
+                <h2>Resep Rahasia Koki 👨‍🍳</h2>
+
+                <div class="sketch-box" style="text-align: left;">
+                    🍎 <strong>JavaScriptCore:</strong> Engine Safari ternyata lebih ngebut dari V8 (Chrome) buat
+                    ginian.<br><br>
+                    ⚡ <strong>Zig Lang:</strong> Bahasa low-level modern yang efisien banget.<br><br>
+                    🔌 <strong>Native HTTP:</strong> Gak pake overhead framework, langsung tusuk ke jantungnya.
+                </div>
+
+                <p class="big-text">Gabungan teknologi mahal bikin JS jadi berasa bukan JS.</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Architecture</div>
+                <div class="cta-text">Klasemen? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: KLASEMEN -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#6</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Posisi Menentukan Prestasi</div>
+                <h2>Tier List Performance</h2>
+
+                <div class="sketch-box" style="background: gold; border-color: goldenrod;">
+                    🏆 <strong>TIER 1 (Dewa)</strong><br>
+                    Rust, BUN (< 200ms) </div>
+
+                        <div class="sketch-box" style="background: silver; border-color: gray;">
+                            🥈 <strong>TIER 2 (Suhu)</strong><br>
+                            Golang, .NET AOT
+                        </div>
+
+                        <div class="sketch-box" style="background: #cd7f32; border-color: #8b4513; color: white;">
+                            🥉 <strong>TIER 3 (Menengah)</strong><br>
+                            Java (GraalVM)
+                        </div>
+
+                        <p class="big-text" style="font-size: 24px;">Node.js / Express? Maaf, masuk Tier 4 (> 600ms) 🐢
+                        </p>
+                </div>
+                <div class="slide-bottom">
+                    <div class="website-badge">Rankings</div>
+                    <div class="cta-text">DX Gimana? ➡️</div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: DX -->
+            <div class="slide">
+                <div class="slide-top">
+                    <div class="username">@code_penguin</div>
+                    <div class="slide-number">#7</div>
+                </div>
+                <div class="content">
+                    <h2>Enak di Developer Juga?</h2>
+
+                    <div class="penguin-wrapper" style="transform: scale(0.7); height: 250px; margin: 0;">
+                        <div class="p-body">
+                            <div class="p-belly"></div>
+                            <div class="p-eye left">
+                                <div class="p-pupil"></div>
+                            </div>
+                            <div class="p-eye right">
+                                <div class="p-pupil"></div>
+                            </div>
+                            <div class="p-beak"></div>
+                            <div class="p-flipper right" style="transform: rotate(-40deg);"></div>
+                        </div>
+                    </div>
+
+                    <div class="sketch-box" style="text-align: left; border-color: var(--blue);">
+                        <i class="fa-solid fa-code" style="color: var(--blue);"></i> <strong>TS Native:</strong> Gak
+                        perlu <code>tsc</code>, gak perlu config ribet. Langsung run file <code>.ts</code> lu!<br><br>
+                        <i class="fa-solid fa-box-open" style="color: var(--blue);"></i> <strong>All-in-One:</strong>
+                        Test runner, bundler, package manager udah jadi satu.
+                    </div>
+
+                    <p class="big-text">Selamat tinggal <code>node_modules</code> yang beratnya kayak dosa masa lalu.
+                    </p>
+                </div>
+                <div class="slide-bottom">
+                    <div class="website-badge">Dev Experience</div>
+                    <div class="cta-text">Kesimpulan ➡️</div>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: SUMMARY -->
+            <div class="slide">
+                <div class="slide-top">
+                    <div class="username">@code_penguin</div>
+                    <div class="slide-number">#8</div>
+                </div>
+                <div class="content">
+                    <h2>RANGKUMANNYA</h2>
+
+                    <div class="summary-box">
+                        <div class="summary-item">
+                            <i class="fa-solid fa-bolt" style="color: var(--yellow);"></i>
+                            <div><strong>Speed Demon:</strong> Bun ngebuktiin kalo JS bisa secepet Rust kalau
+                                arsitekturnya bener.</div>
+                        </div>
+                        <div class="summary-item">
+                            <i class="fa-solid fa-check-circle" style="color: var(--green);"></i>
+                            <div><strong>Ready to Production:</strong> Stabil, tahan banting, 0 error rate.</div>
+                        </div>
+                        <div class="summary-item">
+                            <i class="fa-solid fa-lightbulb" style="color: var(--blue);"></i>
+                            <div><strong>Saran:</strong> Project baru? Gas cobain Bun. Project lama? Hati-hati
+                                migrasinya.</div>
+                        </div>
+                    </div>
+
+                    <div class="hand-note" style="margin-top: 30px;">Siapa yang udah pindah ke Bun? Absen! 👇</div>
+                </div>
+                <div class="slide-bottom">
+                    <div class="website-badge"><i class="fa-solid fa-bookmark"></i> Save & Share</div>
+                    <div class="cta-text">@code_penguin</div>
+                </div>
+            </div>
+
+        </div>
+
+</body>
+
+</html>

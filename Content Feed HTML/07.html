@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<!-- Source: Dr Milan Milanović - "You can code only 4 hours per day" Jan 29, 2026 -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamu Cuma Bisa Coding 4 Jam Sehari!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Inter:wght@400;600&family=Poppins:wght@500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #1a1a1a;
+            --paper: #f4f4f0;
+            --blue: #3b82f6;
+            --red: #ef4444;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --purple: #8b5cf6;
+            --orange: #f97316;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: var(--bg);
+            position: relative;
+            overflow: hidden;
+            border: 6px solid var(--ink);
+            border-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 20px 20px 0px rgba(0, 0, 0, 1);
+            margin-bottom: 40px;
+        }
+
+        .slide-top {
+            padding: 60px 80px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 140px;
+            z-index: 10;
+        }
+
+        .username {
+            font-family: 'Poppins', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--ink);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+        }
+
+        .slide-number {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+            font-size: 36px;
+            background: var(--ink);
+            color: white;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 80px;
+            text-align: center;
+        }
+
+        .slide-bottom {
+            height: 120px;
+            padding: 0 80px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .website-badge {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            border: 3px solid var(--ink);
+            padding: 12px 30px;
+            border-radius: 50px;
+            background: white;
+            color: var(--ink);
+            text-decoration: none;
+            box-shadow: 4px 4px 0 var(--ink);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .cta-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 130px;
+            line-height: 0.88;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: -5px;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 35px;
+            line-height: 1.1;
+        }
+
+        .hand-note {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 40px;
+            color: var(--ink);
+            transform: rotate(-2deg);
+            margin-bottom: 15px;
+        }
+
+        .big-text {
+            font-size: 29px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-top: 25px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .sketch-box {
+            font-family: 'Poppins', sans-serif;
+            border: 4px solid var(--ink);
+            padding: 35px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 27px;
+            background: white;
+            box-shadow: 10px 10px 0 var(--ink);
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .sketch-box.dark {
+            background: var(--ink);
+            color: white;
+            box-shadow: 10px 10px 0 #999;
+        }
+
+        .summary-box {
+            background: #fdfdfd;
+            border: 4px solid var(--ink);
+            border-radius: 20px;
+            padding: 38px;
+            text-align: left;
+            width: 100%;
+            box-shadow: 10px 10px 0 #eee;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            font-size: 25px;
+            margin-bottom: 24px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .summary-item i {
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        /* PENGUIN */
+        .penguin-wrapper {
+            width: 300px;
+            height: 350px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .p-body {
+            width: 240px;
+            height: 320px;
+            background: var(--ink);
+            border-radius: 120px 120px 100px 100px;
+            position: absolute;
+            left: 30px;
+            top: 15px;
+        }
+
+        .p-belly {
+            width: 160px;
+            height: 230px;
+            background: var(--bg);
+            border-radius: 80px 80px 70px 70px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 75px;
+            border: 5px solid var(--ink);
+        }
+
+        .p-eye {
+            width: 45px;
+            height: 45px;
+            background: var(--bg);
+            border: 5px solid var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 60px;
+            z-index: 5;
+        }
+
+        .p-eye.left {
+            left: 55px;
+        }
+
+        .p-eye.right {
+            right: 55px;
+        }
+
+        .p-pupil {
+            width: 15px;
+            height: 15px;
+            background: var(--ink);
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .p-beak {
+            width: 50px;
+            height: 25px;
+            background: var(--ink);
+            border-radius: 50px;
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .p-flipper {
+            width: 70px;
+            height: 130px;
+            background: var(--ink);
+            border-radius: 35px;
+            position: absolute;
+            top: 110px;
+            z-index: -1;
+        }
+
+        .p-flipper.left {
+            left: -20px;
+            transform: rotate(20deg);
+        }
+
+        .p-flipper.right {
+            right: -20px;
+            transform: rotate(-20deg);
+        }
+
+        .p-feet {
+            width: 60px;
+            height: 40px;
+            background: var(--ink);
+            border-radius: 30px;
+            position: absolute;
+            bottom: -10px;
+        }
+
+        .p-feet.left {
+            left: 40px;
+        }
+
+        .p-feet.right {
+            right: 40px;
+        }
+
+        /* Brain bar chart */
+        .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            margin-bottom: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .bar-label {
+            width: 180px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .bar-track {
+            flex: 1;
+            background: #eee;
+            border-radius: 8px;
+            height: 44px;
+            border: 3px solid var(--ink);
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding-left: 14px;
+            font-size: 20px;
+            color: white;
+            font-weight: 900;
+        }
+
+        .bar-note {
+            width: 120px;
+            flex-shrink: 0;
+            font-size: 19px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="feed-grid">
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username"><i class="fa-brands fa-instagram"></i> @code_penguin</div>
+                <div class="slide-number">#1</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Ini fakta, bukan alasan! 🧠</div>
+                <h1 style="color: var(--ink);">4<br>JAM<br>HARI</h1>
+                <div class="penguin-wrapper" style="transform: scale(0.75); height: 240px; margin: -10px 0 0;">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil" style="top:5px; left:5px;"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil" style="top:5px; left:5px;"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper left" style="transform: rotate(130deg); top: 30px;"></div>
+                        <div class="p-flipper right" style="transform: rotate(-130deg); top: 30px;"></div>
+                    </div>
+                </div>
+                <div class="sketch-box" style="font-size: 26px; border-color: var(--red);">
+                    Itu maksimal otak untuk deep coding. <br>Dan AI gak ngubah itu. 😶
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-globe"></i> www.codepenguin.id</div>
+                <div class="cta-text">Serius? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: COGNITIVE CEILING -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#2</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Riset bilang begini...</div>
+                <h2>Otak Punya Batas Harian!</h2>
+
+                <div class="sketch-box"
+                    style="text-align: left; padding: 28px; font-size: 24px; border-color: var(--purple);">
+                    🎻 <strong>Ericsson</strong> teliti pemain biola terbaik dunia:<br>
+                    <span style="font-weight: 400;">Mereka cuma latihan fokus <strong>4 jam/hari</strong> sebelum
+                        kelelahan dan performa drop.</span>
+                </div>
+
+                <div class="sketch-box dark" style="font-size: 26px;">
+                    Cal Newport (Deep Work): rata-rata orang hanya bisa "deep work" selama <strong
+                        style="color: var(--yellow);">4 jam/hari</strong>. Setelah itu, diminishing returns.
+                </div>
+
+                <div class="sketch-box"
+                    style="text-align: left; padding: 28px; font-size: 23px; background: #fffbe6; border-color: var(--yellow);">
+                    📐 Poincaré: 2 pagi + 2 sore.<br>
+                    📐 G.H. Hardy: cuma pagi.<br>
+                    📐 Darwin & Darwin: 3–4 jam nulis per hari.<br><br>
+                    <strong>Semua geniuses, semua pakai pola yang sama.</strong>
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Cognitive Limit</div>
+                <div class="cta-text">Dev Benerannya? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: WHAT DEVS ACTUALLY DO -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#3</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Data dari 250.000+ developer!</div>
+                <h2>Kenyataan: Dev Coding Berapa Lama?</h2>
+
+                <div class="sketch-box" style="padding: 20px; text-align: center; margin-bottom: 16px;">
+                    <div
+                        style="font-size: 110px; font-weight: 900; font-family: 'Poppins'; line-height: 1; color: var(--red);">
+                        52</div>
+                    <div style="font-size: 30px; font-weight: 700;">menit/hari</div>
+                    <div style="font-size: 22px; font-weight: 400; color: #666; margin-top: 6px;">median waktu coding
+                        aktual (bukan yang dipikirkan!)</div>
+                </div>
+
+                <div class="bar-row">
+                    <div class="bar-label" style="font-size: 19px;">Meetings</div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 85%; background: var(--red);">11 jam/minggu</div>
+                    </div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label" style="font-size: 19px;">Fokus sisa</div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 50%; background: var(--blue);">19.6 jam</div>
+                    </div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label" style="font-size: 19px;">Coding peak</div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 30%; background: var(--green);">Jam 2–5pm 😩</div>
+                    </div>
+                </div>
+
+                <p class="big-text" style="font-size: 24px; margin-top: 16px;">Morning harusnya prime time. Tapi meeting
+                    standup, sync, dan ceremony udah <span
+                        style="background: var(--ink); color: white; padding: 2px 8px;">sikat habis.</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">250K+ Devs Data</div>
+                <div class="cta-text">Biaya Interrupt? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: COST OF INTERRUPTIONS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#4</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Yang paling nyiksa nih...</div>
+                <h2>Satu Interupsi = Rusak Setengah Hari!</h2>
+
+                <div style="display: flex; gap: 20px; width: 100%; margin-bottom: 22px;">
+                    <div class="sketch-box"
+                        style="flex: 1; padding: 28px; border-color: var(--orange); margin-bottom: 0; text-align: center;">
+                        <div style="font-size: 80px; font-weight: 900; color: var(--orange); font-family: 'Poppins';">23
+                        </div>
+                        <div style="font-size: 22px;">menit recovery<br><span
+                                style="font-weight: 400; font-size: 18px;">untuk orang umum<br>(Gloria Mark, UC
+                                Irvine)</span></div>
+                    </div>
+                    <div class="sketch-box"
+                        style="flex: 1; padding: 28px; border-color: var(--red); margin-bottom: 0; text-align: center;">
+                        <div style="font-size: 80px; font-weight: 900; color: var(--red); font-family: 'Poppins';">45
+                        </div>
+                        <div style="font-size: 22px;">menit recovery<br><span
+                                style="font-weight: 400; font-size: 18px;">untuk programmer<br>rebuild full
+                                context!</span></div>
+                    </div>
+                </div>
+
+                <div class="sketch-box dark" style="font-size: 25px;">
+                    Paul Graham: "Meeting is like throwing an exception. It doesn't just switch tasks—it <em>changes the
+                        mode</em> you work in."
+                </div>
+
+                <p class="big-text" style="font-size: 24px;">Bahkan <em>nunggu</em> meeting sore bikin dev <strong>males
+                        mulai kerjaan besar di pagi hari.</strong></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Context Switch Kills</div>
+                <div class="cta-text">Flow State ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: FLOW STATE -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#5</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Ini kekuatan tersembunyimu!</div>
+                <h2>Flow State: Cheat Code Produktivitas!</h2>
+
+                <div class="sketch-box" style="padding: 28px; text-align: center; border-color: var(--purple);">
+                    <div
+                        style="font-size: 120px; font-weight: 900; color: var(--purple); font-family: 'Poppins'; line-height: 1;">
+                        500%</div>
+                    <div style="font-size: 28px; font-weight: 700;">peningkatan produktivitas saat Flow</div>
+                    <div style="font-size: 20px; font-weight: 400; color: #666; margin-top: 6px;">Riset 10 tahun —
+                        Csikszentmihalyi</div>
+                </div>
+
+                <div class="sketch-box"
+                    style="text-align: left; padding: 28px; font-size: 24px; border-color: var(--yellow); background: #fffbe6;">
+                    ⏱️ Butuh <strong>15–25 menit tanpa gangguan</strong> untuk mulai masuk flow.<br><br>
+                    🔔 Satu notif — meski gak dibalas — <strong>udah cukup untuk rusak konsentrasi!</strong>
+                </div>
+
+                <p class="big-text" style="font-size: 24px;">Flow bukan kejadian alami. Dia butuh perlindungan aktif
+                    dari semua hal yang menyedotnya.</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Flow = Superpower</div>
+                <div class="cta-text">Strategi Deep Work ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: DEEP WORK STRATEGIES -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#6</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Cal Newport kasih 4 cara!</div>
+                <h2>4 Strategi Deep Work, Pilih yang Cocok!</h2>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; width: 100%;">
+                    <div class="sketch-box"
+                        style="padding: 24px; text-align: left; font-size: 22px; border-color: var(--ink); margin-bottom: 0;">
+                        🏔️ <strong>Monastic</strong><br>
+                        <span style="font-weight:400; font-size:19px;">Hapus semua shallow work. Kayak Knuth yang hapus
+                            email sejak 1990!</span>
+                    </div>
+                    <div class="sketch-box"
+                        style="padding: 24px; text-align: left; font-size: 22px; border-color: var(--blue); margin-bottom: 0;">
+                        📅 <strong>Bimodal</strong><br>
+                        <span style="font-weight:400; font-size:19px;">Senin–Rabu: unreachable, fokus. Kamis–Jumat:
+                            meetings & email.</span>
+                    </div>
+                    <div class="sketch-box"
+                        style="padding: 24px; text-align: left; font-size: 22px; border-color: var(--green); margin-bottom: 0; background: #f0fff4;">
+                        ⏰ <strong>Rhythmic</strong> ✅<br>
+                        <span style="font-weight:400; font-size:19px;">Sama tiap hari, jam yang sama. Paling cocok untuk
+                            developer! "Don't break the chain."</span>
+                    </div>
+                    <div class="sketch-box"
+                        style="padding: 24px; text-align: left; font-size: 22px; border-color: var(--orange); margin-bottom: 0;">
+                        📰 <strong>Journalistic</strong><br>
+                        <span style="font-weight:400; font-size:19px;">Sikat setiap jendela waktu kosong. Butuh mental
+                            switching yang kuat.</span>
+                    </div>
+                </div>
+
+                <p class="big-text" style="font-size: 24px; margin-top: 22px;">Untuk kebanyakan dev: <span
+                        style="background: var(--green); padding: 2px 10px; border-radius: 6px;">Rhythmic
+                        Strategy</span> paling works. Pagi = coding. Titik.</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Deep Work Strategy</div>
+                <div class="cta-text">Proteksi Waktu ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: PRACTICAL TIPS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#7</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Tips yang beneran works!</div>
+                <h2>Cara Proteksi Jam Deep Work-mu!</h2>
+
+                <div class="sketch-box" style="text-align: left; padding: 28px; font-size: 23px;">
+                    <div style="margin-bottom: 16px;">🔕 <strong>Tutup Slack & matiin notif</strong> — bahkan lihat
+                        notif aja udah rusak fokus</div>
+                    <div style="margin-bottom: 16px;">🎯 <strong>Set goal spesifik</strong> — bukan "ngerjain backend",
+                        tapi "bikin endpoint auth return proper error"</div>
+                    <div style="margin-bottom: 16px;">📅 <strong>Time-block 2–4 jam</strong> di kalender untuk deep
+                        coding. Jadikan sacred.</div>
+                    <div style="margin-bottom: 16px;">📨 <strong>Batch komunikasi</strong> — balas pesan 2x sehari,
+                        bukan real-time terus</div>
+                    <div>🕙 <strong>Kerjakan sesuai peak hours</strong> — riset: performa beda 9–40% tergantung waktu
+                    </div>
+                </div>
+
+                <div class="sketch-box"
+                    style="background: var(--yellow); border: none; font-size: 25px; padding: 22px; margin-bottom: 0;">
+                    🏢 Buat manager: <strong>No-meeting Wednesday</strong> + async by default = senjata paling ampuh!
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Practical Tips</div>
+                <div class="cta-text">AI Gimana? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: AI DOESN'T HELP -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#8</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Plot twist penting!</div>
+                <h2>AI Gak Extend Deep Work Hours-mu!</h2>
+
+                <div class="sketch-box"
+                    style="text-align: left; border-color: var(--red); padding: 28px; font-size: 24px;">
+                    <strong style="color: var(--red);">❌ Yang orang pikir:</strong><br>
+                    <span style="font-weight:400;">"AI bikin aku bisa coding lebih lama dan lebih banyak output!"</span>
+                </div>
+
+                <div class="sketch-box"
+                    style="text-align: left; border-color: var(--green); padding: 28px; font-size: 24px;">
+                    <strong style="color: var(--green);">✅ Faktanya:</strong><br>
+                    <span style="font-weight:400;">AI cuma <em>mindahin</em> fokusmu — dari nulis ke review kode AI.
+                        Tetap butuh konteks, judgment, dan fokus yang sama. Batas 4 jam? <strong>Gak
+                            berubah.</strong></span>
+                </div>
+
+                <div class="sketch-box dark" style="font-size: 25px;">
+                    AI paling berguna di <strong style="color: var(--yellow);">shallow hours</strong>: docs,
+                    boilerplate, quick Q&A. Bukan untuk deep work.
+                    <br><br>"Gunakan AI untuk <em>melindungi</em> deep work hours, bukan pura-pura punya lebih banyak."
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Real Talk AI</div>
+                <div class="cta-text">Kesimpulan ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: SUMMARY -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#9</div>
+            </div>
+            <div class="content">
+                <h2>RANGKUMANNYA</h2>
+
+                <div class="summary-box">
+                    <div class="summary-item">
+                        <i class="fa-solid fa-brain" style="color: var(--purple);"></i>
+                        <div><strong>4 Jam adalah Batas Riil:</strong> Ericsson, Newport, Mark — semua sepakat. Setelah
+                            4 jam deep focus, otak drop. Ini bukan kelemahan, ini biologi.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-clock" style="color: var(--red);"></i>
+                        <div><strong>Median Dev Coding 52 Menit/hari:</strong> Meeting 11 jam/minggu sikat habis pagi
+                            hari. Peak coding malah jam 2–5 sore karena paginya udah habis!</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-bolt" style="color: var(--yellow);"></i>
+                        <div><strong>Flow State = 500% Produktivitas:</strong> Tapi butuh 15–25 menit untuk masuk. Satu
+                            interrupt = rusak segalanya. Protect it at all costs.</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-robot" style="color: var(--blue);"></i>
+                        <div><strong>AI Gak Extend Batasmu:</strong> Pakai AI buat shallow tasks (docs, boilerplate).
+                            Simpan deep work budget untuk hal yang benar-benar penting.</div>
+                    </div>
+                </div>
+
+                <div class="hand-note" style="margin-top: 25px;">Coder itu pelari maraton, bukan sprinter! 🏃</div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-bookmark"></i> Save & Share</div>
+                <div class="cta-text">@code_penguin</div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
