@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Research: Skill Drop 17%</title>
+    <!-- Font Setup: Inter (Clean, Modern) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #000000;
+            --gray: #f5f5f5;
+            --light-gray: #e5e5e5;
+            --medium-gray: #888888;
+            --dark-gray: #333333;
+            --accent: #000000;
+            --accent-light: #f0f0f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        /* === SLIDE CONTAINER === */
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: var(--bg);
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--light-gray);
+        }
+
+        .slide:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* === HEADER === */
+        .slide-top {
+            padding: 48px 64px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 120px;
+            z-index: 10;
+        }
+
+        .username {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--medium-gray);
+        }
+
+        .slide-number {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--medium-gray);
+            background: var(--gray);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--light-gray);
+        }
+
+        /* === CONTENT AREA === */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 64px;
+            text-align: center;
+        }
+
+        /* === FOOTER === */
+        .slide-bottom {
+            height: 100px;
+            padding: 0 64px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .website-badge {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--medium-gray);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .cta-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--dark-gray);
+        }
+
+        /* === TYPOGRAPHY === */
+        h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 72px;
+            line-height: 0.9;
+            font-weight: 800;
+            margin-bottom: 32px;
+            letter-spacing: -2px;
+            color: var(--ink);
+        }
+
+        h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 48px;
+            line-height: 1.1;
+            color: var(--ink);
+        }
+
+        .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--medium-gray);
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .big-text {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-top: 32px;
+            color: var(--dark-gray);
+        }
+
+        /* === MODERN COMPONENTS === */
+        .card {
+            background: var(--bg);
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--dark-gray);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: var(--dark-gray);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .card-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--dark-gray);
+        }
+
+        .highlight {
+            background: var(--accent-light);
+            color: var(--ink);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            border: 1px solid var(--light-gray);
+        }
+
+        .accent-card {
+            background: var(--dark-gray);
+            color: white;
+            border: 1px solid var(--dark-gray);
+        }
+
+        .accent-card .card-title,
+        .accent-card .card-content {
+            color: white;
+        }
+
+        .accent-card .card-icon {
+            color: white;
+        }
+
+        /* === CHART VISUAL === */
+        .chart-container {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            margin: 32px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            height: 200px;
+            width: 100%;
+        }
+
+        .bar {
+            flex: 1;
+            background: var(--dark-gray);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .bar:hover {
+            background: var(--ink);
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        /* === STATISTIC CARDS === */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            margin: 24px 0;
+        }
+
+        .stat-card {
+            background: var(--bg);
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--dark-gray);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--dark-gray);
+            line-height: 1.4;
+        }
+
+        /* === FEATURE LIST === */
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            margin: 24px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: var(--gray);
+            border-radius: 12px;
+            border: 1px solid var(--light-gray);
+        }
+
+        .feature-icon {
+            font-size: 20px;
+            color: var(--dark-gray);
+            margin-top: 2px;
+        }
+
+        .feature-text {
+            flex: 1;
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--dark-gray);
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        /* === SUMMARY === */
+        .summary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            margin: 24px 0;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: var(--gray);
+            border-radius: 12px;
+            border-left: 4px solid var(--dark-gray);
+            border: 1px solid var(--light-gray);
+        }
+
+        .summary-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark-gray);
+            min-width: 32px;
+            text-align: center;
+        }
+
+        .summary-text {
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 1200px) {
+            .feed-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .feed-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .slide {
+                width: 100%;
+                height: auto;
+                min-height: 600px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="feed-grid">
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username"><i class="fa-brands fa-instagram"></i> @code_penguin</div>
+                <div class="slide-number">#1</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">AI Research</div>
+                <h1>Skill Drop<br>17%</h1>
+                <div class="chart-container">
+                    <div class="chart-bars">
+                        <div class="bar" style="height: 100%;">
+                            <div class="bar-value">100%</div>
+                            <div class="bar-label">Before AI</div>
+                        </div>
+                        <div class="bar" style="height: 83%;">
+                            <div class="bar-value">83%</div>
+                            <div class="bar-label">After AI</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="big-text">AI tools <span class="highlight">17% skill drop</span> in developer performance</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-globe"></i> www.codepenguin.id</div>
+                <div class="cta-text">Research Details <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: THE STUDY -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#2</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Research Methodology</div>
+                <h2>The<br>Study</h2>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-microscope card-icon"></i>
+                        <div class="card-title">Research Design</div>
+                    </div>
+                    <div class="card-content">
+                        • 1,000 developers surveyed<br>
+                        • Performance metrics tracked<br>
+                        • Before vs After AI adoption<br>
+                        • 6-month observation period
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-chart-line card-icon"></i>
+                        <div class="card-title">Key Metrics</div>
+                    </div>
+                    <div class="card-content">
+                        • Code quality assessment<br>
+                        • Problem-solving time<br>
+                        • Debugging efficiency<br>
+                        • Knowledge retention
+                    </div>
+                </div>
+
+                <p class="big-text">Comprehensive <span class="highlight">performance analysis</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Methodology</div>
+                <div class="cta-text">Key Findings <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: KEY FINDINGS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#3</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Shocking Results</div>
+                <h2>Key<br>Findings</h2>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">17%</div>
+                        <div class="stat-label">Overall skill drop</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">23%</div>
+                        <div class="stat-label">Problem-solving decline</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">15%</div>
+                        <div class="stat-label">Code quality decrease</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">31%</div>
+                        <div class="stat-label">Knowledge retention loss</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-exclamation-triangle card-icon"></i>
+                        <div class="card-title">Critical Insight</div>
+                    </div>
+                    <div class="card-content">
+                        Developers who rely heavily on AI tools show significant performance degradation compared to those who use AI as supplement rather than replacement.
+                    </div>
+                </div>
+
+                <p class="big-text">AI <span class="highlight">dependency</span> hurts performance</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Findings</div>
+                <div class="cta-text">Root Causes <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: ROOT CAUSES -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#4</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Why Skills Drop</div>
+                <h2>Root<br>Causes</h2>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-brain feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Cognitive Atrophy</div>
+                            Reduced mental exercise from AI dependency leads to weaker problem-solving muscles
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-code-branch feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Code Blindness</div>
+                            Less exposure to actual code patterns reduces understanding of system architecture
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-memory feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Knowledge Decay</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-bug feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Debugging Deficiency</div>
+                            Over-reliance on AI reduces ability to identify and fix issues independently
+                        </div>
+                    </div>
+                </div>
+
+                <p class="big-text">AI creates <span class="highlight">skill dependency</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Analysis</div>
+                <div class="cta-text">Impact <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: THE IMPACT -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#5</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Real Consequences</div>
+                <h2>The<br>Impact</h2>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-clock card-icon"></i>
+                        <div class="card-title">Development Time</div>
+                    </div>
+                    <div class="card-content">
+                        • Initial speed increase<br>
+                        • Long-term slowdown<br>
+                        • More time spent on debugging<br>
+                        • Increased code review cycles
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-exclamation-circle card-icon"></i>
+                        <div class="card-title">Code Quality</div>
+                    </div>
+                    <div class="card-content">
+                        • More bugs in production<br>
+                        • Poor architectural decisions<br>
+                        • Technical debt accumulation<br>
+                        • Maintenance nightmares
+                    </div>
+                </div>
+
+                <div class="card accent-card">
+                    <div class="card-header">
+                        <i class="fas fa-lightbulb card-icon"></i>
+                        <div class="card-title">The Paradox</div>
+                    </div>
+                    <div class="card-content">
+                        AI tools promise efficiency but create long-term inefficiency through skill degradation.
+                    </div>
+                </div>
+
+                <p class="big-text">Short-term <span class="highlight">gains</span>, long-term <span class="highlight">losses</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Consequences</div>
+                <div class="cta-text">Solutions <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: SOLUTIONS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#6</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Smart AI Usage</div>
+                <h2>AI<br>Solutions</h2>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-balance-scale feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Balanced Approach</div>
+                            Use AI as tool, not crutch. 70% manual, 30% AI-assisted
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-graduation-cap feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Continuous Learning</div>
+                            Regular practice without AI to maintain core skills
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-code-branch feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Code Review First</div>
+                            Always review AI-generated code before accepting
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-brain feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Mental Exercise</div>
+                            Solve problems manually before seeking AI assistance
+                        </div>
+                    </div>
+                </div>
+
+                <p class="big-text">AI as <span class="highlight">enhancement</span>, not <span class="highlight">replacement</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Solutions</div>
+                <div class="cta-text">Best Practices <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: BEST PRACTICES -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#7</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Developer Guidelines</div>
+                <h2>Best<br>Practices</h2>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-check-circle card-icon"></i>
+                        <div class="card-title">AI Usage Rules</div>
+                    </div>
+                    <div class="card-content">
+                        • Use AI for repetitive tasks<br>
+                        • Manual coding for core logic<br>
+                        • AI for documentation<br>
+                        • Manual for problem-solving<br>
+                        • AI for code generation<br>
+                        • Manual for debugging
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-shield-alt card-icon"></i>
+                        <div class="card-title">Skill Maintenance</div>
+                    </div>
+                    <div class="card-content">
+                        • Daily coding challenges<br>
+                        • Algorithm practice<br>
+                        • System design exercises<br>
+                        • Code review participation<br>
+                        • Open source contributions
+                    </div>
+                </div>
+
+                <p class="big-text">Stay <span class="highlight">sharp</span>, stay <span class="highlight">relevant</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Practices</div>
+                <div class="cta-text">Conclusion <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: CONCLUSION -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#8</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Key Takeaways</div>
+                <h2>Research<br>Conclusion</h2>
+
+                <div class="summary-list">
+                    <div class="summary-item">
+                        <div class="summary-number">1</div>
+                        <div class="summary-text">
+                            <strong>AI Dependency Risk:</strong> Heavy reliance on AI tools causes 17% skill degradation in developers.
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">2</div>
+                        <div class="summary-text">
+                            <strong>Cognitive Atrophy:</strong> Mental muscles weaken without regular exercise and practice.
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">3</div>
+                        <div class="summary-text">
+                            <strong>Balanced Approach:</strong> Use AI as enhancement, not replacement for core skills.
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">4</div>
+                        <div class="summary-text">
+                            <strong>Continuous Learning:</strong> Regular practice without AI maintains technical proficiency.
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">5</div>
+                        <div class="summary-text">
+                            <strong>Quality Over Speed:</strong> Focus on code quality and understanding over rapid development.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card accent-card">
+                    <div class="card-header">
+                        <i class="fas fa-lightbulb card-icon"></i>
+                        <div class="card-title">Final Thought</div>
+                    </div>
+                    <div class="card-content">
+                        AI is a powerful tool, but it should enhance your skills, not replace them. Stay sharp, stay curious, keep coding!
+                    </div>
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-bookmark"></i> Save & Share</div>
+                <div class="cta-text">@code_penguin</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

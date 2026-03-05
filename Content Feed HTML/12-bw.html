@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4 Bentuk Programmer: Seni Ngoding Tanpa Internet</title>
+    <!-- Font Setup: Inter (Clean, Modern) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #000000;
+            --gray: #f5f5f5;
+            --light-gray: #e5e5e5;
+            --medium-gray: #888888;
+            --dark-gray: #333333;
+            --accent: #000000;
+            --accent-light: #f0f0f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        /* === SLIDE CONTAINER === */
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: var(--bg);
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--light-gray);
+        }
+
+        .slide:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* === HEADER === */
+        .slide-top {
+            padding: 48px 64px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 120px;
+            z-index: 10;
+        }
+
+        .username {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--medium-gray);
+        }
+
+        .slide-number {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--medium-gray);
+            background: var(--gray);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--light-gray);
+        }
+
+        /* === CONTENT AREA === */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 64px;
+            text-align: center;
+        }
+
+        /* === FOOTER === */
+        .slide-bottom {
+            height: 100px;
+            padding: 0 64px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .website-badge {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--medium-gray);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .cta-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+                    }
+
+        /* === TYPOGRAPHY === */
+        h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 72px;
+            line-height: 0.9;
+            font-weight: 800;
+            margin-bottom: 32px;
+            letter-spacing: -2px;
+            color: var(--ink);
+        }
+
+        h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 48px;
+            line-height: 1.1;
+            color: var(--ink);
+        }
+
+        .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--medium-gray);
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .big-text {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-top: 32px;
+                    }
+
+        /* === MODERN COMPONENTS === */
+        .card {
+            background: var(--bg);
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: var(--dark-gray);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .card-content {
+            font-size: 16px;
+            line-height: 1.6;
+                    }
+
+        .highlight {
+            background: var(--accent-light);
+            color: var(--ink);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            border: 1px solid var(--light-gray);
+        }
+
+        .accent-card {
+            background: var(--dark-gray);
+            color: white;
+            border: 1px solid var(--dark-gray);
+        }
+
+        .accent-card .card-title,
+        .accent-card .card-content {
+            color: white;
+        }
+
+        .accent-card .card-icon {
+            color: white;
+        }
+
+        /* === ICON SYSTEM === */
+        .icon {
+                    }
+        .penguin-wrapper {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin: 32px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .p-body {
+            width: 120px;
+            height: 160px;
+            background: var(--dark-gray);
+            border-radius: 60px 60px 60px 60px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .p-belly {
+            width: 80px;
+            height: 100px;
+            background: var(--bg);
+            border-radius: 40px 40px 40px 40px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .p-eye {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .p-eye.left {
+            left: 25px;
+        }
+
+        .p-eye.right {
+            right: 25px;
+        }
+
+        .p-pupil {
+            width: 8px;
+            height: 8px;
+            background: var(--ink);
+            border-radius: 50%;
+        }
+
+        .p-beak {
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid var(--dark-gray);
+            border-radius: 50%;
+            position: absolute;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .p-flipper {
+            width: 60px;
+            height: 8px;
+            background: var(--dark-gray);
+            border-radius: 4px;
+            position: absolute;
+        }
+
+        .p-flipper.left {
+            transform: rotate(-140deg);
+            top: 50px;
+            left: -20px;
+        }
+
+        .p-flipper.right {
+            transform: rotate(45deg);
+            top: 50px;
+            right: -20px;
+        }
+
+        .p-feet {
+            width: 20px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 6px 6px 0 0;
+            position: absolute;
+            bottom: 10px;
+        }
+
+        .p-feet.left {
+            left: 40px;
+        }
+
+        .p-feet.right {
+            right: 40px;
+        }
+
+        /* === SKETCH BOX === */
+        .sketch-box {
+            font-family: 'Inter', sans-serif;
+            border: 1px solid var(--light-gray);
+            padding: 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 20px;
+            background: var(--bg);
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .sketch-box:hover {
+            border-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* === SHAPE VISUALS === */
+        .shape-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            width: 100%;
+            margin: 24px 0;
+        }
+
+        .shape-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+            border: 1px solid var(--light-gray);
+            transition: all 0.3s ease;
+        }
+
+        .shape-item:hover {
+            border-            background: var(--accent-light);
+        }
+
+        .shape-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            color: var(--dark-gray);
+        }
+
+        .shape-name {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .shape-desc {
+            font-size: 14px;
+            line-height: 1.4;
+                    }
+
+        /* === TEAM GRID === */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            margin: 24px 0;
+        }
+
+        .team-card {
+            background: var(--bg);
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            border-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: var(--dark-gray);
+        }
+
+        .team-role {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .team-desc {
+            font-size: 14px;
+            line-height: 1.4;
+                    }
+
+        /* === SUMMARY === */
+        .summary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            margin: 24px 0;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: var(--gray);
+            border-radius: 12px;
+            border-left: 4px solid var(--dark-gray);
+            border: 1px solid var(--light-gray);
+        }
+
+        .summary-number {
+            font-size: 24px;
+            font-weight: 700;
+                        min-width: 32px;
+            text-align: center;
+        }
+
+        .summary-text {
+            font-size: 16px;
+            line-height: 1.5;
+                        font-weight: 500;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 1200px) {
+            .feed-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .feed-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .slide {
+                width: 100%;
+                height: auto;
+                min-height: 600px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="feed-grid">
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username"><i class="fa-brands fa-instagram"></i> @code_penguin</div>
+                <div class="slide-number">#1</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Bentuk Developer</div>
+                <h1>4 Bentuk<br>Programmer</h1>
+                <div class="penguin-wrapper">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper left"></div>
+                        <div class="p-flipper right"></div>
+                        <div class="p-feet left"></div>
+                        <div class="p-feet right"></div>
+                    </div>
+                </div>
+                <div class="sketch-box">I, T, PI, Comb: Lu yang Mana? </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-globe"></i> www.codepenguin.id</div>
+                <div class="cta-text">Kenapa Penting? <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: WHY SHAPES MATTER -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#2</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Peta Karir</div>
+                <h2>Kenapa Bentuk<br>Penting</h2>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-map-marked-alt card-icon"></i>
+                        <div class="card-title">Peta Karir</div>
+                    </div>
+                    <div class="card-content">
+                        Tau kekuatan & area buat ngembangin diri. Jadi jelas arah pengembangan skill.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-sync card-icon"></i>
+                        <div class="card-title">Bisa Adaptasi</div>
+                    </div>
+                    <div class="card-content">
+                        Survive di dunia tech yang gila-gilaan. Fleksibel & valuable di berbagai role.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-users card-icon"></i>
+                        <div class="card-title">Tim Solid</div>
+                    </div>
+                    <div class="card-content">
+                        Build tim yang balance & kompak. Setiap bentuk punya kelebihan masing-masing.
+                    </div>
+                </div>
+
+                <p class="big-text">Ngerti bentuk lu = <span class="highlight">karir jelas</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Career Mapping</div>
+                <div class="cta-text">Bentuk I <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: I-SHAPED -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#3</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Spesialis</div>
+                <h2>Programmer<br>Bentuk I</h2>
+
+                <div class="shape-grid">
+                    <div class="shape-item">
+                        <div class="shape-icon"></div>
+                        <div class="shape-name">I-Shape</div>
+                        <div class="shape-desc">Jago satu bidang spesifik<br>Expert mendalam<br>Fokus & presisi</div>
+                    </div>
+                    <div class="shape-item">
+                        <div class="shape-name">Kelebihan</div>
+                        <div class="shape-desc">Problem solving terbaik<br>Deep knowledge<br>Reliable & consistent</div>
+                    </div>
+                    <div class="shape-item">
+                        <div class="shape-icon"></div>
+                        <div class="shape-name">Peran</div>
+                        <div class="shape-desc">Core developer<br>Technical foundation<br>Go-to expert</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-check-circle card-icon"></i>
+                        <div class="card-title">Cocok Untuk</div>
+                    </div>
+                    <div class="card-content">
+                        • Critical systems<br>
+                        • Performance optimization<br>
+                        • Legacy code maintenance<br>
+                        • Security implementation
+                    </div>
+                </div>
+
+                <p class="big-text">Spesialis = <span class="highlight">expert mendalam</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">The Specialist</div>
+                <div class="cta-text">Bentuk T <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: T-SHAPED -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#4</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Generalis</div>
+                <h2>Programmer<br>Bentuk T</h2>
+
+                <div class="shape-grid">
+                    <div class="shape-item">
+                        <div class="shape-icon"></div>
+                        <div class="shape-name">T-Shape</div>
+                        <div class="shape-desc">Banyak bidang keahlian<br>General knowledge<br>Bridging specialist</div>
+                    </div>
+                    <div class="shape-item">
+                        <div class="shape-icon"></div>
+                        <div class="shape-name">Kelebihan</div>
+                        <div class="shape-desc">Communication expert<br>Cross-team collaboration<br>System thinking</div>
+                    </div>
+                    <div class="shape-item">
+                        <div class="shape-icon"></div>
+                        <div class="shape-name">Peran</div>
+                        <div class="shape-desc">Team leader/manager<br>Project coordination<br>Strategic planning</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-check-circle card-icon"></i>
+                        <div class="card-title">Cocok Untuk</div>
+                    </div>
+                    <div class="card-content">
+                        • Full-stack projects<br>
+                        • Team leadership<br>
+                        • System architecture<br>
+                        • Client communication
+                    </div>
+                </div>
+
+                <p class="big-text">Generalis = <span class="highlight">swiss army knife</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">The Generalist</div>
+                <div class="cta-text">Bentuk PI <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: PI-SHAPED -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#5</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Multi-Expert</div>
+                <h2>Programmer<br>Bentuk PI</h2>
+
+                <div class="shape-grid">
+                    <div class="shape-item">
+                        <div class="shape-icon"></div>
+                        <div class="shape-name">PI-Shape</div>
+                        <div class="shape-desc">Dua bidang expert<br>Deep knowledge<br>High impact</div>
+                    </div>
+                    <div class="shape-item">
+                        <div class="shape-icon"></div>
+                        <div class="shape-name">Kelebihan</div>
+                        <div class="shape-desc">Innovation driver<br>Problem solving<br>Technical leadership</div>
+                    </div>
+                    <div class="shape-item">
+                        <div class="shape-icon">⚡</div>
+                        <div class="shape-name">Peran</div>
+                        <div class="shape-desc">Principal engineer<br>Architecture design<br>Technical mentor</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-check-circle card-icon"></i>
+                        <div class="card-title">Cocok Untuk</div>
+                    </div>
+                    <div class="card-content">
+                        • Complex systems<br>
+                        • Technical leadership<br>
+                        • Innovation projects<br>
+                        • High-stakes decisions
+                    </div>
+                </div>
+
+                <p class="big-text">Multi-Expert = <span class="highlight">force multiplier</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">The Multi-Expert</div>
+                <div class="cta-text">Bentuk Comb <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: COMB-SHAPED -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#6</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Polymath</div>
+                <h2>Programmer<br>Bentuk Comb</h2>
+
+                <div class="shape-grid">
+                    <div class="shape-item">
+                        <div class="shape-icon"></div>
+                        <div class="shape-name">Comb-Shape</div>
+                        <div class="shape-desc">Banyak bidang expert<br>Broad knowledge<br>Versatile problem solver</div>
+                    </div>
+                    <div class="shape-item">
+                        <div class="shape-icon"></div>
+                        <div class="shape-name">Kelebihan</div>
+                        <div class="shape-desc">Rapid learner<br>Adaptable<br>High-value contributor</div>
+                    </div>
+                    <div class="shape-item">
+                        <div class="shape-icon"></div>
+                        <div class="shape-name">Peran</div>
+                        <div class="shape-desc">Solutions architect<br>Business integration<br>Strategic thinker</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-check-circle card-icon"></i>
+                        <div class="card-title">Cocok Untuk</div>
+                    </div>
+                    <div class="card-content">
+                        • Startup environments<br>
+                        • Complex problem solving<br>
+                        • Full-stack versatility<br>
+                        • Technical innovation
+                    </div>
+                </div>
+
+                <p class="big-text">Polymath = <span class="highlight">ultimate problem solver</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">The Polymath</div>
+                <div class="cta-text">Tim Ideal? <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: TEAM PERSPECTIVE -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#7</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Tim Ideal</div>
+                <h2>Pandangan<br>Tim</h2>
+
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-icon"></div>
+                        <div class="team-role">I-Programmer</div>
+                        <div class="team-desc">Handle kerjaan spesifik<br>Expert mendalam<br>Foundation technical</div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-icon"></div>
+                        <div class="team-role">T-Programmer</div>
+                        <div class="team-desc">Jembatin komunikasi<br>Bridging antar bidang<br>System integrator</div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-icon"></div>
+                        <div class="team-role">PI-Programmer</div>
+                        <div class="team-desc">Pimpin proyek kompleks<br>Technical leadership<br>High-impact decisions</div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-icon"></div>
+                        <div class="team-role">Comb-Programmer</div>
+                        <div class="team-desc">Supervisi & integrasi proyek gede<br>Strategic planning<br>Business alignment</div>
+                    </div>
+                </div>
+
+                <p class="big-text">Tim balance = <span class="highlight">campur semua bentuk</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Team Balance</div>
+                <div class="cta-text">Pilih Jalanmu? <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: CHOOSE YOUR PATH -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#8</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Pilih Jalanmu</div>
+                <h2>Mau Jadi<br>Apa?</h2>
+
+                <div class="penguin-wrapper" style="transform: scale(0.8); margin: 0;">
+                    <div class="p-body">
+                        <div class="p-belly"></div>
+                        <div class="p-eye left">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-eye right">
+                            <div class="p-pupil"></div>
+                        </div>
+                        <div class="p-beak"></div>
+                        <div class="p-flipper left" style="transform: rotate(40deg); left: -30px;"></div>
+                        <div class="p-flipper right" style="transform: rotate(-40deg); right: -30px;"></div>
+                        <div class="p-feet left"></div>
+                        <div class="p-feet right"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-compass card-icon"></i>
+                        <div class="card-title">Pertimbangin</div>
+                    </div>
+                    <div class="card-content">
+                        • Minat lu<br>
+                        • Skill yang udah ada<br>
+                        • Target karir<br>
+                        • Kebutuhan pasar
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-code card-icon"></i>
+                        <div class="card-title">Contoh Path</div>
+                    </div>
+                    <div class="card-content">
+                        <strong>Frontend:</strong><br>
+                        HTML → CSS → JavaScript → React/Vue
+                    </div>
+                </div>
+
+                <p class="big-text">Pilih yang <span class="highlight">sesuai passion & skill</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Path Selection</div>
+                <div class="cta-text">Kesimpulan? <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: CONCLUSION -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#9</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Takeaways</div>
+                <h2>Kesimpulan<br>Penting</h2>
+
+                <div class="summary-list">
+                    <div class="summary-item">
+                        <div class="summary-number">1</div>
+                        <div class="summary-text">
+                            <strong>Ngerti Bentuk Lu:</strong> Peta karir jelas, arah pengembangan skill pasti.
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">2</div>
+                        <div class="summary-text">
+                            <strong>Tim Ideal:</strong> Campur semua bentuk untuk tim balance & kompak.
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">3</div>
+                        <div class="summary-text">
+                            <strong>Fleksibel:</strong> Bentuk bisa berubah seiring karir & teknologi.
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">4</div>
+                        <div class="summary-text">
+                            <strong>Pilih Bijak:</strong> Sesuai minat, skill, & target karir yang realistis.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card accent-card">
+                    <div class="card-header">
+                        <i class="fas fa-lightbulb card-icon"></i>
+                        <div class="card-title">Action Plan</div>
+                    </div>
+                    <div class="card-content">
+                        1. Identifikasi bentuk lu sekarang<br>
+                        2. Analisis gap skill yang dibutuhkan<br>
+                        3. Buat development plan<br>
+                        4. Fokus pada bidang yang paling relevan
+                    </div>
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-bookmark"></i> Save & Share</div>
+                <div class="cta-text">@code_penguin</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROGRAMMING OFFLINE: Seni Ngoding Tanpa Internet!</title>
+    <!-- Font Setup: Poppins (Heading), Inter (Body), Gochi Hand (Doodles) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Inter:wght@400;600&family=Poppins:wght@500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #1a1a1a;
+            --paper: #f4f4f0;
+            --gray: #808080;
+            --light-gray: #e0e0e0;
+            --dark-gray: #404040;
+            --blue: #3b82f6;
+            --green: #22c55e;
+            --red: #ef4444;
+            --yellow: #eab308;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        /* === SLIDE CONTAINER === */
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: var(--bg);
+            position: relative;
+            overflow: hidden;
+            border: 6px solid var(--ink);
+            border-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 20px 20px 0px rgba(0, 0, 0, 1);
+            margin-bottom: 40px;
+        }
+
+        /* === HEADER === */
+        .slide-top {
+            padding: 60px 80px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 140px;
+            z-index: 10;
+        }
+
+        .username {
+            font-family: 'Poppins', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--ink);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+        }
+
+        .slide-number {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+            font-size: 36px;
+            background: var(--ink);
+            color: white;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+
+        /* === CONTENT AREA === */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 80px;
+            text-align: center;
+        }
+
+        /* === FOOTER === */
+        .slide-bottom {
+            height: 120px;
+            padding: 0 80px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .website-badge {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            border: 3px solid var(--ink);
+            padding: 12px 30px;
+            border-radius: 50px;
+            background: white;
+            color: var(--ink);
+            text-decoration: none;
+            box-shadow: 4px 4px 0 var(--ink);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .cta-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+
+        /* === TYPOGRAPHY & ELEMENTS === */
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 130px;
+            line-height: 0.9;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: -4px;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 60px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+
+        .hand-note {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 40px;
+            color: var(--ink);
+            transform: rotate(-2deg);
+            margin-bottom: 15px;
+        }
+
+        .big-text {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-top: 30px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Sketch Box Style */
+        .sketch-box {
+            font-family: 'Poppins', sans-serif;
+            border: 4px solid var(--ink);
+            padding: 40px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 28px;
+            background: white;
+            box-shadow: 10px 10px 0 var(--ink);
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .sketch-box.dark {
+            background: var(--ink);
+            color: white;
+            box-shadow: 10px 10px 0 var(--gray);
+        }
+
+        .sketch-box.green {
+            background: var(--green);
+            color: white;
+            border-color: var(--green);
+        }
+
+        .sketch-box.blue {
+            background: var(--blue);
+            color: white;
+            border-color: var(--blue);
+        }
+
+        .sketch-box.red {
+            background: var(--red);
+            color: white;
+            border-color: var(--red);
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: #fdfdfd;
+            border: 4px solid var(--ink);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: left;
+            width: 100%;
+            box-shadow: 10px 10px 0 #eee;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            font-size: 28px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* Offline Visual */
+        .offline-visual {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .laptop {
+            width: 200px;
+            height: 120px;
+            background: var(--dark-gray);
+            border: 4px solid var(--ink);
+            border-radius: 10px;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .laptop::before {
+            content: "💻";
+            font-size: 60px;
+        }
+
+        .wifi-off {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 40px;
+            color: var(--red);
+        }
+
+        .brain {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+        }
+
+        /* Skill Comparison */
+        .skill-comparison {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .skill-item {
+            flex: 1;
+            padding: 30px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .skill-item.mastered {
+            background: var(--green);
+            color: white;
+        }
+
+        .skill-item.lacking {
+            background: var(--red);
+            color: white;
+        }
+
+        /* Terminal Visual */
+        .terminal {
+            background: var(--dark-gray);
+            color: #00ff00;
+            padding: 30px;
+            border-radius: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 20px;
+            text-align: left;
+            margin: 20px 0;
+            border: 3px solid var(--ink);
+        }
+
+        .terminal-line {
+            margin-bottom: 10px;
+        }
+
+        .terminal-prompt {
+            color: #00ff00;
+        }
+
+        .terminal-command {
+            color: white;
+        }
+
+        .terminal-output {
+            color: #00ff00;
+        }
+
+        /* Resource Box */
+        .resource-box {
+            background: var(--light-gray);
+            border: 3px solid var(--dark-gray);
+            padding: 30px;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .resource-icon {
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="feed-grid">
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username"><i class="fa-brands fa-instagram"></i> @code_penguin</div>
+                <div class="slide-number">#1</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Seni Hilang!</div>
+                <h1>PROGRAMMING<br>OFFLINE</h1>
+                <div class="offline-visual">
+                    <div class="laptop"></div>
+                    <div class="wifi-off">📵</div>
+                    <div class="brain">🧠</div>
+                </div>
+                <div class="sketch-box">Seni Ngoding Tanpa Internet! 🚫🌐</div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-globe"></i> www.codepenguin.id</div>
+                <div class="cta-text">Kenapa? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: THE SITUATION -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#2</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Sering Terjadi!</div>
+                <h2>SAAT INTERNET<br>ILANG!</h2>
+
+                <div class="sketch-box dark">
+                    🚂 <strong>DI KERETA:</strong><br>
+                    <span style="font-size: 20px; font-weight: 400;">
+                    Perjalanan panjang, sinyal ilang<br>
+                    Laptop masih ada battery<br>
+                    Pengen ngoding!
+                    </span>
+                </div>
+
+                <div class="sketch-box blue">
+                    ⚡ <strong>LISTRIK MATI:</strong><br>
+                    <span style="font-size: 20px; font-weight: 400;">
+                    WiFi mati, modem mati<br>
+                    Tapi laptop masih nyala<br>
+                    Masih bisa ngoding beberapa jam!
+                    </span>
+                </div>
+
+                <p class="big-text">Gue <strong>TERPAKSA</strong> ngoding tanpa bantuan internet!</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">The Situation</div>
+                <div class="cta-text">Revelation? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: THE REVELATION -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#3</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Brutal Truth!</div>
+                <h2>SKILL CHECK<br>BRUTAL!</h2>
+
+                <div class="sketch-box red">
+                    🚫 <strong>NO INTERNET = NO HELP:</strong><br>
+                    <span style="font-size: 20px; font-weight: 400;">
+                    • No Stack Overflow<br>
+                    • No Reddit programming<br>
+                    • No Discord help<br>
+                    • No AI assistance<br>
+                    • No Google search!
+                    </span>
+                </div>
+
+                <div class="sketch-box dark">
+                    🧠 <strong>ONLY RESOURCES:</strong><br>
+                    <span style="font-size: 20px; font-weight: 400;">
+                    • Knowledge gue sendiri<br>
+                    • Intuition<br>
+                    • Man pages<br>
+                    • Source code di laptop!
+                    </span>
+                </div>
+
+                <p class="big-text">Gue tau <strong>SEBENARNYA</strong> seberapa jago gue!</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Brutal Truth</div>
+                <div class="cta-text">Skill Test? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: SKILL TEST -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#4</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Hasil Test!</div>
+                <h2>DOMAIN YANG<br>GUE JAGO</h2>
+
+                <div class="skill-comparison">
+                    <div class="skill-item mastered">
+                        ✅ <strong>GO WEB SERVER:</strong><br>
+                        Got it!<br>
+                        Bisa bikin dari nol<br>
+                        Tanpa bantuan!
+                    </div>
+                    <div class="skill-item lacking">
+                        ❌ <strong>CSS FRONTEND:</strong><br>
+                        Sucked!<br>
+                        Gak bisa bikin page bagus<br>
+                        Harus Googling!
+                    </div>
+                </div>
+
+                <div class="sketch-box yellow">
+                    📁 <strong>LIFE SAVER:</strong><br>
+                    <span style="font-size: 20px; font-weight: 400;">
+                    Thank God ada project CSS<br>
+                    di SSD gue buat referensi!<br>
+                    Copy-paste mode ON!
+                    </span>
+                </div>
+
+                <p class="big-text">Gue <strong>MASTER</strong> backend tapi <strong>NOOB</strong> frontend!</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Skill Reality</div>
+                <div class="cta-text">Deep Dive? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: DEEP DIVE -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#5</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">TUI Project!</div>
+                <h2>ODIN + C<br>INTERFACE</h2>
+
+                <div class="sketch-box blue">
+                    🖥️ <strong>THE PROJECT:</strong><br>
+                    <span style="font-size: 20px; font-weight: 400;">
+                    TUI (Terminal UI) di Odin<br>
+                    Bisa interface dengan C<br>
+                    Butuh termios library!
+                    </span>
+                </div>
+
+                <div class="terminal">
+                    <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-command">man termios</span></div>
+                    <div class="terminal-line"><span class="terminal-output">TERMIOS(3)               Linux Programmer's Manual</span></div>
+                    <div class="terminal-line"><span class="terminal-output">NAME</span></div>
+                    <div class="terminal-line"><span class="terminal-output">       termios - get and set terminal attributes, line discipline, etc.</span></div>
+                </div>
+
+                <p class="big-text">Man pages jadi <strong>BEST FRIEND</strong> gue!</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">System Resources</div>
+                <div class="cta-text">More Resources? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: SYSTEM RESOURCES -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#6</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Hidden Treasure!</div>
+                <h2>SYSTEM<br>RESOURCES</h2>
+
+                <div class="resource-box">
+                    <div class="resource-item">
+                        <div class="resource-icon">📚</div>
+                        <div>
+                            <strong>MAN PAGES:</strong><br>
+                            C standard library docs (sprintf, termios, exit)
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <div class="resource-icon">📁</div>
+                        <div>
+                            <strong>/USR/INCLUDE:</strong><br>
+                            All C header files used in the system!
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <div class="resource-icon">🔍</div>
+                        <div>
+                            <strong>SEARCH COMMANDS:</strong><br>
+                            man -k <topic> atau apropos <topic>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sketch-box green">
+                    💡 <strong>PRO TIP:</strong><br>
+                    <span style="font-size: 20px; font-weight: 400;">
+                    Install man-pages → run sudo mandb<br>
+                    Update search index biar efficient!
+                    </span>
+                </div>
+
+                <p class="big-text">Laptop gue jadi <strong>ENCYCLOPEDIA</strong> programming!</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Local Knowledge</div>
+                <div class="cta-text">The Feeling? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: THE FEELING -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#7</div>
+            </div>
+            <div class="content">
+                <div class="hand-note">Personal Banget!</div>
+                <h2>PROGRAMMING<br>FEELS PERSONAL</h2>
+
+                <div class="sketch-box dark">
+                    🤖 <strong>SELF-CONTAINED:</strong><br>
+                    <span style="font-size: 20px; font-weight: 400;">
+                    Working directly with machine<br>
+                    No external dependencies<br>
+                    Just me, laptop, and knowledge!
+                    </span>
+                </div>
+
+                <div class="sketch-box green">
+                    ⚡ <strong>SUPER EFFICIENT:</strong><br>
+                    <span style="font-size: 20px; font-weight: 400;">
+                    Learning this way so efficient<br>
+                    No distraction, no waiting<br>
+                    Pure focus on problem!
+                    </span>
+                </div>
+
+                <div class="sketch-box blue">
+                    <strong>GENUINE OWNERSHIP:</strong><br>
+                    <span style="font-size: 20px; font-weight: 400;">
+                    Every line written becomes<br>
+                    more genuinely mine!
+                    </span>
+                </div>
+
+                <p class="big-text">Gue merasa <strong>SEBENARNYA</strong> jadi programmer!</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Personal Connection</div>
+                <div class="cta-text">Conclusion? ➡️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: CONCLUSION -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#8</div>
+            </div>
+            <div class="content">
+                <h2>KESIMPULAN:<br>OFFLINE CODING</h2>
+
+                <div class="summary-box">
+                    <div class="summary-item">
+                        <i class="fa-solid fa-1"></i>
+                        <div><strong>True Skill Test:</strong> Offline programming reveals what you actually know vs what you Google!</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-2"></i>
+                        <div><strong>System Resources are Gold:</strong> Man pages, /usr/include, local projects are treasure troves!</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-3"></i>
+                        <div><strong>Personal Connection:</strong> Programming offline feels more intimate and self-contained!</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-4"></i>
+                        <div><strong>Efficient Learning:</strong> No distractions = deeper understanding and genuine ownership!</div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fa-solid fa-5"></i>
+                        <div><strong>Practice Activity:</strong> Even if impractical for work, it's amazing for skill sharpening!</div>
+                    </div>
+                </div>
+
+                <div class="hand-note" style="margin-top: 30px;">COBA NGODING OFFLINE, RASAKAN BEDANYA! 🚀</div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-bookmark"></i> Save & Share</div>
+                <div class="cta-text">@code_penguin</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
