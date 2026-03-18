@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golang Fundamentals Learning Roadmap Complete - Tiptap Style</title>
+  <style>
+    :root {
+      --page-bg: #f2efe8;
+      --editor-bg: #fcfbf8;
+      --toolbar-bg: #f5f2ea;
+      --text: #1f1f1b;
+      --muted: #666154;
+      --line: #d9d2c7;
+      --chip: #ece6da;
+      --chip-active: #d9cfbf;
+      --maxw: 920px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #f7f4ed, var(--page-bg));
+      color: var(--text);
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      line-height: 1.75;
+      padding: 28px 14px;
+    }
+
+    .editor-shell {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      background: var(--editor-bg);
+      box-shadow: 0 16px 48px rgba(65, 47, 22, 0.12);
+    }
+
+    .toolbar {
+      border-bottom: 1px solid var(--line);
+      background: var(--toolbar-bg);
+      padding: 10px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .actions {
+      border-bottom: 1px solid var(--line);
+      background: #f8f5ee;
+      padding: 10px 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .chip {
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 0.78rem;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--muted);
+      user-select: none;
+    }
+
+    .chip.active {
+      background: var(--chip-active);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .copy-btn {
+      border: 1px solid var(--line);
+      background: #efe8dc;
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    .copy-note {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .section-copy-btn {
+      margin: 0.25rem 0 0.55rem;
+    }
+
+    .copy-actions-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0.25rem 0 0.55rem;
+    }
+
+    .doc {
+      padding: 30px 24px 46px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    h1 {
+      margin: 10px 0 8px;
+      line-height: 1.25;
+      font-size: clamp(1.6rem, 2.6vw, 2.15rem);
+    }
+
+    .subtitle {
+      margin-top: 0;
+      color: #4b463d;
+      font-size: 1rem;
+    }
+
+    h2 {
+      margin-top: 1.4rem;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+      font-size: 1.28rem;
+    }
+
+    h3 {
+      margin-top: 1rem;
+      margin-bottom: 0.3rem;
+      font-size: 1.05rem;
+      color: #2e2a22;
+    }
+
+    p {
+      margin: 0.52rem 0;
+    }
+
+    ul, ol {
+      margin: 0.5rem 0 0.85rem 1.2rem;
+    }
+
+    .node {
+      border-top: 1px solid #e4ddcf;
+      padding-top: 12px;
+      margin-top: 14px;
+    }
+
+    .summary {
+      border: 1px solid #dfd6c5;
+      background: #f7f2e8;
+      padding: 12px 14px;
+      margin: 12px 0 16px;
+    }
+
+    .summary strong {
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    blockquote.callout {
+      border-left: 3px solid #9b8f7b;
+      margin: 0.7rem 0 0.95rem;
+      padding: 0.25rem 0.8rem;
+      color: #433d33;
+      background: #f8f4ec;
+    }
+
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border: 1px solid #2e2e2e;
+      border-left: 3px solid #9b8f7b;
+      padding: 10px 12px;
+      overflow-x: auto;
+      line-height: 1.55;
+      margin: 0.7rem 0 0.95rem;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.9rem;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+  <main class="editor-shell">
+    <div class="toolbar">
+      <span class="chip active">Paragraph</span>
+      <span class="chip">Heading</span>
+      <span class="chip">Bullet List</span>
+      <span class="chip">Ordered List</span>
+      <span class="chip">Code Block</span>
+      <span class="chip">Blockquote</span>
+    </div>
+
+    <div class="actions">
+      <button class="copy-btn" id="copyRichHtmlBtn" type="button">Copy Rich HTML for Tiptap</button>
+      <button class="copy-btn" id="copyTiptapSafeBtn" type="button">Copy Tiptap-Safe HTML</button>
+      <span class="copy-note" id="copyStatus">Copy ini, lalu paste ke Tiptap.</span>
+    </div>
+
+    <article class="doc">
+      <p class="meta">Tiptap Style Notes - Golang Fundamentals</p>
+      <h1>Golang Fundamentals Learning Roadmap Complete</h1>
+      <p class="subtitle">Belajar Go dari basic sampai siap bikin service backend, dibahas santai, runtut, dan tetap teknikal.</p>
+
+      <div class="summary">
+        <strong>Map Cepat Section:</strong>
+        <p>BAB A Introduction and Setup, BAB B Basic Syntax and Data, BAB C Control Flow and Functions, BAB D Arrays Slices Maps and Structs, BAB E Pointers Methods Interfaces, BAB F Error Handling Packages and Files, BAB G Concurrency with Goroutines and Channels, BAB H HTTP JSON and Testing, BAB I Suggested Path and Practice.</p>
+        <p>Sub-bab pakai format A.1, A.2, B.1, B.2, dan seterusnya.</p>
+      </div>
+
+      <section class="node section">
+        <h2>BAB A. Introduction and Setup</h2>
+
+        <h3>A.1 What is Go and Why It Matters</h3>
+        <p>Go adalah bahasa pemrograman yang didesain buat sederhana, cepat, dan gampang dipelihara. Filosofinya jelas: sintaks jangan ribet, performa tetap kencang, dan concurrency jadi warga kelas satu.</p>
+        <p>Di dunia kerja, Go sering dipilih buat backend service, microservices, CLI tool, dan sistem cloud karena build-nya cepat dan deployment-nya enak.</p>
+        <pre><code>package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Halo Go")
+}</code></pre>
+        <blockquote class="callout">Analogi: Go itu kayak motor harian yang sederhana, irit, tapi tetap kuat buat perjalanan jauh.</blockquote>
+
+        <h3>A.2 History and Philosophy of Go</h3>
+        <p>Go lahir di Google untuk ngatasin problem software skala besar: waktu compile lama, dependency ribet, dan maintenance codebase yang berat.</p>
+        <ul>
+          <li><strong>Simplicity</strong>: style coding dibuat konsisten.</li>
+          <li><strong>Performance</strong>: compiled language, native binary.</li>
+          <li><strong>Concurrency</strong>: goroutines dan channels built-in.</li>
+        </ul>
+        <pre><code>go version
+
+go env</code></pre>
+        <blockquote class="callout">Analogi: dibanding pisau Swiss army yang serba ada, Go lebih kayak pisau dapur utama yang fokus, tajam, dan dipakai tiap hari.</blockquote>
+
+        <h3>A.3 Installing Go and Environment Setup</h3>
+        <p>Setup minimum: install Go, pastikan PATH benar, lalu test program pertama. Untuk project modern, pakai module dari awal biar dependency rapi.</p>
+        <pre><code>go version
+
+mkdir belajar-go
+cd belajar-go
+go mod init belajar-go
+
+go run main.go</code></pre>
+        <blockquote class="callout">Analogi: sebelum masak, lo cek kompor nyala, gas aman, dan bahan sudah siap di meja.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB B. Basic Syntax and Data</h2>
+
+        <h3>B.1 Program Structure in Go</h3>
+        <p>Setiap program executable Go dimulai dari <strong>package main</strong> dan <strong>func main()</strong>. Import dipakai buat ngambil package standar atau package sendiri.</p>
+        <pre><code>package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Program dimulai")
+}</code></pre>
+        <blockquote class="callout">Analogi: package main itu pintu masuk venue, func main itu titik mulai acaranya.</blockquote>
+
+        <h3>B.2 Variables and Basic Data Types</h3>
+        <p>Di Go, lo bisa deklarasi variable pakai <strong>var</strong> atau shorthand <strong>:=</strong>. Tipe dasar yang paling sering dipakai: int, float64, bool, string.</p>
+        <pre><code>var umur int = 25
+kota := "Bandung"
+aktif := true
+nilai := 87.5
+
+fmt.Println(umur, kota, aktif, nilai)</code></pre>
+        <blockquote class="callout">Analogi: variable itu laci-laci penyimpanan, setiap laci punya label isi yang jelas.</blockquote>
+
+        <h3>B.3 Zero Values and Constants</h3>
+        <p>Kalau variable dideklarasi tanpa nilai awal, Go kasih zero value otomatis. Ini bikin behavior default lebih predictable.</p>
+        <ul>
+          <li>int jadi 0</li>
+          <li>bool jadi false</li>
+          <li>string jadi ""</li>
+        </ul>
+        <pre><code>var total int
+var isReady bool
+var nama string
+
+const appName = "BelajarGo"
+
+fmt.Println(total, isReady, nama, appName)</code></pre>
+        <blockquote class="callout">Analogi: kalau lo belum isi form, sistem tetap kasih nilai default biar alur gak rusak.</blockquote>
+
+        <h3>B.4 Type Conversion and Operators</h3>
+        <p>Go tegas soal tipe data, jadi conversion harus eksplisit. Operator standar dipakai buat hitung, bandingin, dan bikin logika.</p>
+        <pre><code>a := 10
+b := 3
+
+hasil := a + b
+isBesar := a &gt; b
+valid := (a &gt; 0) &amp;&amp; (b &gt; 0)
+
+rata := float64(a) / float64(b)
+
+fmt.Println(hasil, isBesar, valid, rata)</code></pre>
+        <blockquote class="callout">Analogi: barang beda ukuran harus disesuaikan dulu sebelum masuk rak yang sama.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB C. Control Flow and Functions</h2>
+
+        <h3>C.1 If Else and Switch</h3>
+        <p>Control flow dipakai buat ngatur jalur program berdasarkan kondisi. Go juga punya short statement di if yang sering kepake buat validasi cepat.</p>
+        <pre><code>nilai := 82
+
+if nilai &gt;= 85 {
+    fmt.Println("Grade A")
+} else if nilai &gt;= 70 {
+    fmt.Println("Grade B")
+} else {
+    fmt.Println("Perlu latihan")
+}
+
+switch {
+case nilai &gt;= 90:
+    fmt.Println("Excellent")
+case nilai &gt;= 75:
+    fmt.Println("Good")
+default:
+    fmt.Println("Keep learning")
+}</code></pre>
+        <blockquote class="callout">Analogi: kayak satpam parkir yang ngarahin kendaraan ke jalur beda sesuai kondisi lapangan.</blockquote>
+
+        <h3>C.2 Looping with For</h3>
+        <p>Go cuma punya satu keyword loop: <strong>for</strong>. Tapi bentuknya fleksibel, bisa gaya klasik, mirip while, sampai infinite loop.</p>
+        <pre><code>for i := 1; i &lt;= 3; i++ {
+    fmt.Println("for klasik", i)
+}
+
+n := 0
+for n &lt; 2 {
+    fmt.Println("for ala while", n)
+    n++
+}
+
+for {
+    fmt.Println("infinite loop")
+    break
+}</code></pre>
+        <blockquote class="callout">Analogi: satu remote bisa buat banyak fungsi, tinggal mode pemakaiannya yang beda.</blockquote>
+
+        <h3>C.3 Functions and Multiple Return Values</h3>
+        <p>Function di Go bisa ngembaliin lebih dari satu nilai. Ini fitur inti yang sering dipakai bareng error handling.</p>
+        <pre><code>func bagi(a int, b int) (int, int) {
+    return a / b, a % b
+}
+
+hasil, sisa := bagi(10, 3)
+fmt.Println(hasil, sisa)</code></pre>
+        <blockquote class="callout">Analogi: sekali transaksi bisa dapet struk dan kembalian sekaligus.</blockquote>
+
+        <h3>C.4 Variadic and Anonymous Functions</h3>
+        <p>Variadic function menerima jumlah argumen yang fleksibel. Anonymous function cocok buat operasi cepat atau callback kecil.</p>
+        <pre><code>func jumlah(nums ...int) int {
+    total := 0
+    for _, n := range nums {
+        total += n
+    }
+    return total
+}
+
+double := func(x int) int {
+    return x * 2
+}
+
+fmt.Println(jumlah(1, 2, 3, 4))
+fmt.Println(double(5))</code></pre>
+        <blockquote class="callout">Analogi: variadic itu kayak lo buka meja makan buat tamu jumlahnya bisa berubah-ubah.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB D. Arrays Slices Maps and Structs</h2>
+
+        <h3>D.1 Arrays and Slices Core Concept</h3>
+        <p>Array punya ukuran tetap, slice lebih fleksibel dan dipakai hampir di semua project Go. Memahami slice itu wajib kalau mau nyaman nulis Go.</p>
+        <pre><code>arr := [3]int{10, 20, 30}
+sl := []int{1, 2, 3}
+
+sl = append(sl, 4)
+
+fmt.Println(arr)
+fmt.Println(sl)
+fmt.Println(len(sl), cap(sl))</code></pre>
+        <blockquote class="callout">Analogi: array itu rak permanen, slice itu keranjang belanja yang bisa nambah isi.</blockquote>
+
+        <h3>D.2 Slice Operations and Range Iteration</h3>
+        <p>Lo bisa ambil bagian slice, iterasi pakai range, dan manfaatin len/cap buat baca kondisi data saat runtime.</p>
+        <pre><code>data := []string{"go", "python", "java", "rust"}
+
+subset := data[1:3]
+fmt.Println(subset)
+
+for idx, val := range data {
+    fmt.Println(idx, val)
+}</code></pre>
+        <blockquote class="callout">Analogi: kayak motong playlist jadi segmen favorit terus diputar ulang sesuai urutan.</blockquote>
+
+        <h3>D.3 Maps for Key Value Data</h3>
+        <p>Map dipakai untuk data berbasis pasangan key-value. Untuk akses data berdasarkan key, map jauh lebih efisien dibanding cari manual di slice.</p>
+        <pre><code>skor := map[string]int{
+    "Ayu": 92,
+    "Bima": 85,
+}
+
+skor["Citra"] = 88
+
+if val, ok := skor["Ayu"]; ok {
+    fmt.Println("Skor Ayu", val)
+}</code></pre>
+        <blockquote class="callout">Analogi: map itu buku kontak, lo cari langsung berdasarkan nama, bukan scroll semua daftar dulu.</blockquote>
+
+        <h3>D.4 Structs and Methods Basics</h3>
+        <p>Struct dipakai buat model data domain. Method pada struct bikin behavior nempel ke datanya, jadi kode lebih rapi.</p>
+        <pre><code>type User struct {
+    Name string
+    Age  int
+}
+
+func (u User) Intro() string {
+    return fmt.Sprintf("Halo, saya %s", u.Name)
+}
+
+u := User{Name: "Raka", Age: 24}
+fmt.Println(u.Intro())</code></pre>
+        <blockquote class="callout">Analogi: struct itu kartu profil pemain, method itu aksi yang bisa dilakukan pemain tersebut.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB E. Pointers Methods Interfaces</h2>
+
+        <h3>E.1 Pointer Fundamentals</h3>
+        <p>Pointer menyimpan alamat memori. Di Go pointer dipakai supaya perubahan data bisa langsung kena objek asli tanpa copy besar-besaran.</p>
+        <pre><code>x := 10
+p := &amp;x
+
+fmt.Println(x)
+fmt.Println(*p)
+
+*p = 20
+fmt.Println(x)</code></pre>
+        <blockquote class="callout">Analogi: pointer itu kayak share lokasi, bukan kirim ulang seluruh isi rumah.</blockquote>
+
+        <h3>E.2 Pointer to Struct and Mutating Data</h3>
+        <p>Untuk update field struct secara efisien, receiver pointer sering dipakai. Ini penting saat objek mulai besar atau sering diubah.</p>
+        <pre><code>type Account struct {
+    Name  string
+    Point int
+}
+
+func (a *Account) AddPoint(v int) {
+    a.Point += v
+}
+
+acc := Account{Name: "Nina", Point: 10}
+acc.AddPoint(5)
+fmt.Println(acc.Point)</code></pre>
+        <blockquote class="callout">Analogi: daripada fotokopi dokumen tiap revisi, mending edit langsung dokumen aslinya.</blockquote>
+
+        <h3>E.3 Interfaces and Implicit Implementation</h3>
+        <p>Go tidak butuh keyword khusus untuk implement interface. Selama struct punya method yang diminta interface, dia otomatis kompatibel.</p>
+        <pre><code>type Speaker interface {
+    Speak() string
+}
+
+type Cat struct{}
+
+func (Cat) Speak() string {
+    return "meong"
+}
+
+func say(s Speaker) {
+    fmt.Println(s.Speak())
+}
+
+say(Cat{})</code></pre>
+        <blockquote class="callout">Analogi: selama lo bisa memenuhi syarat masuk, lo boleh ikut pertandingan tanpa daftar label tambahan.</blockquote>
+
+        <h3>E.4 Polymorphism in Go Design</h3>
+        <p>Polymorphism di Go muncul lewat interface. Ini bikin desain lebih fleksibel dan gampang diuji, karena fungsi cukup bergantung pada perilaku, bukan tipe konkret.</p>
+        <pre><code>type Payment interface {
+    Pay(amount int) string
+}
+
+type Cash struct{}
+
+type EWallet struct{}
+
+func (Cash) Pay(amount int) string {
+    return fmt.Sprintf("Cash %d", amount)
+}
+
+func (EWallet) Pay(amount int) string {
+    return fmt.Sprintf("EWallet %d", amount)
+}</code></pre>
+        <blockquote class="callout">Analogi: kasir cuma peduli transaksi berhasil, mau bayar tunai atau dompet digital jalurnya tetap bisa diproses.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB F. Error Handling Packages and Files</h2>
+
+        <h3>F.1 Error Handling with if err != nil</h3>
+        <p>Go tidak pakai exception sebagai alur utama. Pola umum adalah return error lalu langsung cek dengan if err != nil.</p>
+        <pre><code>func divide(a int, b int) (int, error) {
+    if b == 0 {
+        return 0, fmt.Errorf("pembagi tidak boleh nol")
+    }
+    return a / b, nil
+}
+
+res, err := divide(10, 0)
+if err != nil {
+    fmt.Println("error:", err)
+    return
+}
+fmt.Println(res)</code></pre>
+        <blockquote class="callout">Analogi: tiap langkah kerja ada checklist. Kalau ada masalah, berhenti dulu dan lapor jelas, jangan pura-pura aman.</blockquote>
+
+        <h3>F.2 Custom Errors and Wrapping Context</h3>
+        <p>Custom error berguna saat domain butuh pesan yang lebih kaya. Error wrapping membantu jejak masalah tetap kebaca sampai level atas.</p>
+        <pre><code>var ErrNotFound = errors.New("data tidak ditemukan")
+
+func findUser(id int) error {
+    return fmt.Errorf("find user %d: %w", id, ErrNotFound)
+}</code></pre>
+        <blockquote class="callout">Analogi: bukan cuma bilang "barang hilang", tapi kasih konteks barang apa dan kejadian di mana.</blockquote>
+
+        <h3>F.3 Packages Modules and Standard Library</h3>
+        <p>Package dipakai buat membagi kode berdasarkan tanggung jawab. Module lewat go.mod ngunci dependency supaya build konsisten lintas mesin.</p>
+        <pre><code>go mod init contoh-app
+
+go get github.com/google/uuid
+
+go mod tidy</code></pre>
+        <blockquote class="callout">Analogi: package itu pembagian ruangan kerja, module itu buku inventaris resmi semua alat yang dipakai.</blockquote>
+
+        <h3>F.4 File Handling Basics</h3>
+        <p>Go punya package os dan io yang kuat buat baca tulis file. Untuk operasi simple, os.ReadFile dan os.WriteFile sudah cukup.</p>
+        <pre><code>content := []byte("belajar golang step by step")
+err := os.WriteFile("catatan.txt", content, 0644)
+if err != nil {
+    fmt.Println(err)
+    return
+}
+
+data, err := os.ReadFile("catatan.txt")
+if err != nil {
+    fmt.Println(err)
+    return
+}
+fmt.Println(string(data))</code></pre>
+        <blockquote class="callout">Analogi: tulis file itu kayak simpan nota ke arsip, baca file itu ngambil lagi arsip pas dibutuhkan.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB G. Concurrency with Goroutines and Channels</h2>
+
+        <h3>G.1 Goroutines Fundamentals</h3>
+        <p>Goroutine adalah fungsi yang jalan concurrent dengan biaya ringan. Ini alasan utama Go kuat di service yang butuh proses paralel banyak.</p>
+        <pre><code>func kerja(nama string) {
+    fmt.Println("mulai", nama)
+    time.Sleep(300 * time.Millisecond)
+    fmt.Println("selesai", nama)
+}
+
+go kerja("A")
+go kerja("B")
+time.Sleep(1 * time.Second)</code></pre>
+        <blockquote class="callout">Analogi: satu dapur dengan banyak koki yang bisa masak menu berbeda di waktu bareng.</blockquote>
+
+        <h3>G.2 Channels for Safe Communication</h3>
+        <p>Channel dipakai buat komunikasi antar goroutine tanpa rebutan data sembarangan. Ini bikin pola concurrent lebih aman dan mudah dipahami.</p>
+        <pre><code>ch := make(chan string)
+
+go func() {
+    ch &lt;- "pesan dari goroutine"
+}()
+
+msg := &lt;-ch
+fmt.Println(msg)</code></pre>
+        <blockquote class="callout">Analogi: channel itu jalur kirim paket resmi, jadi barang sampai ke tujuan tanpa lempar-lempar liar.</blockquote>
+
+        <h3>G.3 Buffered Channels and Select</h3>
+        <p>Buffered channel bisa menampung data sebelum dibaca. Select dipakai saat lo menunggu banyak channel sekaligus.</p>
+        <pre><code>ch1 := make(chan string, 1)
+ch2 := make(chan string, 1)
+
+ch1 &lt;- "dari ch1"
+ch2 &lt;- "dari ch2"
+
+select {
+case m1 := &lt;-ch1:
+    fmt.Println(m1)
+case m2 := &lt;-ch2:
+    fmt.Println(m2)
+default:
+    fmt.Println("belum ada pesan")
+}</code></pre>
+        <blockquote class="callout">Analogi: select itu seperti operator call center yang siap terima telepon dari beberapa jalur masuk.</blockquote>
+
+        <h3>G.4 Common Concurrency Pitfalls</h3>
+        <p>Yang sering bikin bug: deadlock, goroutine leak, dan race condition. Biasakan desain alur channel jelas dan tutup channel saat memang selesai dipakai.</p>
+        <pre><code>go test -race ./...</code></pre>
+        <ul>
+          <li>Hindari kirim ke channel yang tidak pernah dibaca.</li>
+          <li>Gunakan context untuk cancel operasi panjang.</li>
+          <li>Audit ownership data yang diakses banyak goroutine.</li>
+        </ul>
+        <blockquote class="callout">Analogi: kalau semua orang ngobrol bareng tanpa aturan giliran, rapat pasti chaos.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB H. HTTP JSON and Testing</h2>
+
+        <h3>H.1 Building Simple HTTP Server</h3>
+        <p>Package net/http cukup buat bikin server sederhana tanpa framework tambahan. Cocok buat paham fondasi web di Go.</p>
+        <pre><code>http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintln(w, "pong")
+})
+
+http.ListenAndServe(":8080", nil)</code></pre>
+        <blockquote class="callout">Analogi: net/http itu dapur dasar, lo sudah bisa buka warung tanpa dekor mewah dulu.</blockquote>
+
+        <h3>H.2 Routing and JSON Response</h3>
+        <p>Endpoint API umum akan kirim response JSON. Encoding decoding JSON jadi skill wajib backend Go.</p>
+        <pre><code>type Resp struct {
+    Message string `json:"message"`
+}
+
+http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(Resp{Message: "halo"})
+})</code></pre>
+        <blockquote class="callout">Analogi: JSON itu format paket standar, jadi sistem beda-beda tetap bisa saling paham isi kiriman.</blockquote>
+
+        <h3>H.3 JSON Decode with Struct Tags</h3>
+        <p>Struct tag memastikan field Go bisa match dengan key JSON yang biasanya snake_case atau lower case.</p>
+        <pre><code>type User struct {
+    FullName string `json:"full_name"`
+    Age      int    `json:"age"`
+}
+
+raw := []byte(`{"full_name":"Rani","age":24}`)
+var u User
+err := json.Unmarshal(raw, &amp;u)
+if err != nil {
+    fmt.Println(err)
+    return
+}
+fmt.Println(u.FullName, u.Age)</code></pre>
+        <blockquote class="callout">Analogi: struct tag itu label penerjemah biar format luar dan format internal bisa nyambung rapi.</blockquote>
+
+        <h3>H.4 Basic Unit Testing in Go</h3>
+        <p>Testing di Go ringan dan langsung kepake lewat package testing. Biasakan nulis test kecil sejak awal biar refactor lebih aman.</p>
+        <pre><code>// file: math_test.go
+func TestTambah(t *testing.T) {
+    got := tambah(2, 3)
+    want := 5
+
+    if got != want {
+        t.Fatalf("got %d want %d", got, want)
+    }
+}
+
+// jalankan:
+// go test ./...</code></pre>
+        <blockquote class="callout">Analogi: test itu quality check sebelum barang dikirim ke pelanggan.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB I. Suggested Path and Practice</h2>
+
+        <h3>I.1 Suggested Learning Path</h3>
+        <p>Biar belajarnya gak loncat-loncat, ini urutan yang paling masuk akal:</p>
+        <ol>
+          <li>Basics dulu: intro, syntax, variable, control flow, loop.</li>
+          <li>Naik ke function, slice, map, struct, interface.</li>
+          <li>Kuatkan error handling dan package module.</li>
+          <li>Masuk concurrency pelan-pelan sampai paham pola.</li>
+          <li>Tutup dengan HTTP, JSON, dan testing.</li>
+        </ol>
+        <blockquote class="callout">Analogi: jangan langsung main liga utama, bangun stamina dari latihan dasar yang konsisten.</blockquote>
+
+        <h3>I.2 Practice Project Ideas</h3>
+        <p>Project kecil yang realistis dan efektif buat ngunci konsep:</p>
+        <ul>
+          <li>CLI calculator dengan validasi input.</li>
+          <li>File processor untuk baca dan olah text log.</li>
+          <li>REST API CRUD sederhana.</li>
+          <li>Concurrent worker system untuk proses job batch.</li>
+        </ul>
+        <pre><code># contoh jalur latihan
+week1: basic + function
+week2: slice map struct
+week3: interface + error handling
+week4: goroutine channel + mini API</code></pre>
+        <blockquote class="callout">Analogi: skill ngoding itu kebentuk dari repetisi drill, bukan dari nonton teori doang.</blockquote>
+
+        <h3>I.3 Practical Tips for Fast Improvement</h3>
+        <ul>
+          <li>Fokus dulu kuasai slice, interface, dan error handling.</li>
+          <li>Tulis kode sedikit tapi rutin tiap hari.</li>
+          <li>Pahami dulu standar library sebelum buru-buru framework.</li>
+          <li>Biasakan profiling dan test saat project mulai gede.</li>
+        </ul>
+        <p>Kalau konsisten di fondasi ini, transisi ke production-grade service bakal jauh lebih mulus.</p>
+        <blockquote class="callout">Analogi: pemain yang latihan dasar bener biasanya lebih stabil pas tanding dibanding yang cuma jago trik.</blockquote>
+
+        <div class="summary">
+          <strong>Kesimpulan:</strong> Kekuatan Go ada di kombinasi simplicity, performa, dan concurrency. Kuasai fondasi dulu, lalu naik bertahap ke API dan project concurrent. Dengan pola latihan terarah, skill Go lo bakal cepat matang dan siap dipakai di kerjaan nyata.
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <script>
+    const copyBtn = document.getElementById("copyRichHtmlBtn");
+    const copySafeBtn = document.getElementById("copyTiptapSafeBtn");
+    const copyStatus = document.getElementById("copyStatus");
+    const docNode = document.querySelector(".doc");
+    const COPY_BUTTON_SELECTOR = ".section-copy-btn, .bab-copy-btn, .sub-copy-btn, .copy-actions-inline";
+
+    function unwrapElement(el) {
+      const parent = el.parentNode;
+      if (!parent) return;
+      while (el.firstChild) {
+        parent.insertBefore(el.firstChild, el);
+      }
+      parent.removeChild(el);
+    }
+
+    function buildTiptapSafeHtml() {
+      const clone = docNode.cloneNode(true);
+
+      clone.querySelectorAll(COPY_BUTTON_SELECTOR).forEach((el) => el.remove());
+      clone.querySelectorAll(".meta, h1, .subtitle").forEach((el) => el.remove());
+
+      clone.querySelectorAll(".summary").forEach((el) => {
+        const p = document.createElement("p");
+        p.innerHTML = el.innerHTML;
+        el.replaceWith(p);
+      });
+
+      clone.querySelectorAll("section, .node, div").forEach((el) => unwrapElement(el));
+
+      const allowed = new Set(["H2", "H3", "P", "UL", "OL", "LI", "STRONG", "EM", "BR", "BLOCKQUOTE", "PRE", "CODE"]);
+
+      const walker = document.createTreeWalker(clone, NodeFilter.SHOW_ELEMENT, null);
+      const toRemove = [];
+      while (walker.nextNode()) {
+        const el = walker.currentNode;
+        if (!allowed.has(el.tagName)) {
+          toRemove.push(el);
+        }
+      }
+
+      toRemove.forEach((el) => unwrapElement(el));
+
+      clone.querySelectorAll("*").forEach((el) => {
+        Array.from(el.attributes).forEach((attr) => el.removeAttribute(attr.name));
+      });
+
+      return clone.innerHTML.trim();
+    }
+
+    function buildCleanHtmlFromNode(node) {
+      const clone = node.cloneNode(true);
+      clone.querySelectorAll(COPY_BUTTON_SELECTOR).forEach((el) => el.remove());
+      return clone.innerHTML.trim();
+    }
+
+    function buildSubBabTextHtml(h3) {
+      const wrapper = document.createElement("div");
+      let current = h3.nextElementSibling;
+
+      while (current) {
+        if (current.tagName === "H3") break;
+        if (!current.matches(COPY_BUTTON_SELECTOR)) {
+          wrapper.appendChild(current.cloneNode(true));
+        }
+        current = current.nextElementSibling;
+      }
+
+      return wrapper.innerHTML.trim();
+    }
+
+    function getSubCode(h3Text) {
+      const match = h3Text.match(/^([A-Z]\.[0-9]+)/);
+      return match ? match[1] : h3Text;
+    }
+
+    function injectCopyButtons() {
+      docNode.querySelectorAll("section.node").forEach((section) => {
+        const h2 = section.querySelector("h2");
+        if (!h2) return;
+
+        const babButton = document.createElement("button");
+        babButton.type = "button";
+        babButton.className = "copy-btn section-copy-btn bab-copy-btn";
+        babButton.textContent = "Copy " + h2.textContent.trim();
+        babButton.addEventListener("click", () => {
+          copyHtml(buildCleanHtmlFromNode(section), h2.textContent.trim());
+        });
+        h2.insertAdjacentElement("afterend", babButton);
+
+        const h3List = section.querySelectorAll("h3");
+        h3List.forEach((h3) => {
+          const fullTitle = h3.textContent.trim();
+          const shortCode = getSubCode(fullTitle);
+
+          const row = document.createElement("div");
+          row.className = "copy-actions-inline sub-copy-btn";
+
+          const btnJudul = document.createElement("button");
+          btnJudul.type = "button";
+          btnJudul.className = "copy-btn section-copy-btn";
+          btnJudul.textContent = "Judul " + shortCode;
+          btnJudul.title = "Copy judul: " + fullTitle;
+          btnJudul.addEventListener("click", () => {
+            const titleOnly = fullTitle.replace(/^[A-Z]\.[0-9]+\s*/, "");
+            copyHtml("<h3>" + titleOnly + "</h3>", "Judul " + shortCode);
+          });
+
+          const btnIsi = document.createElement("button");
+          btnIsi.type = "button";
+          btnIsi.className = "copy-btn section-copy-btn";
+          btnIsi.textContent = "Isi " + shortCode;
+          btnIsi.title = "Copy seluruh isi dari " + fullTitle;
+          btnIsi.addEventListener("click", () => {
+            const isiHtml = buildSubBabTextHtml(h3);
+            if (!isiHtml) {
+              copyStatus.textContent = shortCode + " tidak punya isi.";
+              return;
+            }
+            copyHtml(isiHtml, "Isi " + shortCode);
+          });
+
+          const btnSub = document.createElement("button");
+          btnSub.type = "button";
+          btnSub.className = "copy-btn section-copy-btn";
+          btnSub.textContent = shortCode;
+          btnSub.title = "Copy kode sub: " + shortCode;
+          btnSub.addEventListener("click", async () => {
+            try {
+              await navigator.clipboard.writeText(shortCode);
+              copyStatus.textContent = shortCode + " copied.";
+            } catch (err) {
+              copyStatus.textContent = "Gagal copy " + shortCode + ".";
+            }
+          });
+
+          row.appendChild(btnSub);
+          row.appendChild(btnJudul);
+          row.appendChild(btnIsi);
+          h3.insertAdjacentElement("afterend", row);
+        });
+      });
+    }
+
+    async function copyHtml(content, label) {
+      try {
+        const plain = content
+          .replace(/<\/?[^>]+(>|$)/g, "")
+          .replace(/\n{3,}/g, "\n\n")
+          .trim();
+
+        if (window.ClipboardItem) {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              "text/html": new Blob([content], { type: "text/html" }),
+              "text/plain": new Blob([plain], { type: "text/plain" })
+            })
+          ]);
+        } else {
+          await navigator.clipboard.writeText(content);
+        }
+
+        copyStatus.textContent = label + " copied. Tinggal paste ke Tiptap.";
+      } catch (err) {
+        copyStatus.textContent = "Gagal copy otomatis. Coba manual copy.";
+        console.error(err);
+      }
+    }
+
+    copyBtn.addEventListener("click", () => {
+      const clone = docNode.cloneNode(true);
+      clone.querySelectorAll(COPY_BUTTON_SELECTOR).forEach((el) => el.remove());
+      copyHtml(clone.innerHTML.trim(), "Rich HTML");
+    });
+
+    copySafeBtn.addEventListener("click", () => {
+      copyHtml(buildTiptapSafeHtml(), "Tiptap-Safe HTML");
+    });
+
+    injectCopyButtons();
+  </script>
+</body>
+</html>

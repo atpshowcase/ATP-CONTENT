@@ -1,85 +1,184 @@
-# System Design Fundamentals
-> Materi lengkap system design dari dasar sampai praktik, cocok untuk interview prep maupun real-world project.
+# 📘 Next.js Fundamentals – Learning Roadmap
+
+## 🟢 1. Introduction to Next.js
+- What is Next.js?
+- Why use Next.js over React?
+- Key features:
+  - File-based routing
+  - Server-side rendering (SSR)
+  - Static site generation (SSG)
+  - API routes
+- When to use Next.js
 
 ---
 
-## 1. Introduction
-- 1.1 What is System Design
-- 1.2 Why It Matters
-- 1.3 History and Evolution
-
-## 2. Requirements
-- 2.1 Functional Requirements
-- 2.2 Non-Functional Requirements
-- 2.3 Estimating Scale
-
-## 3. High-Level Design
-- 3.1 System Overview
-- 3.2 Components & Data Flow
-- 3.3 Tech Stack Basics
-
-## 4. API Design
-- 4.1 REST Basics
-- 4.2 Endpoints & Structure
-- 4.3 Versioning & Rate Limiting
-
-## 5. Data Design
-- 5.1 SQL vs NoSQL
-- 5.2 Schema Design
-- 5.3 Indexing & Partitioning
-
-## 6. Scalability
-- 6.1 Vertical vs Horizontal Scaling
-- 6.2 Load Balancing
-- 6.3 Stateless Systems
-
-## 7. Caching
-- 7.1 Purpose of Caching
-- 7.2 Cache Strategies
-- 7.3 Cache Invalidation
-
-## 8. Asynchronous Systems
-- 8.1 Sync vs Async
-- 8.2 Message Queues
-- 8.3 Background Jobs
-
-## 9. Reliability
-- 9.1 Fault Tolerance
-- 9.2 Failover
-- 9.3 Retry & Circuit Breaker
-
-## 10. Performance
-- 10.1 Latency & Throughput
-- 10.2 Query Optimization
-
-## 11. Security
-- 11.1 Authentication & Authorization
-- 11.2 Data Protection
-
-## 12. Monitoring
-- 12.1 Logging
-- 12.2 Metrics & Alerts
-
-## 13. Deployment
-- 13.1 CI/CD Basics
-- 13.2 Containers & Cloud
-
-## 14. Trade-offs
-- 14.1 CAP Theorem
-- 14.2 Consistency vs Availability
-- 14.3 Cost vs Performance
-
-## 15. Real Examples
-- 15.1 URL Shortener
-- 15.2 Chat System
-- 15.3 E-commerce System
+## 🟢 2. Project Setup
+- Creating Next.js app (`create-next-app`)
+- Project structure overview
+- Running development server
+- Build & production
 
 ---
 
-## 16. Summary
-- Key Takeaways
+## 🟢 3. File-Based Routing
+> ⭐ Core Feature
+
+- Pages & routing system
+- Dynamic routes (`[id].js`)
+- Nested routes
+- Linking between pages (`Link`)
 
 ---
+
+## 🟢 4. Layouts & Structure
+- Layout pattern
+- Shared UI (Navbar, Footer)
+- App Router vs Pages Router (intro)
+
+---
+
+## 🟢 5. Components in Next.js
+- Reusing React components
+- Server vs Client Components (intro)
+- Component organization
+
+---
+
+## 🟢 6. Styling in Next.js
+- Global CSS
+- CSS Modules
+- Tailwind CSS (common usage)
+- Styled components (optional)
+
+---
+
+## 🟢 7. Data Fetching
+> 🔥 Very Important
+
+- `getStaticProps` (SSG)
+- `getServerSideProps` (SSR)
+- Client-side fetching
+- When to use each method
+
+---
+
+## 🟢 8. API Routes (Backend inside Next.js)
+> ⭐ Fullstack feature
+
+- Creating API routes
+- Handling requests & responses
+- Basic CRUD operations
+
+---
+
+## 🟢 9. Rendering Strategies
+> 🔥 Core Concept
+
+- CSR (Client-Side Rendering)
+- SSR (Server-Side Rendering)
+- SSG (Static Site Generation)
+- ISR (Incremental Static Regeneration)
+
+---
+
+## 🟢 10. Dynamic Routing & Params
+- Route parameters
+- Catch-all routes
+- Using params in pages
+
+---
+
+## 🟢 11. Middleware (Basic)
+- What is middleware?
+- Request interception
+- Authentication basics
+
+---
+
+## 🟢 12. Image Optimization
+- `next/image`
+- Automatic optimization
+- Lazy loading
+
+---
+
+## 🟢 13. SEO Optimization
+- Meta tags
+- `next/head`
+- Open Graph
+- Why SEO matters
+
+---
+
+## 🟢 14. Authentication (Basic)
+- Login system concept
+- Session vs token
+- Intro to auth libraries (e.g., NextAuth)
+
+---
+
+## 🟢 15. Environment Variables
+- `.env.local`
+- Managing secrets
+- Using env variables in app
+
+---
+
+## 🟢 16. Deployment
+- Build process
+- Deploy to Vercel
+- Environment setup
+
+---
+
+## 🟢 17. Performance Optimization
+- Code splitting
+- Lazy loading
+- Caching strategies
+
+---
+
+## 🟢 18. Error Handling
+- Custom error pages
+- Handling API errors
+- Fallback UI
+
+---
+
+## 🟢 19. Advanced Concepts (Optional)
+- App Router (deep dive)
+- Server Actions
+- Streaming & Suspense
+- Edge functions
+
+---
+
+# 🧠 Suggested Learning Path
+
+1. Basics → (1–3) ⭐  
+2. Layout & Components → (4–5)  
+3. Data Fetching → (7–9) 🔥  
+4. API Routes → (8) ⭐  
+5. SEO & Optimization → (12–13)  
+6. Deployment → (16)
+
+---
+
+# 💡 Practice Ideas
+
+- Blog Website (SSG + SEO)
+- Dashboard App (SSR)
+- Fullstack CRUD App (API routes)
+- Portfolio Website (Next.js + SEO)
+
+---
+
+# 🚀 Tips
+
+- Understand rendering strategies deeply (CSR vs SSR vs SSG)
+- Use Next.js for real-world projects
+- Practice API routes (this is where you become fullstack)
+- Combine with React knowledge (Next.js = React + features)
 
 ## Prompt Final (Siap Pakai)
 Baca file `read.md`, lalu kerjakan ini:

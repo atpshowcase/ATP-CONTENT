@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSharp Fundamentals Learning Roadmap Complete - Tiptap Style</title>
+  <style>
+    :root {
+      --page-bg: #f2efe8;
+      --editor-bg: #fcfbf8;
+      --toolbar-bg: #f5f2ea;
+      --text: #1f1f1b;
+      --muted: #666154;
+      --line: #d9d2c7;
+      --chip: #ece6da;
+      --chip-active: #d9cfbf;
+      --maxw: 920px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #f7f4ed, var(--page-bg));
+      color: var(--text);
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      line-height: 1.75;
+      padding: 28px 14px;
+    }
+
+    .editor-shell {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      background: var(--editor-bg);
+      box-shadow: 0 16px 48px rgba(65, 47, 22, 0.12);
+    }
+
+    .toolbar {
+      border-bottom: 1px solid var(--line);
+      background: var(--toolbar-bg);
+      padding: 10px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .actions {
+      border-bottom: 1px solid var(--line);
+      background: #f8f5ee;
+      padding: 10px 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .chip {
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 0.78rem;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--muted);
+      user-select: none;
+    }
+
+    .chip.active {
+      background: var(--chip-active);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .copy-btn {
+      border: 1px solid var(--line);
+      background: #efe8dc;
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    .copy-note {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .section-copy-btn {
+      margin: 0.25rem 0 0.55rem;
+    }
+
+    .copy-actions-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0.25rem 0 0.55rem;
+    }
+
+    .doc {
+      padding: 30px 24px 46px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    h1 {
+      margin: 10px 0 8px;
+      line-height: 1.25;
+      font-size: clamp(1.6rem, 2.6vw, 2.15rem);
+    }
+
+    .subtitle {
+      margin-top: 0;
+      color: #4b463d;
+      font-size: 1rem;
+    }
+
+    h2 {
+      margin-top: 1.4rem;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+      font-size: 1.28rem;
+    }
+
+    h3 {
+      margin-top: 1rem;
+      margin-bottom: 0.3rem;
+      font-size: 1.05rem;
+      color: #2e2a22;
+    }
+
+    p {
+      margin: 0.52rem 0;
+    }
+
+    ul, ol {
+      margin: 0.5rem 0 0.85rem 1.2rem;
+    }
+
+    .node {
+      border-top: 1px solid #e4ddcf;
+      padding-top: 12px;
+      margin-top: 14px;
+    }
+
+    .summary {
+      border: 1px solid #dfd6c5;
+      background: #f7f2e8;
+      padding: 12px 14px;
+      margin: 12px 0 16px;
+    }
+
+    .summary strong {
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    blockquote.callout {
+      border-left: 3px solid #9b8f7b;
+      margin: 0.7rem 0 0.95rem;
+      padding: 0.25rem 0.8rem;
+      color: #433d33;
+      background: #f8f4ec;
+    }
+
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border: 1px solid #2e2e2e;
+      border-left: 3px solid #9b8f7b;
+      padding: 10px 12px;
+      overflow-x: auto;
+      line-height: 1.55;
+      margin: 0.7rem 0 0.95rem;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.9rem;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+  <main class="editor-shell">
+    <div class="toolbar">
+      <span class="chip active">Paragraph</span>
+      <span class="chip">Heading</span>
+      <span class="chip">Bullet List</span>
+      <span class="chip">Ordered List</span>
+      <span class="chip">Code Block</span>
+      <span class="chip">Blockquote</span>
+    </div>
+
+    <div class="actions">
+      <button class="copy-btn" id="copyRichHtmlBtn" type="button">Copy Rich HTML for Tiptap</button>
+      <button class="copy-btn" id="copyTiptapSafeBtn" type="button">Copy Tiptap-Safe HTML</button>
+      <span class="copy-note" id="copyStatus">Copy ini, lalu paste ke Tiptap.</span>
+    </div>
+
+    <article class="doc">
+      <p class="meta">Tiptap Style Notes - CSharp Fundamentals</p>
+      <h1>CSharp Fundamentals Learning Roadmap Complete</h1>
+      <p class="subtitle">Materi C# dari nol sampai siap lanjut ke Web API, dibahas gaya tongkrongan yang tetap runut dan profesional.</p>
+
+      <div class="summary">
+        <strong>Map Cepat Section:</strong>
+        <p>BAB A Introduction to CSharp, BAB B Basic Syntax and Structure, BAB C Variables and Basic Logic, BAB D Methods and Collections, BAB E OOP and Design Foundation, BAB F Error Handling and Data Processing, BAB G Async and Project Structure, BAB H Web Direction and Next Steps.</p>
+        <p>Sub-bab pakai format A.1, A.2, B.1, B.2, dan seterusnya.</p>
+      </div>
+
+      <section class="node section">
+        <h2>BAB A. Introduction to CSharp</h2>
+
+        <h3>A.1 What is CSharp</h3>
+        <p>CSharp adalah bahasa pemrograman modern dari Microsoft yang jalan di atas platform .NET. Bahasa ini kuat buat bikin aplikasi bisnis, API, desktop app, sampai game.</p>
+        <p>Kenapa banyak dipakai? Karena sintaksnya rapi, tooling-nya matang, dan ekosistem library-nya luas banget buat kebutuhan real project.</p>
+        <pre><code>// Program C# paling basic
+Console.WriteLine("Halo CSharp");</code></pre>
+        <blockquote class="callout">Analogi: CSharp itu kayak kendaraan serbaguna. Mau dipakai ngangkut barang, antar orang, atau perjalanan jauh, semua ada paket fiturnya.</blockquote>
+
+        <h3>A.2 History and Ecosystem of .NET</h3>
+        <p>.NET dulu identik dengan Windows, tapi sekarang sudah cross-platform. Lo bisa develop dan deploy di Windows, Linux, dan macOS.</p>
+        <ul>
+          <li><strong>.NET SDK</strong> buat build dan run aplikasi.</li>
+          <li><strong>NuGet</strong> buat dependency management.</li>
+          <li><strong>ASP.NET Core</strong> buat web development.</li>
+        </ul>
+        <pre><code>dotnet --info
+
+dotnet --list-sdks</code></pre>
+        <blockquote class="callout">Analogi: dulu tokonya cuma buka di satu kota, sekarang sudah buka cabang di banyak kota dengan standar layanan yang sama.</blockquote>
+
+        <h3>A.3 Where CSharp is Used</h3>
+        <p>Di dunia kerja, CSharp dipakai di banyak area:</p>
+        <ul>
+          <li>Web backend dan Web API (ASP.NET Core).</li>
+          <li>Desktop app internal perusahaan.</li>
+          <li>Game development pakai Unity.</li>
+          <li>Background service, worker, dan automation script.</li>
+        </ul>
+        <pre><code>// contoh endpoint minimal API
+app.MapGet("/ping", () =&gt; "pong");</code></pre>
+        <blockquote class="callout">Analogi: satu skill yang bisa dipakai di banyak medan, dari warung kecil sampai pabrik besar.</blockquote>
+
+        <h3>A.4 Installing Tools</h3>
+        <p>Setup minimal biar langsung ngoding:</p>
+        <ol>
+          <li>Install .NET SDK versi stabil terbaru.</li>
+          <li>Pilih editor: Visual Studio atau VS Code.</li>
+          <li>Test buat project baru dan jalankan.</li>
+        </ol>
+        <pre><code>dotnet new console -n HelloCSharp
+cd HelloCSharp
+dotnet run</code></pre>
+        <blockquote class="callout">Analogi: sebelum masak, pastikan kompor, gas, dan alat dapur semua siap dulu.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB B. Basic Syntax and Structure</h2>
+
+        <h3>B.1 Structure of a CSharp Program</h3>
+        <p>Program CSharp modern bisa super singkat (top-level statements), tapi konsep dasarnya tetap sama: ada namespace, class (opsional di template modern), dan entry point aplikasi.</p>
+        <pre><code>using System;
+
+Console.WriteLine("Program dimulai");</code></pre>
+        <blockquote class="callout">Analogi: rumah bisa model minimalis, tapi tetap ada pintu masuk, ruang utama, dan jalur listrik.</blockquote>
+
+        <h3>B.2 Main Method and Program Entry</h3>
+        <p>Di versi klasik, aplikasi console mulai dari method <strong>Main()</strong>. Ini titik pertama yang dieksekusi runtime.</p>
+        <pre><code>class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Masuk Main");
+    }
+}</code></pre>
+        <blockquote class="callout">Analogi: Main itu pintu gerbang. Semua alur masuk dari sana dulu.</blockquote>
+
+        <h3>B.3 Namespaces and Comments</h3>
+        <p><strong>Namespace</strong> dipakai buat ngelompokin kode biar gak tabrakan nama. Comment dipakai buat kasih konteks penting, bukan ngulang hal yang sudah jelas.</p>
+        <pre><code>namespace BelajarDasar;
+
+// Ini komentar satu baris
+/*
+   Ini komentar multi baris
+*/</code></pre>
+        <blockquote class="callout">Analogi: namespace itu kayak alamat RT/RW. Nama orang bisa sama, tapi alamat beda bikin tetap jelas.</blockquote>
+
+        <h3>B.4 Basic Input and Output</h3>
+        <p>Input output dasar di console dipakai buat latihan logic awal.</p>
+        <pre><code>Console.Write("Nama kamu: ");
+string nama = Console.ReadLine() ?? "Anon";
+Console.WriteLine($"Halo, {nama}");</code></pre>
+        <blockquote class="callout">Analogi: ini kayak kasir yang nanya nama pelanggan lalu panggil sesuai data yang masuk.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB C. Variables and Basic Logic</h2>
+
+        <h3>C.1 Variables and Data Types</h3>
+        <p>Variabel itu tempat nyimpen data. Di CSharp ada value type dan reference type.</p>
+        <ul>
+          <li><strong>Value type</strong>: int, double, bool, char.</li>
+          <li><strong>Reference type</strong>: string, object, class.</li>
+        </ul>
+        <pre><code>int umur = 24;
+double tinggi = 172.5;
+bool aktif = true;
+char grade = 'A';
+string nama = "Raka";</code></pre>
+        <blockquote class="callout">Analogi: value type itu kayak uang tunai di dompet sendiri, reference type kayak kartu akses ke loker.</blockquote>
+
+        <h3>C.2 Type Casting and var Keyword</h3>
+        <p>Cast dipakai saat lo pindah tipe data. Implicit casting aman kalau gak ada risiko kehilangan data, explicit casting harus sadar konsekuensinya.</p>
+        <pre><code>int angka = 10;
+double implicitCast = angka;
+
+double harga = 12.9;
+int explicitCast = (int)harga;
+
+var kota = "Jakarta"; // compiler infer string</code></pre>
+        <blockquote class="callout">Analogi: pindah barang dari truk besar ke motor perlu sortir dulu, gak semua barang bisa dibawa utuh.</blockquote>
+
+        <h3>C.3 Operators</h3>
+        <p>Operator dipakai buat ngitung, ngebandingin, dan nyusun logika keputusan.</p>
+        <pre><code>int a = 8;
+int b = 3;
+
+int total = a + b;
+bool lebihBesar = a &gt; b;
+bool valid = (a &gt; 0) &amp;&amp; (b &gt; 0);
+a++;</code></pre>
+        <blockquote class="callout">Analogi: operator itu alat kerja di bengkel, ada kunci buat buka baut, ada alat ukur buat cek hasil.</blockquote>
+
+        <h3>C.4 Control Flow</h3>
+        <p>Control flow ngatur arah program berdasarkan kondisi.</p>
+        <pre><code>int nilai = 78;
+
+if (nilai &gt;= 85)
+{
+    Console.WriteLine("A");
+}
+else if (nilai &gt;= 70)
+{
+    Console.WriteLine("B");
+}
+else
+{
+    Console.WriteLine("Perlu latihan lagi");
+}</code></pre>
+        <blockquote class="callout">Analogi: satpam parkir ngarahin kendaraan berdasarkan kondisi lahan yang lagi tersedia.</blockquote>
+
+        <h3>C.5 Looping</h3>
+        <p>Loop dipakai saat lo perlu ngulang aksi berkali-kali tanpa nulis kode berulang.</p>
+        <pre><code>for (int i = 1; i &lt;= 3; i++)
+{
+    Console.WriteLine($"Loop for ke-{i}");
+}
+
+int n = 0;
+while (n &lt; 2)
+{
+    Console.WriteLine("Loop while");
+    n++;
+}</code></pre>
+        <blockquote class="callout">Analogi: kayak barista bikin 20 gelas kopi, prosesnya sama tapi jumlahnya banyak.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB D. Methods and Collections</h2>
+
+        <h3>D.1 Declaring Methods and Return Types</h3>
+        <p>Method bikin kode lebih modular dan gampang diuji. Kalau gak butuh nilai balik pakai <strong>void</strong>, kalau butuh hasil pakai return type.</p>
+        <pre><code>static void Sapa(string nama)
+{
+    Console.WriteLine($"Halo {nama}");
+}
+
+static int Tambah(int x, int y)
+{
+    return x + y;
+}</code></pre>
+        <blockquote class="callout">Analogi: method itu SOP kerja. Tinggal panggil prosedurnya, hasilnya konsisten.</blockquote>
+
+        <h3>D.2 Overloading and Optional Parameters</h3>
+        <p>Overloading bikin satu nama method bisa punya beberapa variasi parameter. Optional dan named parameter bikin pemanggilan lebih fleksibel.</p>
+        <pre><code>static int Hitung(int a, int b) =&gt; a + b;
+static int Hitung(int a, int b, int c) =&gt; a + b + c;
+
+static void Cetak(string teks, int repeat = 1)
+{
+    for (int i = 0; i &lt; repeat; i++)
+    {
+        Console.WriteLine(teks);
+    }
+}
+
+Cetak(teks: "Belajar CSharp", repeat: 2);</code></pre>
+        <blockquote class="callout">Analogi: menu paket bisa ukuran kecil atau besar, nama menu sama tapi isi beda.</blockquote>
+
+        <h3>D.3 Arrays and Multidimensional Arrays</h3>
+        <p>Array cocok saat ukuran data relatif tetap. Buat data tabel, bisa pakai multidimensional array.</p>
+        <pre><code>int[] angka = { 10, 20, 30 };
+int[,] matrix =
+{
+    { 1, 2 },
+    { 3, 4 }
+};
+
+Console.WriteLine(matrix[1, 0]); // 3</code></pre>
+        <blockquote class="callout">Analogi: array itu rak dengan slot bernomor, jadi lo ambil barang berdasarkan nomor slot.</blockquote>
+
+        <h3>D.4 List and Dictionary</h3>
+        <p><strong>List&lt;T&gt;</strong> dipakai kalau jumlah data dinamis. <strong>Dictionary&lt;TKey, TValue&gt;</strong> dipakai kalau lo butuh lookup cepat berdasarkan key.</p>
+        <pre><code>var daftarNama = new List&lt;string&gt; { "Ayu", "Bima" };
+daftarNama.Add("Citra");
+
+var skor = new Dictionary&lt;string, int&gt;
+{
+    ["Ayu"] = 90,
+    ["Bima"] = 85
+};
+
+Console.WriteLine(skor["Ayu"]);</code></pre>
+        <blockquote class="callout">Analogi: list itu antrean orang, dictionary itu buku kontak dengan nama sebagai kunci.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB E. OOP and Design Foundation</h2>
+
+        <h3>E.1 Classes, Objects, Properties, Fields, Constructors</h3>
+        <p>Class adalah cetak biru, object adalah instansinya. Field biasanya dipakai internal class, property dipakai sebagai akses terkontrol dari luar.</p>
+        <pre><code>class Mahasiswa
+{
+    private string _nim;
+    public string Nama { get; set; }
+
+    public Mahasiswa(string nim, string nama)
+    {
+        _nim = nim;
+        Nama = nama;
+    }
+}</code></pre>
+        <blockquote class="callout">Analogi: class itu blueprint rumah, object itu rumah yang benar-benar dibangun.</blockquote>
+
+        <h3>E.2 Encapsulation</h3>
+        <p>Encapsulation artinya lo sembunyikan detail internal dan kasih akses via antarmuka yang aman.</p>
+        <pre><code>class Dompet
+{
+    private decimal _saldo;
+
+    public void TopUp(decimal nominal)
+    {
+        if (nominal &lt;= 0) return;
+        _saldo += nominal;
+    }
+
+    public decimal LihatSaldo() =&gt; _saldo;
+}</code></pre>
+        <blockquote class="callout">Analogi: kasir gak kasih lo pegang laci uang langsung, tapi kasih jalur resmi buat transaksi.</blockquote>
+
+        <h3>E.3 Inheritance, Polymorphism, Abstraction</h3>
+        <p>Inheritance buat nurunin behavior, polymorphism buat perlakuan berbeda dari kontrak sama, abstraction buat fokus ke hal penting tanpa expose detail rumit.</p>
+        <pre><code>abstract class Hewan
+{
+    public abstract void Suara();
+}
+
+class Kucing : Hewan
+{
+    public override void Suara() =&gt; Console.WriteLine("Meong");
+}
+
+Hewan h = new Kucing();
+h.Suara();</code></pre>
+        <blockquote class="callout">Analogi: semua kendaraan punya method "jalan", tapi cara jalannya beda antara motor, mobil, dan kereta.</blockquote>
+
+        <h3>E.4 Interfaces and Abstract Classes</h3>
+        <p>Interface cocok buat definisi kontrak. Abstract class cocok saat lo mau share sebagian implementasi dasar.</p>
+        <pre><code>interface IPembayaran
+{
+    void Bayar(decimal nominal);
+}
+
+class EWallet : IPembayaran
+{
+    public void Bayar(decimal nominal)
+    {
+        Console.WriteLine($"Bayar {nominal}");
+    }
+}</code></pre>
+        <p>Di level desain dependency, biasakan bergantung ke interface, bukan implementasi konkret, supaya kode gampang diganti dan di-test.</p>
+        <blockquote class="callout">Analogi: colokan listrik itu interface. Mau charger merek apa pun, selama plug-nya cocok, tetap bisa dipakai.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB F. Error Handling and Data Processing</h2>
+
+        <h3>F.1 Exception Handling Basics</h3>
+        <p>Gunakan <strong>try-catch-finally</strong> untuk ngamanin operasi yang berpotensi gagal, terutama I/O dan external dependency.</p>
+        <pre><code>try
+{
+    int hasil = 10 / int.Parse("0");
+    Console.WriteLine(hasil);
+}
+catch (DivideByZeroException ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+finally
+{
+    Console.WriteLine("Selesai proses");
+}</code></pre>
+        <blockquote class="callout">Analogi: lo tetap gas, tapi pakai helm dan rem yang siap dipakai saat kondisi bahaya.</blockquote>
+
+        <h3>F.2 Custom Exceptions and Best Practices</h3>
+        <p>Custom exception berguna saat domain lo butuh error yang lebih meaningful. Hindari catch semua exception tanpa aksi yang jelas.</p>
+        <pre><code>class SaldoTidakCukupException : Exception
+{
+    public SaldoTidakCukupException(string message) : base(message) { }
+}
+
+throw new SaldoTidakCukupException("Saldo tidak cukup untuk transaksi.");</code></pre>
+        <ul>
+          <li>Throw exception dengan pesan yang jelas.</li>
+          <li>Log context penting sebelum rethrow.</li>
+          <li>Jangan pakai exception untuk flow normal.</li>
+        </ul>
+        <blockquote class="callout">Analogi: alarm kebakaran dipakai saat beneran darurat, bukan buat ngasih tahu jam makan siang.</blockquote>
+
+        <h3>F.3 File Handling and Streams</h3>
+        <p>Untuk baca tulis file sederhana, class <strong>File</strong> sudah cukup. Kalau proses data besar, pakai stream supaya lebih efisien memory.</p>
+        <pre><code>string path = "catatan.txt";
+File.WriteAllText(path, "Belajar CSharp step by step");
+
+string isi = File.ReadAllText(path);
+Console.WriteLine(isi);</code></pre>
+        <blockquote class="callout">Analogi: ember kecil cukup buat satu ember air, tapi buat isi kolam lo butuh aliran pipa yang stabil.</blockquote>
+
+        <h3>F.4 LINQ Fundamentals</h3>
+        <p>LINQ bikin query data di CSharp jadi lebih ekspresif dan gampang dibaca.</p>
+        <pre><code>var angka = new List&lt;int&gt; { 2, 5, 8, 11, 14 };
+
+var genap = angka.Where(x =&gt; x % 2 == 0);
+var kuadrat = angka.Select(x =&gt; x * x);
+var urutDesc = angka.OrderByDescending(x =&gt; x);
+
+Console.WriteLine(string.Join(", ", genap));</code></pre>
+        <blockquote class="callout">Analogi: LINQ itu kayak lo punya filter pencarian di marketplace, tinggal pilih syarat lalu data langsung rapih.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB G. Async and Project Structure</h2>
+
+        <h3>G.1 Async and Await Basics</h3>
+        <p>Async dipakai biar aplikasi gak nge-freeze saat nunggu proses lambat seperti API call atau file I/O.</p>
+        <pre><code>static async Task&lt;string&gt; AmbilDataAsync()
+{
+    await Task.Delay(500);
+    return "Data siap";
+}
+
+string hasil = await AmbilDataAsync();
+Console.WriteLine(hasil);</code></pre>
+        <p>Pakai async secara sadar: untuk operasi I/O bound, bukan buat semua hal secara membabi buta.</p>
+        <blockquote class="callout">Analogi: sambil nunggu pesanan dicetak, kasir tetap bisa layani pelanggan lain.</blockquote>
+
+        <h3>G.2 Understanding Project Files and Build Run Process</h3>
+        <p>File <strong>.csproj</strong> adalah pusat konfigurasi project: target framework, package, dan setting build. Paham ini bikin lo lebih pede saat setup project tim.</p>
+        <pre><code>dotnet new console -n BelajarProject
+cd BelajarProject
+
+dotnet build
+dotnet run</code></pre>
+        <pre><code>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+  &lt;PropertyGroup&gt;
+    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
+    &lt;TargetFramework&gt;net8.0&lt;/TargetFramework&gt;
+  &lt;/PropertyGroup&gt;
+&lt;/Project&gt;</code></pre>
+        <blockquote class="callout">Analogi: .csproj itu checklist dapur produksi. Bahan, alat, dan standar kerjanya ditulis di satu tempat.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB H. Web Direction and Next Steps</h2>
+
+        <h3>H.1 ASP.NET Core Basics</h3>
+        <p>Setelah fondasi CSharp kuat, langkah natural berikutnya adalah ASP.NET Core untuk bikin backend web modern.</p>
+        <pre><code>dotnet new webapi -n BelajarApi
+cd BelajarApi
+dotnet run</code></pre>
+        <blockquote class="callout">Analogi: habis jago masak di dapur rumah, sekarang lo buka dapur komersial yang melayani banyak pelanggan.</blockquote>
+
+        <h3>H.2 Web API Fundamentals</h3>
+        <p>Web API adalah cara aplikasi saling ngobrol lewat HTTP. Endpoint umum: GET, POST, PUT, DELETE.</p>
+        <pre><code>app.MapGet("/products", () =&gt; new[] { "Keyboard", "Mouse" });
+app.MapPost("/products", (string name) =&gt; Results.Ok(name));</code></pre>
+        <blockquote class="callout">Analogi: API itu kasir restoran online. Pelanggan kirim order, dapur proses, hasil dikirim balik.</blockquote>
+
+        <h3>H.3 MVC Pattern High Level</h3>
+        <p>MVC ngebagi tanggung jawab jadi:</p>
+        <ul>
+          <li><strong>Model</strong> untuk data dan aturan.</li>
+          <li><strong>View</strong> untuk tampilan.</li>
+          <li><strong>Controller</strong> untuk penghubung alur request.</li>
+        </ul>
+        <pre><code>// Controller nerima request
+// Model pegang data
+// View render hasil</code></pre>
+        <blockquote class="callout">Analogi: di restoran, kasir terima pesanan, dapur olah makanan, waiter antar ke meja pelanggan.</blockquote>
+
+        <h3>H.4 Learning Path After Fundamentals</h3>
+        <p>Biar skill lo naik stabil, ini urutan lanjut yang realistis:</p>
+        <ol>
+          <li>Bangun 1-2 project CRUD sampai deploy.</li>
+          <li>Masuk ke Entity Framework Core untuk akses database.</li>
+          <li>Belajar authentication authorization (JWT, roles, policy).</li>
+          <li>Pahami testing (unit test, integration test) dan logging.</li>
+          <li>Lanjut ke clean architecture dan system design dasar.</li>
+        </ol>
+        <blockquote class="callout">Analogi: bukan sprint sekali jadi. Ini seperti latihan gym, progres paling kebentuk dari konsistensi mingguan.</blockquote>
+
+        <div class="summary">
+          <strong>Kesimpulan:</strong> Kalau pondasi CSharp lo kuat dari syntax sampai OOP, LINQ, dan async, proses naik ke ASP.NET Core bakal jauh lebih mulus. Fokus ke praktik bertahap, bukan buru-buru ngejar framework tanpa dasar.
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <script>
+    const copyBtn = document.getElementById("copyRichHtmlBtn");
+    const copySafeBtn = document.getElementById("copyTiptapSafeBtn");
+    const copyStatus = document.getElementById("copyStatus");
+    const docNode = document.querySelector(".doc");
+    const COPY_BUTTON_SELECTOR = ".section-copy-btn, .bab-copy-btn, .sub-copy-btn, .copy-actions-inline";
+
+    function unwrapElement(el) {
+      const parent = el.parentNode;
+      if (!parent) return;
+      while (el.firstChild) {
+        parent.insertBefore(el.firstChild, el);
+      }
+      parent.removeChild(el);
+    }
+
+    function buildTiptapSafeHtml() {
+      const clone = docNode.cloneNode(true);
+
+      clone.querySelectorAll(COPY_BUTTON_SELECTOR).forEach((el) => el.remove());
+      clone.querySelectorAll(".meta, h1, .subtitle").forEach((el) => el.remove());
+
+      clone.querySelectorAll(".summary").forEach((el) => {
+        const p = document.createElement("p");
+        p.innerHTML = el.innerHTML;
+        el.replaceWith(p);
+      });
+
+      clone.querySelectorAll("section, .node, div").forEach((el) => unwrapElement(el));
+
+      const allowed = new Set(["H2", "H3", "P", "UL", "OL", "LI", "STRONG", "EM", "BR", "BLOCKQUOTE", "PRE", "CODE"]);
+
+      const walker = document.createTreeWalker(clone, NodeFilter.SHOW_ELEMENT, null);
+      const toRemove = [];
+      while (walker.nextNode()) {
+        const el = walker.currentNode;
+        if (!allowed.has(el.tagName)) {
+          toRemove.push(el);
+        }
+      }
+
+      toRemove.forEach((el) => unwrapElement(el));
+
+      clone.querySelectorAll("*").forEach((el) => {
+        Array.from(el.attributes).forEach((attr) => el.removeAttribute(attr.name));
+      });
+
+      return clone.innerHTML.trim();
+    }
+
+    function buildCleanHtmlFromNode(node) {
+      const clone = node.cloneNode(true);
+      clone.querySelectorAll(COPY_BUTTON_SELECTOR).forEach((el) => el.remove());
+      return clone.innerHTML.trim();
+    }
+
+    function buildSubBabTextHtml(h3) {
+      const wrapper = document.createElement("div");
+      let current = h3.nextElementSibling;
+
+      while (current) {
+        if (current.tagName === "H3") break;
+        if (!current.matches(COPY_BUTTON_SELECTOR)) {
+          wrapper.appendChild(current.cloneNode(true));
+        }
+        current = current.nextElementSibling;
+      }
+
+      return wrapper.innerHTML.trim();
+    }
+
+    function getSubCode(h3Text) {
+      const match = h3Text.match(/^([A-Z]\.[0-9]+)/);
+      return match ? match[1] : h3Text;
+    }
+
+    function injectCopyButtons() {
+      docNode.querySelectorAll("section.node").forEach((section) => {
+        const h2 = section.querySelector("h2");
+        if (!h2) return;
+
+        const babButton = document.createElement("button");
+        babButton.type = "button";
+        babButton.className = "copy-btn section-copy-btn bab-copy-btn";
+        babButton.textContent = "Copy " + h2.textContent.trim();
+        babButton.addEventListener("click", () => {
+          copyHtml(buildCleanHtmlFromNode(section), h2.textContent.trim());
+        });
+        h2.insertAdjacentElement("afterend", babButton);
+
+        const h3List = section.querySelectorAll("h3");
+        h3List.forEach((h3) => {
+          const fullTitle = h3.textContent.trim();
+          const shortCode = getSubCode(fullTitle);
+
+          const row = document.createElement("div");
+          row.className = "copy-actions-inline sub-copy-btn";
+
+          const btnJudul = document.createElement("button");
+          btnJudul.type = "button";
+          btnJudul.className = "copy-btn section-copy-btn";
+          btnJudul.textContent = "Judul " + shortCode;
+          btnJudul.title = "Copy judul: " + fullTitle;
+          btnJudul.addEventListener("click", () => {
+            const titleOnly = fullTitle.replace(/^[A-Z]\.[0-9]+\s*/, "");
+            copyHtml("<h3>" + titleOnly + "</h3>", "Judul " + shortCode);
+          });
+
+          const btnIsi = document.createElement("button");
+          btnIsi.type = "button";
+          btnIsi.className = "copy-btn section-copy-btn";
+          btnIsi.textContent = "Isi " + shortCode;
+          btnIsi.title = "Copy seluruh isi dari " + fullTitle;
+          btnIsi.addEventListener("click", () => {
+            const isiHtml = buildSubBabTextHtml(h3);
+            if (!isiHtml) {
+              copyStatus.textContent = shortCode + " tidak punya isi.";
+              return;
+            }
+            copyHtml(isiHtml, "Isi " + shortCode);
+          });
+
+          const btnSub = document.createElement("button");
+          btnSub.type = "button";
+          btnSub.className = "copy-btn section-copy-btn";
+          btnSub.textContent = shortCode;
+          btnSub.title = "Copy kode sub: " + shortCode;
+          btnSub.addEventListener("click", async () => {
+            try {
+              await navigator.clipboard.writeText(shortCode);
+              copyStatus.textContent = shortCode + " copied.";
+            } catch (err) {
+              copyStatus.textContent = "Gagal copy " + shortCode + ".";
+            }
+          });
+
+          row.appendChild(btnSub);
+          row.appendChild(btnJudul);
+          row.appendChild(btnIsi);
+          h3.insertAdjacentElement("afterend", row);
+        });
+      });
+    }
+
+    async function copyHtml(content, label) {
+      try {
+        const plain = content
+          .replace(/<\/?[^>]+(>|$)/g, "")
+          .replace(/\n{3,}/g, "\n\n")
+          .trim();
+
+        if (window.ClipboardItem) {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              "text/html": new Blob([content], { type: "text/html" }),
+              "text/plain": new Blob([plain], { type: "text/plain" })
+            })
+          ]);
+        } else {
+          await navigator.clipboard.writeText(content);
+        }
+
+        copyStatus.textContent = label + " copied. Tinggal paste ke Tiptap.";
+      } catch (err) {
+        copyStatus.textContent = "Gagal copy otomatis. Coba manual copy.";
+        console.error(err);
+      }
+    }
+
+    copyBtn.addEventListener("click", () => {
+      const clone = docNode.cloneNode(true);
+      clone.querySelectorAll(COPY_BUTTON_SELECTOR).forEach((el) => el.remove());
+      copyHtml(clone.innerHTML.trim(), "Rich HTML");
+    });
+
+    copySafeBtn.addEventListener("click", () => {
+      copyHtml(buildTiptapSafeHtml(), "Tiptap-Safe HTML");
+    });
+
+    injectCopyButtons();
+  </script>
+</body>
+</html>
