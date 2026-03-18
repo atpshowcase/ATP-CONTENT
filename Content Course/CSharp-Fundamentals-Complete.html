@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C# Fundamentals Complete - Tiptap Style</title>
+  <style>
+    :root {
+      --page-bg: #f2efe8;
+      --editor-bg: #fcfbf8;
+      --toolbar-bg: #f5f2ea;
+      --text: #1f1f1b;
+      --muted: #666154;
+      --line: #d9d2c7;
+      --chip: #ece6da;
+      --chip-active: #d9cfbf;
+      --maxw: 920px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #f7f4ed, var(--page-bg));
+      color: var(--text);
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      line-height: 1.75;
+      padding: 28px 14px;
+    }
+
+    .editor-shell {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      background: var(--editor-bg);
+      box-shadow: 0 16px 48px rgba(65, 47, 22, 0.12);
+    }
+
+    .toolbar {
+      border-bottom: 1px solid var(--line);
+      background: var(--toolbar-bg);
+      padding: 10px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .actions {
+      border-bottom: 1px solid var(--line);
+      background: #f8f5ee;
+      padding: 10px 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .chip {
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 0.78rem;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--muted);
+      user-select: none;
+    }
+
+    .chip.active {
+      background: var(--chip-active);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .copy-btn {
+      border: 1px solid var(--line);
+      background: #efe8dc;
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    .copy-note {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .doc {
+      padding: 30px 24px 46px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .meta {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+    }
+
+    h1 {
+      margin: 12px 0 8px;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 1.06rem;
+    }
+
+    .node { margin: 16px 0; }
+
+    .node.section {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    .node h2 {
+      margin: 0 0 8px;
+      font-size: 1.6rem;
+      line-height: 1.25;
+    }
+
+    .node p { margin: 0; }
+
+    .callout {
+      border-left: 3px solid #9b8f7b;
+      background: #f4efe4;
+      padding: 10px 12px;
+      color: #4f493e;
+      margin: 12px 0;
+      font-size: 0.96rem;
+    }
+
+    ul, ol {
+      margin: 8px 0 0;
+      padding-left: 22px;
+    }
+
+    li { margin: 4px 0; }
+
+    .summary {
+      background: #f7f2e8;
+      border: 1px solid var(--line);
+      padding: 14px 14px;
+      margin-top: 18px;
+    }
+
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 16px 18px;
+      overflow-x: auto;
+      margin: 12px 0;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      border-left: 3px solid #9b8f7b;
+    }
+
+    pre code {
+      font-family: "Cascadia Code", "Fira Code", Consolas, "Courier New", monospace;
+      background: none;
+      color: inherit;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    code {
+      font-family: "Cascadia Code", "Fira Code", Consolas, "Courier New", monospace;
+      background: #ede8df;
+      color: #4a3f30;
+      padding: 2px 5px;
+      font-size: 0.88em;
+    }
+
+    @media (max-width: 640px) {
+      .doc { padding: 24px 16px 36px; }
+      body { padding: 12px 8px; }
+      .toolbar { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <main class="editor-shell">
+    <div class="toolbar" aria-hidden="true">
+      <span class="chip active">Paragraph</span>
+      <span class="chip">H1</span>
+      <span class="chip">H2</span>
+      <span class="chip">Bullet List</span>
+      <span class="chip">Ordered List</span>
+      <span class="chip">Quote</span>
+      <span class="chip">Code Block</span>
+    </div>
+
+    <div class="actions">
+      <button class="copy-btn" id="copyRichHtmlBtn" type="button">Copy Rich HTML for Tiptap</button>
+      <button class="copy-btn" id="copyTiptapSafeBtn" type="button">Copy Tiptap-Safe HTML</button>
+      <span class="copy-note" id="copyStatus">Copy ini, lalu paste ke Tiptap.</span>
+    </div>
+
+    <article class="doc">
+      <p class="meta">Tiptap Style Notes - C# Learning Path</p>
+      <h1>Belajar C# Dari Fondasi Sampai Advanced</h1>
+      <p class="subtitle">Materi lengkap, bahasa santai, struktur jelas. Cocok buat lo yang mau paham C# dari nol sampai siap bikin aplikasi serius.</p>
+
+      <div class="summary">
+        <strong>Map Cepat Section:</strong>
+        <p>BAB A Sejarah C# (asal-usul, siapa yang buat, evolusi versi), BAB B Computers and Programs, BAB C Simple Data Processing, BAB D Creating Programs, BAB E Creating Solutions, BAB F Advanced Programming, BAB G Glossary.</p>
+        <p>Sub-bab pakai format A.1, A.2, B.1, B.2, dan seterusnya.</p>
+      </div>
+
+      <section class="node section">
+        <h2>BAB A. Introduction</h2>
+
+        <h2>A.1 Asal-usul C#</h2>
+        <p>C# lahir sekitar tahun 1999-2000 di dalam Microsoft, sebagai bagian dari proyek besar bernama .NET. Waktu itu Microsoft lagi ngebangun platform baru yang bisa nyaingin Java dari Sun Microsystems. Mereka butuh bahasa yang modern, aman dari bug tipe data, dan enak dipakai di ekosistem Windows.</p>
+        <p>Nama "C#" sendiri diambil dari notasi musik — tanda "sharp" (#) yang artinya setengah nada lebih tinggi. Maknanya simbolis: C# itu satu level di atas C dan C++, lebih modern dari keduanya. Versi pertama resmi dirilis tahun 2002 bareng .NET Framework 1.0.</p>
+        <pre><code>// C# pertama kali terasa seperti ini (versi 1.0, 2002)
+using System;
+
+class HelloWorld
+{
+    static void Main()
+    {
+        Console.WriteLine("Hello, World!");
+    }
+}</code></pre>
+        <blockquote class="callout">Analogi: C# itu kayak brand sepatu baru yang muncul karena ada gap di pasar — ada pemain lama yang udah terlalu ribet (C++) dan ada pemain yang terlalu dikunci ekosistemnya (Java). C# hadir buat ngisi tengah-tengah itu.</blockquote>
+
+        <h2>A.2 Anders Hejlsberg — Orang di Balik C#</h2>
+        <p>Arsitek utama C# adalah Anders Hejlsberg, programmer asal Denmark yang bergabung ke Microsoft tahun 1996. Sebelum di Microsoft, dia sudah punya track record luar biasa: dia yang bikin Turbo Pascal di Borland, dan jadi lead designer buat bahasa Delphi.</p>
+        <p>Ketika Microsoft minta dia bangun bahasa baru untuk .NET, Anders ngerancang C# dari pengalaman panjangnya. Dia tau persis apa yang bikin programmer frustrasi di C++ (management memori yang ribet) dan apa yang bikin programmer terkunci di Java (ekosistem satu vendor). C# dirancang buat selesaikan kedua masalah itu.</p>
+        <ul>
+          <li>Garbage collector otomatis — programmer gak perlu manual-manage memori.</li>
+          <li>Type-safe — error tipe data ketangkap lebih awal, saat compile bukan saat runtime.</li>
+          <li>Multi-paradigma — bisa OOP, functional, bahkan low-level kalau perlu.</li>
+          <li>Tooling kuat — Visual Studio dan kemudian VS Code jadi backbone development-nya.</li>
+        </ul>
+        <blockquote class="callout">Analogi: Anders itu kayak chef yang udah pernah masak di semua jenis dapur. Dia tau resep mana yang gagal dan kenapa, jadi waktu bikin resep sendiri, dia tahu betul mana yang harus dihindari.</blockquote>
+
+        <h2>A.3 Evolusi C# — Dari Versi 1 Sampai Sekarang</h2>
+        <p>C# berkembang pesat dari versi ke versi, tiap rilis nambah fitur yang bikin kode makin singkat, aman, dan ekspresif. Ini bukan bahasa yang stagnan — tiap 1-2 tahun ada versi baru yang ngerespon kebutuhan developer modern.</p>
+        <ul>
+          <li>C# 1.0 (2002) — Fondasi: class, interface, delegate, event.</li>
+          <li>C# 2.0 (2005) — Generics, nullable types, iterator.</li>
+          <li>C# 3.0 (2007) — LINQ masuk, lambda expression, var keyword.</li>
+          <li>C# 4.0 (2010) — Dynamic typing, named/optional parameter.</li>
+          <li>C# 5.0 (2012) — async/await, revolusi pemrograman asinkron.</li>
+          <li>C# 6.0 (2015) — String interpolation ($"..."), null-conditional operator (?.).</li>
+          <li>C# 7.0-7.3 (2017-2018) — Tuple, pattern matching, local function.</li>
+          <li>C# 8.0 (2019) — Nullable reference types, switch expression.</li>
+          <li>C# 9.0 (2020) — Record types, init-only setter, top-level statement.</li>
+          <li>C# 10.0 (2021) — Global using, file-scoped namespace.</li>
+          <li>C# 11.0-13.0 (2022-2024) — Raw string literal, required member, collection expression.</li>
+        </ul>
+        <pre><code>// C# modern (versi 10+) terasa jauh lebih ringkas
+// Top-level statement — gak perlu class Program + Main lagi
+using System;
+
+Console.WriteLine("C# modern, tanpa boilerplate!");</code></pre>
+        <blockquote class="callout">Analogi: C# itu kayak smartphone yang tiap tahun update OS-nya. Core-nya sama, tapi tiap versi makin smooth, makin fitur, makin enak dipakai. Yang belajar dari awal tetap relevan, karena fondasi lama tetap jalan di versi baru.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB B. Computers and Programs</h2>
+
+        <h2>B.1 Computers</h2>
+        <p>Komputer itu mesin yang nurut instruksi. Dia gak nebak, gak improvisasi. Kalau instruksi lo ambigu, hasilnya juga ngaco.</p>
+        <blockquote class="callout">Analogi: komputer itu kayak kasir otomatis. Lo pencet menu salah, yang keluar ya pesanan salah juga.</blockquote>
+
+        <h2>B.2 Programs and Programming</h2>
+        <p>Program adalah sekumpulan instruksi. Programming adalah proses nyusun instruksi itu biar masalah selesai dengan benar, konsisten, dan bisa diulang.</p>
+        <pre><code>int harga = 20000;
+int qty = 3;
+int total = harga * qty;
+Console.WriteLine($"Total bayar: {total}");</code></pre>
+        <blockquote class="callout">Analogi: programming itu kayak bikin SOP kerja tim biar shift pagi dan malam hasilnya tetap sama bagus.</blockquote>
+
+        <h2>B.3 Programming Languages</h2>
+        <p>Bahasa pemrograman itu alat komunikasi antara manusia dan mesin. C# termasuk bahasa high-level yang readable buat manusia, tapi tetap kuat performanya.</p>
+        <ul>
+          <li>Readable dan terstruktur.</li>
+          <li>Type-safe, jadi lebih aman dari banyak bug.</li>
+          <li>Cocok buat desktop, web, API, game, sampai cloud.</li>
+        </ul>
+        <blockquote class="callout">Analogi: bahasa pemrograman itu kayak bahasa obrolan tim. Kalau satu standar, koordinasi jadi cepat.</blockquote>
+
+        <h2>B.4 C#</h2>
+        <p>C# itu bahasa modern dari ekosistem .NET. Kelebihannya ada di sintaks yang jelas, tooling matang, dan dukungan enterprise yang kuat.</p>
+        <pre><code>string nama = "Dita";
+int umur = 21;
+bool aktif = true;
+
+Console.WriteLine($"User: {nama}, Umur: {umur}, Aktif: {aktif}");</code></pre>
+        <blockquote class="callout">Analogi: C# itu kayak motor harian yang nyaman dipakai buat kerja harian, tapi tetap kuat buat perjalanan jauh.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB C. Simple Data Processing</h2>
+
+        <h2>C.1 A First C# Program</h2>
+        <p>Program pertama biasanya sederhana: tampilkan teks ke layar. Tujuannya bukan pamer fitur, tapi ngebuktiin environment lo sudah jalan.</p>
+        <pre><code>using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Hello, World!");
+    }
+}</code></pre>
+        <blockquote class="callout">Analogi: ini kayak cek mic "tes satu dua" sebelum acara dimulai.</blockquote>
+
+        <h2>C.2 Manipulating Data</h2>
+        <p>Data processing dasar mencakup input, proses, output. Lo baca data, olah dengan logika, lalu tampilkan hasilnya.</p>
+        <pre><code>int nilaiA = 80;
+int nilaiB = 90;
+double rataRata = (nilaiA + nilaiB) / 2.0;
+
+Console.WriteLine($"Rata-rata: {rataRata}");</code></pre>
+        <blockquote class="callout">Analogi: lo ngitung kas masuk-keluar harian buat tahu untung bersih.</blockquote>
+
+        <h2>C.3 Writing a Program</h2>
+        <p>Menulis program yang baik itu bukan cuma bikin jalan, tapi bikin jelas alurnya. Biasakan pecah langkah: definisi masalah, desain alur, coding, testing.</p>
+        <ul>
+          <li>Tulis tujuan program.</li>
+          <li>Susun langkah logika.</li>
+          <li>Implementasi bertahap.</li>
+          <li>Uji dengan data normal dan data ekstrem.</li>
+        </ul>
+        <blockquote class="callout">Analogi: jangan langsung masak rame-rame tanpa resep, nanti dapur chaos.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB D. Creating Programs</h2>
+
+        <h2>D.1 Methods</h2>
+        <p>Method itu cara memecah pekerjaan jadi unit kecil yang reusable. Dengan method, kode lebih rapi dan gampang dites.</p>
+        <pre><code>static int Tambah(int a, int b)
+{
+    return a + b;
+}
+
+Console.WriteLine(Tambah(5, 7));</code></pre>
+        <blockquote class="callout">Analogi: method itu kayak jobdesc tim, tiap orang pegang satu tugas jelas.</blockquote>
+
+        <h2>D.2 Variables and Scope</h2>
+        <p>Scope ngatur di mana variabel bisa diakses. Pahami scope biar gak ketabrak nilai dari blok lain.</p>
+        <pre><code>int total = 100;
+
+if (total &gt; 50)
+{
+    string status = "Lolos";
+    Console.WriteLine(status);
+}
+// Console.WriteLine(status); // error: di luar scope</code></pre>
+        <blockquote class="callout">Analogi: scope itu kayak akses ruangan VIP, gak semua orang bisa masuk.</blockquote>
+
+        <h2>D.3 Arrays</h2>
+        <p>Array dipakai buat nyimpen kumpulan data dengan tipe sama. Cocok saat lo punya list yang ukurannya udah kebayang.</p>
+        <pre><code>int[] nilai = { 70, 85, 90, 60 };
+
+foreach (int n in nilai)
+{
+    Console.WriteLine(n);
+}</code></pre>
+        <blockquote class="callout">Analogi: array itu kayak daftar antrean nomor pelanggan.</blockquote>
+
+        <h2>D.4 Exceptions and Errors</h2>
+        <p>Error pasti ada. Poin pentingnya adalah handling yang aman supaya program gak langsung crash tanpa pesan jelas.</p>
+        <pre><code>try
+{
+    int x = int.Parse("abc");
+    Console.WriteLine(x);
+}
+catch (FormatException ex)
+{
+    Console.WriteLine($"Input gak valid: {ex.Message}");
+}</code></pre>
+        <blockquote class="callout">Analogi: kalau mesin kopi error, lo butuh SOP penanganan, bukan panik massal.</blockquote>
+
+        <h2>D.5 The Switch Construction</h2>
+        <p>Switch cocok buat banyak pilihan berdasarkan satu nilai. Lebih rapi daripada if-else panjang.</p>
+        <pre><code>string role = "admin";
+
+switch (role)
+{
+    case "admin":
+        Console.WriteLine("Akses penuh");
+        break;
+    case "staff":
+        Console.WriteLine("Akses terbatas");
+        break;
+    default:
+        Console.WriteLine("Akses tamu");
+        break;
+}</code></pre>
+        <blockquote class="callout">Analogi: switch itu kayak jalur layanan berdasarkan tipe member.</blockquote>
+
+        <h2>D.6 Using Files</h2>
+        <p>Operasi file dipakai buat simpan dan baca data sederhana dari disk: laporan, log, config, dsb.</p>
+        <pre><code>using System.IO;
+
+File.WriteAllText("catatan.txt", "Belajar file I/O di C#");
+string isi = File.ReadAllText("catatan.txt");
+Console.WriteLine(isi);</code></pre>
+        <blockquote class="callout">Analogi: file itu kayak buku catatan kas harian yang bisa dibuka ulang kapan saja.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB E. Creating Solutions</h2>
+
+        <h2>E.1 Our Case Study: Friendly Bank</h2>
+        <p>Case study dipakai biar lo lihat gimana konsep teknis dipakai buat kasus nyata. Friendly Bank ngajarin design sistem, data model, dan alur transaksi.</p>
+        <pre><code>// Model dasar Friendly Bank
+class AkunBank
+{
+    public string NomorAkun { get; set; }
+    public string NamaPemilik { get; set; }
+    public double Saldo { get; set; }
+
+    public void Deposit(double jumlah)
+    {
+        Saldo += jumlah;
+        Console.WriteLine($"Deposit {jumlah:C} berhasil. Saldo sekarang: {Saldo:C}");
+    }
+}
+
+AkunBank akun = new AkunBank
+{
+    NomorAkun = "FBK-001",
+    NamaPemilik = "Reza",
+    Saldo = 500000
+};
+
+akun.Deposit(150000);</code></pre>
+        <blockquote class="callout">Analogi: ini kayak simulasi buka bisnis beneran, bukan cuma latihan teori.</blockquote>
+
+        <h2>E.2 Enumerated Types</h2>
+        <p>Enum bikin kode lebih aman dan mudah dibaca saat nilai validnya terbatas.</p>
+        <pre><code>enum StatusAkun { Aktif, Nonaktif, Diblokir }
+
+StatusAkun status = StatusAkun.Aktif;
+Console.WriteLine(status);</code></pre>
+        <blockquote class="callout">Analogi: enum itu daftar pilihan menu tetap, gak bisa nambah opsi ngaco.</blockquote>
+
+        <h2>E.3 Structures</h2>
+        <p>Structure cocok buat data kecil yang ringan dan biasanya bersifat value type.</p>
+        <pre><code>struct Titik
+{
+    public int X;
+    public int Y;
+}
+
+Titik p = new Titik { X = 10, Y = 20 };
+Console.WriteLine($"{p.X}, {p.Y}");</code></pre>
+        <blockquote class="callout">Analogi: struct itu kayak kartu data ringkas yang gak butuh perilaku kompleks.</blockquote>
+
+        <h2>E.4 Objects, Structures and References</h2>
+        <p>Pahami bedanya value type dan reference type biar lo gak salah copy data atau mutasi object.</p>
+        <pre><code>// Value type (struct) — tiap variabel punya salinan sendiri
+struct Poin { public int X, Y; }
+
+Poin a = new Poin { X = 5, Y = 10 };
+Poin b = a;       // b adalah salinan, bukan alias
+b.X = 99;
+Console.WriteLine(a.X); // output: 5 — a tidak ikut berubah
+
+// Reference type (class) — variabel berbagi satu objek yang sama
+class Kotak { public int Lebar; }
+
+Kotak k1 = new Kotak { Lebar = 50 };
+Kotak k2 = k1;    // k2 menunjuk ke objek yang sama dengan k1
+k2.Lebar = 200;
+Console.WriteLine(k1.Lebar); // output: 200 — k1 ikut berubah</code></pre>
+        <blockquote class="callout">Analogi: value type kayak fotokopi nota (punya salinan sendiri), reference type kayak share link dokumen yang sama.</blockquote>
+
+        <h2>E.5 Designing With Objects</h2>
+        <p>Desain object fokus pada tanggung jawab yang jelas. Class yang baik itu cohesive dan minim ketergantungan gak perlu.</p>
+        <ul>
+          <li>Tiap class punya tujuan spesifik.</li>
+          <li>Kurangi class "serba bisa".</li>
+          <li>Utamakan keterbacaan dan testability.</li>
+        </ul>
+        <pre><code>// Desain cohesive: tiap class satu tanggung jawab
+class ValidasiTransaksi
+{
+    public bool CekSaldo(double saldo, double penarikan)
+        => penarikan > 0 && penarikan <= saldo;
+}
+
+class TransaksiService
+{
+    private ValidasiTransaksi _validasi = new ValidasiTransaksi();
+
+    public void Tarik(double saldo, double jumlah)
+    {
+        if (_validasi.CekSaldo(saldo, jumlah))
+            Console.WriteLine($"Penarikan {jumlah:C} berhasil.");
+        else
+            Console.WriteLine("Gagal: saldo tidak cukup atau jumlah tidak valid.");
+    }
+}
+
+new TransaksiService().Tarik(300000, 100000);</code></pre>
+        <blockquote class="callout">Analogi: jangan satu orang jadi kasir, barista, security, dan akuntan sekaligus.</blockquote>
+
+        <h2>E.6 Static Items</h2>
+        <p>Static dipakai untuk data atau method yang milik class, bukan milik objek tertentu.</p>
+        <pre><code>class Kalkulator
+{
+    public static int Kali(int a, int b) =&gt; a * b;
+}
+
+Console.WriteLine(Kalkulator.Kali(4, 5));</code></pre>
+        <blockquote class="callout">Analogi: static itu kayak aturan umum komunitas, berlaku ke semua member.</blockquote>
+
+        <h2>E.7 The Construction of Objects</h2>
+        <p>Constructor dipakai saat object dibuat. Cocok untuk inisialisasi data awal yang wajib ada.</p>
+        <pre><code>class Akun
+{
+    public string Nama;
+
+    public Akun(string nama)
+    {
+        Nama = nama;
+    }
+}</code></pre>
+        <blockquote class="callout">Analogi: constructor itu form pendaftaran awal sebelum member aktif.</blockquote>
+
+        <h2>E.8 From Object to Component</h2>
+        <p>Saat aplikasi membesar, object-object digabung jadi komponen yang bisa dipakai ulang antar modul.</p>
+        <pre><code>// Komponen: gabungan object dengan tanggung jawab jelas
+class Logger
+{
+    public void Log(string pesan)
+        => Console.WriteLine($"[LOG] {DateTime.Now:HH:mm:ss} - {pesan}");
+}
+
+class NotifikasiService
+{
+    private Logger _log = new Logger();
+
+    public void Kirim(string penerima, string isi)
+    {
+        _log.Log($"Kirim ke {penerima}: {isi}");
+        Console.WriteLine($"Notifikasi terkirim ke {penerima}");
+    }
+}
+
+new NotifikasiService().Kirim("Adi", "Transaksi kamu berhasil");</code></pre>
+        <blockquote class="callout">Analogi: dari satu barista jadi satu tim operasional lengkap yang punya SOP sendiri.</blockquote>
+
+        <h2>E.9 Inheritance</h2>
+        <p>Inheritance memungkinkan class turunan mewarisi properti/method dari class induk.</p>
+        <pre><code>class User
+{
+    public string Nama = "User";
+}
+
+class Admin : User
+{
+    public void Info() =&gt; Console.WriteLine($"Admin: {Nama}");
+}</code></pre>
+        <blockquote class="callout">Analogi: role baru mewarisi aturan dasar komunitas, lalu nambah kemampuan khusus.</blockquote>
+
+        <h2>E.10 Object Etiquette</h2>
+        <p>Object etiquette itu etika desain object: enkapsulasi, naming jelas, validasi input, dan antarmuka yang konsisten.</p>
+        <pre><code>// Etika object: private field, validasi di setter, method jelas
+class SaldoAkun
+{
+    private double _saldo;
+
+    public double Saldo => _saldo; // read-only dari luar
+
+    public SaldoAkun(double saldoAwal)
+    {
+        if (saldoAwal < 0) throw new ArgumentException("Saldo awal tidak boleh negatif.");
+        _saldo = saldoAwal;
+    }
+
+    public void Deposit(double jumlah)
+    {
+        if (jumlah <= 0) throw new ArgumentException("Jumlah deposit harus positif.");
+        _saldo += jumlah;
+        Console.WriteLine($"Deposit berhasil. Saldo sekarang: {_saldo:C}");
+    }
+}
+
+var akun = new SaldoAkun(100000);
+akun.Deposit(50000);
+Console.WriteLine($"Saldo final: {akun.Saldo:C}");</code></pre>
+        <blockquote class="callout">Analogi: etika kerja tim bikin komunikasi rapi dan minim drama.</blockquote>
+
+        <h2>E.11 The Power of Strings and Chars</h2>
+        <p>String dan char penting banget untuk parsing input, validasi format, dan manipulasi teks.</p>
+        <pre><code>string kode = "AB-2026";
+char awal = kode[0];
+bool adaDash = kode.Contains("-");
+
+Console.WriteLine($"Awal: {awal}, valid: {adaDash}");</code></pre>
+        <blockquote class="callout">Analogi: string itu obrolan teks, char itu satu huruf yang punya peran detail.</blockquote>
+
+        <h2>E.12 Properties</h2>
+        <p>Property jadi jembatan aman antara field internal dan akses dari luar class.</p>
+        <pre><code>class Produk
+{
+    private int _stok;
+    public int Stok
+    {
+        get =&gt; _stok;
+        set =&gt; _stok = value &lt; 0 ? 0 : value;
+    }
+}</code></pre>
+        <blockquote class="callout">Analogi: property itu kayak resepsionis, data masuk dicek dulu sebelum diterusin.</blockquote>
+
+        <h2>E.13 Building a Bank</h2>
+        <p>Bab ini menyatukan semuanya: object modeling, validasi, error handling, dan desain komponen jadi satu solusi utuh.</p>
+        <pre><code>// Integrasi: enum + class + property + validasi + method
+enum StatusTransaksi { Berhasil, Gagal }
+
+class BankAccount
+{
+    public string Nama { get; }
+    private double _saldo;
+
+    public BankAccount(string nama, double saldoAwal)
+    {
+        Nama = nama;
+        _saldo = saldoAwal;
+    }
+
+    public StatusTransaksi Tarik(double jumlah)
+    {
+        if (jumlah <= 0 || jumlah > _saldo)
+            return StatusTransaksi.Gagal;
+
+        _saldo -= jumlah;
+        return StatusTransaksi.Berhasil;
+    }
+
+    public void Info()
+        => Console.WriteLine($"[{Nama}] Saldo: {_saldo:C}");
+}
+
+var acc = new BankAccount("Dila", 500000);
+var hasil = acc.Tarik(200000);
+Console.WriteLine($"Status penarikan: {hasil}");
+acc.Info();</code></pre>
+        <blockquote class="callout">Analogi: ini momen dari latihan drill ke pertandingan beneran.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB F. Advanced Programming</h2>
+
+        <h2>F.1 Generics and Collections</h2>
+        <p>Generics bikin collection lebih type-safe dan reusable tanpa casting aneh-aneh.</p>
+        <pre><code>List&lt;string&gt; namaUser = new List&lt;string&gt; { "Ari", "Bela" };
+foreach (var n in namaUser) Console.WriteLine(n);</code></pre>
+        <blockquote class="callout">Analogi: generics itu wadah yang jelas label isinya, jadi gak campur aduk.</blockquote>
+
+        <h2>F.2 Storing Business Objects</h2>
+        <p>Business object perlu disimpan dengan strategi yang terstruktur: file, database, atau service.</p>
+        <pre><code>using System.Text.Json;
+
+    class Customer
+    {
+      public string Id { get; set; }
+      public string Nama { get; set; }
+    }
+
+    var customers = new List&lt;Customer&gt;
+    {
+      new Customer { Id = "C001", Nama = "Ari" },
+      new Customer { Id = "C002", Nama = "Bela" }
+    };
+
+    string json = JsonSerializer.Serialize(customers);
+    File.WriteAllText("customers.json", json);
+    Console.WriteLine("Data customer tersimpan ke customers.json");</code></pre>
+        <blockquote class="callout">Analogi: data pelanggan gak cukup diingat kepala, harus dicatat rapi biar konsisten.</blockquote>
+
+        <h2>F.3 Business Objects and Editing</h2>
+        <p>Edit data objek butuh validasi dan audit agar perubahan tidak merusak integritas data.</p>
+        <pre><code>class ProdukBisnis
+    {
+      public string Nama { get; private set; }
+      public decimal Harga { get; private set; }
+
+      public ProdukBisnis(string nama, decimal harga)
+      {
+        Nama = nama;
+        Harga = harga;
+      }
+
+      public void UpdateHarga(decimal hargaBaru)
+      {
+        if (hargaBaru &lt;= 0)
+          throw new ArgumentException("Harga harus lebih dari 0.");
+
+        Console.WriteLine($"Audit: harga {Nama} berubah dari {Harga:C} ke {hargaBaru:C}");
+        Harga = hargaBaru;
+      }
+    }
+
+    var kopi = new ProdukBisnis("Kopi Susu", 18000);
+    kopi.UpdateHarga(20000);</code></pre>
+        <blockquote class="callout">Analogi: edit daftar harga harus jelas siapa yang ubah dan kapan.</blockquote>
+
+        <h2>F.4 Threads and Threading</h2>
+        <p>Threading dipakai untuk kerja paralel supaya aplikasi tetap responsif saat ngerjain banyak tugas.</p>
+        <pre><code>Task.Run(() =&gt;
+{
+    Console.WriteLine("Proses background jalan");
+});</code></pre>
+        <blockquote class="callout">Analogi: satu tim bikin kopi, tim lain handle pembayaran, jadi layanan lebih cepat.</blockquote>
+
+        <h2>F.5 Structured Error Handling</h2>
+        <p>Error handling terstruktur bikin aplikasi tetap stabil dan pesan error lebih informatif.</p>
+        <pre><code>try
+{
+    throw new Exception("Simulasi error");
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}</code></pre>
+        <blockquote class="callout">Analogi: punya prosedur darurat bikin semua orang tau langkah saat ada masalah.</blockquote>
+
+        <h2>F.6 Program Organisation</h2>
+        <p>Program organization mencakup struktur folder, pemisahan layer, naming convention, dan dependency management.</p>
+        <pre><code>// Simulasi layer sederhana: Service bergantung ke Repository interface
+    interface IOrderRepository
+    {
+      void Save(string orderId);
+    }
+
+    class OrderRepository : IOrderRepository
+    {
+      public void Save(string orderId) => Console.WriteLine($"Order {orderId} disimpan");
+    }
+
+    class OrderService
+    {
+      private readonly IOrderRepository _repo;
+
+      public OrderService(IOrderRepository repo)
+      {
+        _repo = repo;
+      }
+
+      public void CreateOrder(string orderId)
+      {
+        _repo.Save(orderId);
+      }
+    }
+
+    new OrderService(new OrderRepository()).CreateOrder("ORD-1001");</code></pre>
+        <blockquote class="callout">Analogi: gudang rapi bikin barang gampang dicari dan operasional gak macet.</blockquote>
+
+        <h2>F.7 A Graphical User Interface</h2>
+        <p>GUI bikin aplikasi lebih ramah dipakai user non-teknis. Fokusnya bukan cuma cantik, tapi jelas dan mudah dipahami.</p>
+        <pre><code>// Contoh WPF mini: event klik tombol
+      // XAML: &lt;Button Name="btnSimpan" Content="Simpan" Click="BtnSimpan_Click" /&gt;
+
+      private void BtnSimpan_Click(object sender, RoutedEventArgs e)
+      {
+          MessageBox.Show("Data berhasil disimpan!");
+      }</code></pre>
+        <blockquote class="callout">Analogi: tampilan menu yang jelas bikin customer cepat pesan tanpa bingung.</blockquote>
+
+        <h2>F.8 Debugging</h2>
+        <p>Debugging adalah skill inti untuk cari akar masalah, bukan sekadar menutup gejala.</p>
+        <ol>
+          <li>Reproduce bug.</li>
+          <li>Isolasi sumber masalah.</li>
+          <li>Perbaiki akar masalah.</li>
+          <li>Retest alur terkait.</li>
+        </ol>
+        <pre><code>int[] angka = { 10, 20, 30 };
+int index = 3;
+
+try
+{
+    Console.WriteLine($"Nilai: {angka[index]}");
+}
+catch (IndexOutOfRangeException ex)
+{
+    Console.WriteLine($"Debug: index {index} di luar batas array ({angka.Length}).");
+    Console.WriteLine(ex.Message);
+}</code></pre>
+        <blockquote class="callout">Analogi: speaker rusak gak cukup dikecilin volumenya, harus ketemu sumber noise aslinya.</blockquote>
+
+        <h2>F.9 The End?</h2>
+        <p>Bukan akhir, tapi titik naik level. Setelah ini lo tinggal pilih jalur pendalaman: web API, desktop app, game dev, cloud, atau architecture.</p>
+        <pre><code>// Roadmap next step: tentukan jalur dan target latihan
+      string[] jalur = { "Web API", "Desktop App", "Game Dev", "Cloud" };
+
+      Console.WriteLine("Pilih jalur pendalaman C#:");
+      for (int i = 0; i &lt; jalur.Length; i++)
+      {
+          Console.WriteLine($"{i + 1}. {jalur[i]}");
+      }
+
+      int pilihan = 1; // misal user pilih 1
+      Console.WriteLine($"Fokus bulan ini: {jalur[pilihan - 1]}");</code></pre>
+        <blockquote class="callout">Analogi: ini bukan bubar, ini pindah ke sesi latihan tingkat lanjut.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB G. Glossary of Terms</h2>
+
+        <h2>G.1 Istilah OOP dan Struktur Program</h2>
+        <p>Istilah inti yang wajib lo pegang: class, object, method, property, constructor, inheritance, interface, static, override, overload.</p>
+        <ul>
+          <li><strong>Class</strong>: blueprint.</li>
+          <li><strong>Object</strong>: instance dari class.</li>
+          <li><strong>Property</strong>: akses data yang terkontrol.</li>
+          <li><strong>Method</strong>: aksi dari object.</li>
+        </ul>
+        <blockquote class="callout">Analogi: class itu resep, object itu makanan yang jadi.</blockquote>
+
+        <h2>G.2 Istilah Desain dan Arsitektur</h2>
+        <p>Istilah penting: cohesion, coupling, component, dependency, code reuse, hierarchy, unit test, test harness, namespace.</p>
+        <ul>
+          <li><strong>Cohesion tinggi</strong>: satu modul fokus satu tujuan.</li>
+          <li><strong>Coupling rendah</strong>: antar modul tidak saling nempel berlebihan.</li>
+          <li><strong>Dependency</strong>: ketergantungan antar bagian.</li>
+        </ul>
+        <blockquote class="callout">Analogi: tim solid itu tugasnya jelas (cohesion) dan gak saling ngerepotin (low coupling).</blockquote>
+
+        <h2>G.3 Istilah Runtime, Data, dan Akses</h2>
+        <p>Istilah pendukung: compiler, machine code, metadata, stream, exception, GUID, immutable, value type, reference type, public/private/protected.</p>
+        <pre><code>// akses modifier mini contoh
+public class UserService
+{
+    private string _token = "secret";
+    public string NamaAplikasi { get; set; } = "CSharpApp";
+}</code></pre>
+        <blockquote class="callout">Analogi: access modifier itu kayak level akses ruang kerja, gak semua orang boleh masuk semua area.</blockquote>
+
+        <div class="summary">
+          <strong>Kesimpulan:</strong> jalur belajar C# paling aman itu berurutan dari fondasi komputer-programming, lanjut data processing, naik ke desain object, lalu advanced. Kalau lo jaga ritme ini, progres lo bakal konsisten dan kuat buat project nyata.
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <script>
+    const copyBtn = document.getElementById("copyRichHtmlBtn");
+    const copySafeBtn = document.getElementById("copyTiptapSafeBtn");
+    const copyStatus = document.getElementById("copyStatus");
+    const docNode = document.querySelector(".doc");
+
+    function unwrapElement(el) {
+      const parent = el.parentNode;
+      if (!parent) return;
+      while (el.firstChild) {
+        parent.insertBefore(el.firstChild, el);
+      }
+      parent.removeChild(el);
+    }
+
+    function buildTiptapSafeHtml() {
+      const clone = docNode.cloneNode(true);
+
+      clone.querySelectorAll(".meta, h1, .subtitle").forEach((el) => el.remove());
+
+      clone.querySelectorAll(".summary").forEach((el) => {
+        const p = document.createElement("p");
+        p.innerHTML = el.innerHTML;
+        el.replaceWith(p);
+      });
+
+      clone.querySelectorAll("section, .node, div").forEach((el) => unwrapElement(el));
+
+      const allowed = new Set(["H2", "H3", "P", "UL", "OL", "LI", "STRONG", "EM", "BR", "BLOCKQUOTE", "PRE", "CODE"]);
+      Array.from(clone.querySelectorAll("*")).forEach((el) => {
+        if (!allowed.has(el.tagName)) {
+          unwrapElement(el);
+        }
+      });
+
+      clone.querySelectorAll("*").forEach((el) => {
+        Array.from(el.attributes).forEach((attr) => el.removeAttribute(attr.name));
+      });
+
+      return clone.innerHTML.trim();
+    }
+
+    async function copyToClipboard(html, text) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          "text/html": new Blob([html], { type: "text/html" }),
+          "text/plain": new Blob([text], { type: "text/plain" })
+        })
+      ]);
+    }
+
+    copyBtn.addEventListener("click", async () => {
+      try {
+        const html = docNode.innerHTML;
+        const text = docNode.innerText;
+        await copyToClipboard(html, text);
+        copyStatus.textContent = "Berhasil dicopy sebagai rich HTML. Paste ke Tiptap sekarang.";
+      } catch (err) {
+        copyStatus.textContent = "Clipboard diblokir browser. Coba jalankan via localhost atau copy dari tampilan page.";
+      }
+    });
+
+    copySafeBtn.addEventListener("click", async () => {
+      try {
+        const safeHtml = buildTiptapSafeHtml();
+        const temp = document.createElement("div");
+        temp.innerHTML = safeHtml;
+        const text = temp.innerText;
+        await copyToClipboard(safeHtml, text);
+        copyStatus.textContent = "Berhasil dicopy sebagai Tiptap-safe HTML. Paling aman buat paste format bold/list/heading/quote/code.";
+      } catch (err) {
+        copyStatus.textContent = "Gagal copy Tiptap-safe HTML. Coba jalankan file ini lewat localhost.";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1096 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English for Developers Complete - Tiptap Style</title>
+  <style>
+    :root {
+      --page-bg: #f2efe8;
+      --editor-bg: #fcfbf8;
+      --toolbar-bg: #f5f2ea;
+      --text: #1f1f1b;
+      --muted: #666154;
+      --line: #d9d2c7;
+      --chip: #ece6da;
+      --chip-active: #d9cfbf;
+      --maxw: 920px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #f7f4ed, var(--page-bg));
+      color: var(--text);
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      line-height: 1.75;
+      padding: 28px 14px;
+    }
+
+    .editor-shell {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      background: var(--editor-bg);
+      box-shadow: 0 16px 48px rgba(65, 47, 22, 0.12);
+    }
+
+    .toolbar {
+      border-bottom: 1px solid var(--line);
+      background: var(--toolbar-bg);
+      padding: 10px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .actions {
+      border-bottom: 1px solid var(--line);
+      background: #f8f5ee;
+      padding: 10px 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .chip {
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 0.78rem;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--muted);
+      user-select: none;
+    }
+
+    .chip.active {
+      background: var(--chip-active);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .copy-btn {
+      border: 1px solid var(--line);
+      background: #efe8dc;
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    .copy-note {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .doc {
+      padding: 30px 24px 46px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    h1 {
+      margin: 10px 0 8px;
+      line-height: 1.25;
+      font-size: clamp(1.6rem, 2.6vw, 2.15rem);
+    }
+
+    .subtitle {
+      margin-top: 0;
+      color: #4b463d;
+      font-size: 1rem;
+    }
+
+    h2 {
+      margin-top: 1.4rem;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+      font-size: 1.28rem;
+    }
+
+    p {
+      margin: 0.52rem 0;
+    }
+
+    ul, ol {
+      margin: 0.5rem 0 0.85rem 1.2rem;
+    }
+
+    .node {
+      border-top: 1px solid #e4ddcf;
+      padding-top: 12px;
+      margin-top: 14px;
+    }
+
+    .summary {
+      border: 1px solid #dfd6c5;
+      background: #f7f2e8;
+      padding: 12px 14px;
+      margin: 12px 0 16px;
+    }
+
+    .summary strong {
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    blockquote.callout {
+      border-left: 3px solid #9b8f7b;
+      margin: 0.7rem 0 0.95rem;
+      padding: 0.25rem 0.8rem;
+      color: #433d33;
+      background: #f8f4ec;
+    }
+
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border: 1px solid #2e2e2e;
+      border-left: 3px solid #9b8f7b;
+      padding: 10px 12px;
+      overflow-x: auto;
+      line-height: 1.55;
+      margin: 0.7rem 0 0.95rem;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.9rem;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+  <main class="editor-shell">
+    <div class="toolbar">
+      <span class="chip active">Paragraph</span>
+      <span class="chip">Heading</span>
+      <span class="chip">Bullet List</span>
+      <span class="chip">Ordered List</span>
+      <span class="chip">Code Block</span>
+      <span class="chip">Blockquote</span>
+    </div>
+
+    <div class="actions">
+      <button class="copy-btn" id="copyRichHtmlBtn" type="button">Copy Rich HTML for Tiptap</button>
+      <button class="copy-btn" id="copyTiptapSafeBtn" type="button">Copy Tiptap-Safe HTML</button>
+      <span class="copy-note" id="copyStatus">Copy ini, lalu paste ke Tiptap.</span>
+    </div>
+
+    <article class="doc">
+      <p class="meta">Tiptap Style Notes - English for Developers</p>
+      <h1>English for Developers: Dari Dasar Sampai Interview</h1>
+      <p class="subtitle">Materi komunikasi Inggris buat developer, bahasa santai tapi jelas, biar lo makin pede di tim global.</p>
+
+      <div class="summary">
+        <strong>Map Cepat Section:</strong>
+        <p>BAB A Introduction, BAB B Basic English for Programming, BAB C Team Communication, BAB D Writing Code, BAB E Git and Collaboration, BAB F Debugging Communication, BAB G Technical Documentation, BAB H Meetings, BAB I Job Applications, BAB J Technical Interviews, BAB K Remote Work, BAB L Communication Templates, BAB M Common Mistakes, BAB N Practice Exercises, BAB O Glossary.</p>
+        <p>Sub-bab pakai format A.1, A.2, B.1, B.2, dan seterusnya.</p>
+      </div>
+
+      <section class="node section">
+        <h2>BAB A. Introduction</h2>
+        <h2>A.1 Why English is Important for Developers</h2>
+        <p>Mayoritas dokumentasi, forum, dan diskusi teknis pakai English, jadi ini skill kerja, bukan cuma skill bahasa.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>// kalimat kerja harian</li><li>"I fixed the login bug."</li><li>"Please review my pull request."</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: English di dunia dev itu kayak SIM, tanpa itu lo masih bisa jalan, tapi ruang gerak lo sempit.</blockquote>
+
+        <h2>A.2 English in the Global Tech Industry</h2>
+        <p>Project internasional biasanya lintas negara, jadi English jadi bahasa jembatan buat sinkronin tim.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>// situasi umum</li><li>Standup, sprint planning, code review,</li><li>incident report, production handover.</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: kayak main game tim global, harus satu bahasa biar strategi nyambung.</blockquote>
+
+        <h2>A.3 Common Communication Situations for Developers</h2>
+        <p>Lo bakal sering jelasin bug, minta tolong, update progress, dan negosiasi requirement.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>"I need clarification on this requirement."</li><li>"The issue happens only in staging."</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: ini kayak rapat panitia event, update kecil pun penting biar semua sefrekuensi.</blockquote>
+
+        <h2>A.4 Learning Strategy for Developers</h2>
+        <p>Fokus ke latihan kontekstual: baca docs, tulis issue, ngomong di standup, dan review feedback.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>// weekly targets</li><li>1) read 1 documentation page</li><li>2) write 3 solid commit messages</li><li>3) practice 5 standup sentences</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: jangan nunggu jago dulu baru latihan, sama kayak gym, progres datang dari repetisi.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB B. Basic English for Programming</h2>
+        <h2>B.1 Common Programming Vocabulary</h2>
+        <p>Kalau mau lancar ngobrol teknis, lo harus kuat di vocabulary paling dasar dulu. Bukan cuma hafal arti kata, tapi tau kapan dipakainya di konteks kerja.</p>
+        <p>Kata-kata ini hampir muncul tiap hari pas standup, code review, atau debugging.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><strong>variable</strong> = tempat nyimpen data sementara atau permanen.</li><li><strong>function</strong> = blok kode yang bisa dipanggil ulang.</li><li><strong>parameter</strong> = input yang diterima function.</li><li><strong>return value</strong> = hasil yang dikirim balik dari function.</li><li><strong>bug</strong> = perilaku yang tidak sesuai harapan.</li><li><strong>fix</strong> = perubahan untuk memperbaiki bug.</li><li><strong>deploy</strong> = merilis perubahan ke server/environment tertentu.</li></ul>
+        <pre><code>I updated the function to return a default value.
+      The bug happens when the parameter is null.
+      We will deploy the fix to staging first.</code></pre>
+        <blockquote class="callout">Analogi: ini kosa kata wajib kayak nama bumbu dapur, harus hafal biar bisa masak.</blockquote>
+
+        <h2>B.2 Understanding Technical Documentation</h2>
+        <p>Banyak dev pemula baca docs terlalu cepat lalu keburu implementasi. Padahal docs itu biasanya udah kasih urutan aman: konsep, syarat, langkah, contoh, dan catatan batasan.</p>
+        <p>Teknik simpel: baca sambil jawab 4 pertanyaan ini dulu sebelum coding.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><strong>What?</strong> Fitur atau API ini buat apa?</li><li><strong>Why?</strong> Kapan harus dipakai, kapan jangan?</li><li><strong>How?</strong> Cara setup dan pemakaian dasarnya gimana?</li><li><strong>Edge cases?</strong> Batasan, error umum, dan warning-nya apa?</li></ul>
+        <pre><code>Before implementation, I reviewed the prerequisites and examples.
+      According to the docs, this endpoint requires an API key.
+      The note says retries should use exponential backoff.</code></pre>
+        <blockquote class="callout">Analogi: baca docs kayak baca resep, jangan langsung loncat ke langkah tengah.</blockquote>
+
+        <h2>B.3 Reading Error Messages</h2>
+        <p>Error message itu bukan musuh, tapi petunjuk langsung dari sistem. Fokus ke 4 komponen utama: jenis error, lokasi file, nomor line, dan kondisi yang memicu.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><code>TypeError</code> = biasanya ada nilai <code>undefined</code> atau tipe data yang salah.</li><li><code>Cannot read property 'id' of undefined</code> = objek yang diakses belum ada nilainya.</li><li><code>at UserCard.js:24</code> = titik awal investigasi ada di file itu, baris itu.</li></ul>
+        <pre><code>Error: TypeError: Cannot read property 'id' of undefined
+      File: UserCard.js:24
+      Action: add null check before accessing user.id</code></pre>
+        <blockquote class="callout">Analogi: error itu bukan musuh, dia kayak satpam yang bilang pintu mana yang kekunci.</blockquote>
+
+        <h2>B.4 Understanding Stack Traces</h2>
+        <p>Stack trace nunjukin jalur function call yang berakhir di error. Cara bacanya: lihat error paling atas dulu, lalu telusuri call chain-nya sampai ketemu akar masalah.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><code>at saveUser (userService.js:45)</code> = fungsi yang gagal.</li><li><code>at onSubmit (form.js:12)</code> = siapa yang memanggil fungsi gagal.</li><li><code>at HTMLButtonElement.click</code> = trigger awal dari UI event.</li></ul>
+        <pre><code>at saveUser (userService.js:45)
+      at onSubmit (form.js:12)
+      at HTMLButtonElement.click
+
+      Root cause hypothesis: invalid payload from form submission.</code></pre>
+        <blockquote class="callout">Analogi: kayak lacak asal gosip, lo telusuri dari kabar akhir ke sumber pertama.</blockquote>
+
+        <h2>B.5 Common Words in Programming</h2>
+        <p>Selain kosakata tunggal, lo juga harus kebiasa pakai phrase teknis (verb + object) yang umum dipakai di tim engineering.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><strong>fetch data</strong> = ambil data dari API atau DB.</li><li><strong>parse response</strong> = ubah response mentah ke format yang bisa dipakai app.</li><li><strong>validate input</strong> = cek data user sebelum diproses.</li><li><strong>handle error</strong> = tangani skenario gagal dengan aman.</li><li><strong>initialize app</strong> = setup state awal aplikasi.</li><li><strong>resolve conflict</strong> = beresin konflik merge di Git.</li><li><strong>rollback deployment</strong> = balikin versi rilis ke versi sebelumnya.</li></ul>
+        <pre><code>We need to validate input before we process payment.
+      Please resolve the merge conflict in auth.middleware.ts.
+      If production fails, we should rollback the deployment.</code></pre>
+        <blockquote class="callout">Analogi: makin hafal phrase, makin lancar obrolan teknis tanpa mikir lama.</blockquote>
+
+        <h2>B.6 Example Conversation (Developer to Developer)</h2>
+        <p>Ini contoh obrolan real di tim pas lagi investigasi bug. Gaya bahasanya sopan, jelas, dan langsung ke poin.</p>
+        <pre><code>[Frontend Dev - Rina]: Hey Dan, do you have a minute? I found an issue in the checkout flow.
+      [Backend Dev - Dan]: Sure. What happened?
+      [Frontend Dev - Rina]: The API returns 500 when the promo code is empty.
+      [Backend Dev - Dan]: Can you share the error message?
+      [Frontend Dev - Rina]: Yes. TypeError: Cannot read property 'code' of undefined in promoService.ts line 42.
+      [Backend Dev - Dan]: Got it. Did you test it in staging?
+      [Frontend Dev - Rina]: Yes, same result in staging and local.
+      [Backend Dev - Dan]: Okay, I will add a null check and open a PR.
+      [Frontend Dev - Rina]: Great. Please tag me in the review.
+      [Backend Dev - Dan]: Will do.</code></pre>
+        <p><strong>Versi conversation buat standup:</strong></p>
+        <pre><code>[Developer - Rina]: Yesterday, I investigated a checkout bug related to promo validation.
+      [Developer - Rina]: Today, I am adding a fix and test cases.
+      [Developer - Rina]: Blocker: I need confirmation about the expected behavior for empty promo codes.
+      [Scrum Master - Alex]: Noted. Please sync with Product Owner after this standup.</code></pre>
+      </section>
+
+      <section class="node section">
+        <h2>BAB C. Communication in Development Teams</h2>
+        <h2>C.1 Daily Standup Meetings</h2>
+        <p>Daily standup itu bukan sesi cerita panjang, tapi sinkronisasi cepat antar tim. Format paling aman tetap: <strong>yesterday, today, blockers</strong>.</p>
+        <p>Targetnya simpel: semua orang tahu progres, tahu hambatan, dan tahu siapa perlu dibantu hari ini.</p>
+        <p><strong>Contoh kalimat yang bisa dipakai:</strong></p><ul><li>Yesterday, I fixed the authentication bug in login flow.</li><li>Today, I will implement the refresh token endpoint.</li><li>Blocker: I am waiting for the updated API contract.</li></ul>
+        <p><strong>Example conversation:</strong></p>
+        <pre><code>[Scrum Master - Maya]: Quick standup, please keep it under one minute each.
+[Backend Dev - Arif]: Yesterday, I fixed the auth bug. Today, I am working on refresh token logic.
+[Backend Dev - Arif]: Blocker: I need the latest API contract from the frontend team.
+[Frontend Dev - Nia]: I will share it right after this meeting.
+[Scrum Master - Maya]: Great, thanks. Let us move to the next update.</code></pre>
+        <blockquote class="callout">Analogi: standup itu laporan jaga malam, poin penting aja.</blockquote>
+
+        <h2>C.2 Asking Questions to Team Members</h2>
+        <p>Nanya ke tim itu bagus, tapi jangan lempar pertanyaan kosong. Kasih konteks biar orang lain bisa bantu cepat tanpa nebak-nebak.</p>
+        <p>Minimal kasih: apa yang lo coba, error apa yang muncul, dan ekspektasi lo apa.</p>
+        <p><strong>Contoh kalimat yang bisa dipakai:</strong></p><ul><li>I tried middleware order A and B, but I still got HTTP 500.</li><li>Could you help me review the middleware order?</li><li>I expected the request to return HTTP 200 after authentication.</li></ul>
+        <p><strong>Example conversation:</strong></p>
+        <pre><code>[Junior Dev - Dimas]: Hi Kak, I need help with the auth middleware.
+[Senior Dev - Sari]: Sure, what have you tried so far?
+[Junior Dev - Dimas]: I tested two middleware orders, but both return HTTP 500.
+[Senior Dev - Sari]: Can you share the error log and the current route config?
+[Junior Dev - Dimas]: Yes, I will send both in this thread.
+[Senior Dev - Sari]: Perfect, we can debug it together.</code></pre>
+        <blockquote class="callout">Analogi: kalau nanya alamat, kasih patokan biar orang gampang nunjukin jalan.</blockquote>
+
+        <h2>C.3 Explaining Problems</h2>
+        <p>Pas jelasin masalah, pakai struktur yang bikin tim langsung paham dampaknya. Format aman: <strong>impact + steps to reproduce + expected result + actual result</strong>.</p>
+        <p>Dengan format ini, PM, QA, dan dev lain bisa align lebih cepat tanpa diskusi muter.</p>
+        <p><strong>Contoh kalimat yang bisa dipakai:</strong></p><ul><li>Impact: users cannot complete checkout.</li><li>Steps: add item, click pay, then API returns HTTP 500.</li><li>Expected: payment success page appears.</li><li>Actual: user stays on checkout page with error toast.</li></ul>
+        <p><strong>Example conversation:</strong></p>
+        <pre><code>[QA - Fina]: I found a critical issue in checkout.
+[Backend Dev - Dan]: What is the impact?
+[QA - Fina]: Users cannot complete payment.
+[QA - Fina]: Steps: add item, click Pay, then we get HTTP 500.
+[Backend Dev - Dan]: What is the expected behavior?
+[QA - Fina]: The user should be redirected to the payment success page.</code></pre>
+        <blockquote class="callout">Analogi: lapor kerusakan motor, jelasin gejala dan kapan munculnya.</blockquote>
+
+        <h2>C.4 Giving Technical Updates</h2>
+        <p>Update teknis yang bagus itu konkret dan bisa ditindaklanjuti. Jangan cuma bilang "almost done" tanpa detail.</p>
+        <p>Pakai format: <strong>status + risk + ETA + next action</strong>.</p>
+        <p><strong>Contoh kalimat yang bisa dipakai:</strong></p><ul><li>Status: the feature is 80% complete.</li><li>Risk: API latency is still unstable during peak traffic.</li><li>ETA: I can finish by tomorrow at 3 PM.</li><li>Next action: optimize query and rerun load test.</li></ul>
+        <p><strong>Example conversation:</strong></p>
+        <pre><code>[Tech Lead - Bimo]: Can you give us a quick update on the payment refactor?
+[Backend Dev - Raka]: The implementation is 80% complete.
+[Backend Dev - Raka]: Risk: response time is still high under load.
+[Backend Dev - Raka]: ETA is tomorrow at 3 PM.
+[Tech Lead - Bimo]: Good. Please post a test result after optimization.
+[Backend Dev - Raka]: Sure, I will share the benchmark report.</code></pre>
+        <blockquote class="callout">Analogi: kayak update progress renovasi, jangan cuma bilang "hampir selesai".</blockquote>
+
+        <h2>C.5 Clarifying Requirements</h2>
+        <p>Requirement yang ambigu harus diklarifikasi secepat mungkin, sebelum coding keburu jauh. Fokus ke tiga hal: <strong>scope, acceptance criteria, out-of-scope</strong>.</p>
+        <p>Kalau ini jelas dari awal, lo bisa hemat banyak rework di akhir sprint.</p>
+        <p><strong>Contoh kalimat yang bisa dipakai:</strong></p><ul><li>Do we support guest checkout in this release?</li><li>What are the acceptance criteria for the success state?</li><li>Is email notification included, or out of scope for this sprint?</li></ul>
+        <p><strong>Example conversation:</strong></p>
+        <pre><code>[Developer - Niko]: I want to confirm the checkout requirement before implementation.
+[Product Owner - Lisa]: Sure, what do you need to clarify?
+[Developer - Niko]: Do we support guest checkout in this sprint?
+[Product Owner - Lisa]: No, only logged-in users for this release.
+[Developer - Niko]: Got it. Is email notification part of this task?
+[Product Owner - Lisa]: Not yet. That will be in the next sprint.</code></pre>
+        <blockquote class="callout">Analogi: sebelum masak, pastiin pesanan level pedasnya berapa.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB D. English for Writing Code</h2>
+        <h2>D.1 Writing Meaningful Variable Names</h2>
+        <p>Variable name yang bagus bikin orang ngerti tujuan kode tanpa harus buka 10 file lain. Hindari nama terlalu umum seperti <code>x</code>, <code>data</code>, atau <code>temp</code> kalau konteksnya penting.</p>
+        <p>Pola aman: pakai nama yang jelas, spesifik, dan konsisten dengan domain bisnis.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><strong>Bad:</strong> <code>const d = getUser();</code></li><li><strong>Good:</strong> <code>const currentUser = getUser();</code></li><li><strong>Bad:</strong> <code>let x = 0;</code></li><li><strong>Good:</strong> <code>let retryCount = 0;</code></li></ul>
+        <pre><code>// unclear
+const data = await fetchProfile();
+
+// clearer
+const userProfile = await fetchProfile();</code></pre>
+        <p><strong>Useful English sentence:</strong> <em>I renamed the variable to make the intent clearer.</em></p>
+        <blockquote class="callout">Analogi: label toples yang jelas bikin orang ga salah ambil bumbu.</blockquote>
+
+        <h2>D.2 Naming Methods and Functions</h2>
+        <p>Nama function harus terdengar seperti aksi. Kalau orang lihat nama function, dia harus langsung bisa nebak fungsi itu melakukan apa.</p>
+        <p>Pola paling aman: <strong>verb + noun</strong>, misalnya <code>validateOrder</code>, <code>calculateTax</code>, <code>sendInvoiceEmail</code>.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><code>function calculateShippingFee(order) {}</code></li><li><code>function sendWelcomeEmail(user) {}</code></li><li><code>function validateCheckoutInput(payload) {}</code></li></ul>
+        <pre><code>// unclear
+function process(data) {}
+
+// clearer
+function processRefundRequest(refundRequest) {}</code></pre>
+        <p><strong>Useful English sentence:</strong> <em>Can we rename this function to better reflect its behavior?</em></p>
+        <blockquote class="callout">Analogi: nama tombol harus jelas, bukan "klik ini".</blockquote>
+
+        <h2>D.3 Writing Clear Comments</h2>
+        <p>Komentar terbaik itu jelasin <strong>why</strong>, bukan mengulang <strong>what</strong>. Kalau kode sudah jelas, komentar berlebihan malah bikin noise.</p>
+        <p>Tulis komentar hanya saat ada keputusan teknis yang tidak obvious, workaround, atau rule bisnis yang sensitif.</p>
+        <p>Artinya, komentar paling berguna biasanya muncul di 3 kondisi: saat ada alasan bisnis yang tidak kelihatan dari kode, saat ada keterbatasan sistem eksternal, atau saat lo sengaja memilih solusi yang kelihatannya aneh tapi memang paling aman.</p>
+        <p>Kalau isi komentarnya cuma mengulang baris kode, mending hapus. Tapi kalau komentarnya membantu orang lain paham konteks keputusan, itu baru bernilai.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><code>// Why: retry is needed because provider timeout spikes at night</code></li><li><code>// Temporary workaround for legacy API response format</code></li><li><code>// Business rule: free shipping only for premium users</code></li></ul>
+        <pre><code>// bad: increment i by one
+i++;
+
+// good: Retry once because gateway sometimes returns transient 502.
+const result = await retry(callPaymentGateway, 1);</code></pre>
+        <pre><code>// good: Keep this fallback because some old clients still send null currency.
+const currency = request.currency ?? "USD";
+
+// good: We cache this result for 5 minutes to reduce load on the billing API.
+const summary = await cache.remember(cacheKey, 300, loadBillingSummary);
+
+// good: Do not merge guest cart here.
+// Product decided to keep guest and logged-in carts separate for audit reasons.
+if (user.isGuest) {
+  return guestCart;
+}</code></pre>
+        <pre><code>// good: Keep this validation on the server even though the client already checks it.
+// We cannot trust client-side input for permission-sensitive actions.
+if (!currentUser.isAdmin) {
+  throw new ForbiddenError();
+}
+
+// good: This flag stays temporary until the mobile app supports the new response format.
+if (featureFlags.useV2InvoiceResponse) {
+  return buildInvoiceV2(result);
+}
+
+// good: We sort by createdAt here because finance exports must be reproducible.
+const invoices = orderBy(records, "createdAt", "asc");
+
+// good: Avoid parallel requests in this loop.
+// The vendor rate-limits aggressively and returns 429 during bursts.
+for (const invoice of invoices) {
+  await syncInvoice(invoice);
+}</code></pre>
+        <p><strong>Contoh tambahan yang bagus:</strong></p><ul><li><code>// Security note: always verify webhook signatures before processing payloads.</code></li><li><code>// Keep this field for backward compatibility with version 1 clients.</code></li><li><code>// Intentionally using UTC here to avoid timezone drift in scheduled jobs.</code></li><li><code>// This query is split into two steps to make the execution plan more stable.</code></li></ul>
+        <p><strong>Contoh komentar yang kurang bagus:</strong></p><ul><li><code>// set user name</code> padahal baris kodenya sudah jelas.</li><li><code>// loop through items</code> padahal fungsi loop-nya obvious.</li><li><code>// call API</code> tanpa menjelaskan kenapa call itu perlu perhatian khusus.</li></ul>
+        <p><strong>Useful English sentences:</strong></p><ul><li><em>I added a comment to explain the business rule behind this condition.</em></li><li><em>This comment clarifies why we use a fallback instead of removing the field.</em></li><li><em>I documented this workaround because the external provider still returns inconsistent data.</em></li></ul>
+        <blockquote class="callout">Analogi: komentar itu catatan dapur kenapa resep diubah, bukan nulis ulang resep.</blockquote>
+
+        <h2>D.4 Writing Commit Messages</h2>
+        <p>Commit message yang rapi bikin history repo enak dibaca dan gampang dicari saat investigasi bug. Hindari pesan seperti <code>update</code> atau <code>fix bug</code> yang terlalu umum.</p>
+        <p>Pakai format ringkas: <strong>type(scope): intent</strong>.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><code>feat(cart): add quantity validation</code></li><li><code>fix(api): handle null customer id</code></li><li><code>refactor(auth): extract token parser</code></li><li><code>docs(readme): add local setup guide</code></li></ul>
+        <pre><code>// less helpful
+update code
+
+// better
+fix(checkout): prevent duplicate order submission</code></pre>
+        <p><strong>Useful English sentence:</strong> <em>This commit message describes what changed and why it was needed.</em></p>
+        <blockquote class="callout">Analogi: commit message itu judul paket kiriman, harus jelas isinya apa.</blockquote>
+
+        <h2>D.5 Writing Documentation</h2>
+        <p>Dokumentasi itu investasi tim. Kalau README dan docs jelas, onboarding anggota baru jauh lebih cepat dan support question berulang bisa berkurang.</p>
+        <p>Minimal dokumentasi harus jawab: setup, run, test, deploy, dan troubleshooting dasar.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><code># Quick Start</code></li><li><code>1. Install dependencies</code></li><li><code>2. Configure environment variables</code></li><li><code>3. Run the app locally</code></li><li><code>4. Run tests</code></li><li><code>5. Common issues and fixes</code></li></ul>
+        <pre><code># Quick Start
+npm install
+cp .env.example .env
+npm run dev
+
+# Run tests
+npm test</code></pre>
+        <p><strong>Useful English sentence:</strong> <em>Please update the README so new developers can run the project without extra help.</em></p>
+        <blockquote class="callout">Analogi: dokumen proyek itu peta lokasi, orang baru bisa langsung nyambung.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB E. English for Git and Collaboration</h2>
+        <h2>E.1 Writing Good Commit Messages</h2>
+        <p>Commit message yang bagus bikin history repo jadi alat komunikasi, bukan cuma catatan teknis. Orang lain harus bisa ngerti perubahan apa yang dibuat tanpa buka semua diff satu per satu.</p>
+        <p>Pakai kata kerja aktif, spesifik, dan fokus pada intent perubahan. Hindari pesan kabur seperti <code>update</code>, <code>fix stuff</code>, atau <code>final</code>.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><code>refactor(payment): split provider adapter</code></li><li><code>docs(readme): add troubleshooting section</code></li><li><code>fix(auth): handle expired refresh token</code></li><li><code>feat(order): add status filter to admin list</code></li></ul>
+        <pre><code>// weak
+      update code
+
+      // better
+      fix(checkout): prevent duplicate order submission</code></pre>
+        <p><strong>Useful English sentence:</strong> <em>This commit focuses on one change so the review is easier to follow.</em></p>
+        <blockquote class="callout">Analogi: catatan keuangan harus detail, biar audit gampang.</blockquote>
+
+        <h2>E.2 Writing Pull Request Descriptions</h2>
+        <p>PR description itu bantu reviewer paham konteks sebelum lihat diff. Makin jelas deskripsinya, makin cepat reviewer ngerti perubahan dan makin kecil peluang salah paham.</p>
+        <p>Format aman: <strong>context, what changed, why, how tested, risk or impact</strong>. Kalau ada UI change, tambahkan screenshot atau gif.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><strong>Context:</strong> checkout API often receives duplicate requests.</li><li><strong>What:</strong> add request idempotency validation and update error handling.</li><li><strong>Why:</strong> prevent duplicate orders during retry scenarios.</li><li><strong>Test:</strong> unit test, integration test, and manual staging verification.</li><li><strong>Risk:</strong> low, limited to checkout submission flow.</li></ul>
+        <pre><code>## What
+      Add rate limiter to login endpoint.
+
+      ## Why
+      Prevent brute-force attempts and reduce abuse.
+
+      ## Test
+      - Unit tests updated
+      - Manual test in staging
+      - Verified response headers</code></pre>
+        <p><strong>Useful English sentence:</strong> <em>Please review the context section first because it explains the production issue behind this change.</em></p>
+        <blockquote class="callout">Analogi: kayak proposal kegiatan, harus jelas tujuannya dan bukti jalanin.</blockquote>
+
+        <h2>E.3 Code Review Communication</h2>
+        <p>Code review yang sehat fokus ke kualitas kode, bukan menyerang orang yang nulisnya. Pakai tone kolaboratif, kasih alasan teknis, dan bedakan mana blocker, mana sekadar suggestion.</p>
+        <p>Komentar review yang bagus biasanya menjawab: apa yang perlu diubah, kenapa perlu diubah, dan usulan alternatifnya apa.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><em>Could we extract this into a helper for readability?</em></li><li><em>I think this query should be moved to the repository layer for consistency.</em></li><li><em>Nice improvement on error handling.</em></li><li><em>Would you mind adding a test case for the null input scenario?</em></li></ul>
+        <pre><code>// collaborative review comment
+      Could we move this validation into a shared helper?
+      It appears in three places and may become harder to maintain.</code></pre>
+        <p><strong>Useful English sentence:</strong> <em>This is a suggestion, not a blocker, but I think it would improve readability.</em></p>
+        <blockquote class="callout">Analogi: ngasih masukan ke temen latihan, bahas tekniknya bukan nyerang orangnya.</blockquote>
+
+        <h2>E.4 Giving Feedback on Code</h2>
+        <p>Kalau mau kasih feedback yang enak diterima, jangan cuma bilang "kurang bagus". Pakai pola: <strong>observation + impact + suggestion</strong>.</p>
+        <p>Dengan pola ini, feedback terasa objektif dan langsung bisa ditindaklanjuti.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><strong>Observation:</strong> duplicated logic appears in three files.</li><li><strong>Impact:</strong> this may increase maintenance cost and inconsistency risk.</li><li><strong>Suggestion:</strong> move it into a shared utility function.</li><li><strong>Observation:</strong> this method is doing validation, mapping, and persistence at once.</li><li><strong>Suggestion:</strong> split responsibilities so the method is easier to test.</li></ul>
+        <pre><code>Observation: the retry logic is duplicated in two services.
+      Impact: future changes may become inconsistent.
+      Suggestion: extract it into a reusable helper.</code></pre>
+        <p><strong>Useful English sentence:</strong> <em>My suggestion is to separate the responsibilities so the method becomes easier to test and maintain.</em></p>
+        <blockquote class="callout">Analogi: bilang "mejanya goyang karena baut longgar, ayo kencengin" bukan cuma "meja jelek".</blockquote>
+
+        <h2>E.5 Responding to Code Review Comments</h2>
+        <p>Balasan ke review comment juga bagian dari professional communication. Jawaban lo harus jelas: apakah masukan diterima, ditunda, atau ditolak dengan alasan teknis yang masuk akal.</p>
+        <p>Kalau setuju, bilang perubahan sudah dilakukan. Kalau tidak setuju, jelaskan alasannya dengan sopan dan tetap berbasis konteks teknis.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li><em>Good catch, updated in the latest commit.</em></li><li><em>I kept this for backward compatibility with version 1 clients.</em></li><li><em>I agree. I added a test case for that scenario.</em></li><li><em>I did not move it yet because it would affect the current API contract. I can handle that in a follow-up PR.</em></li></ul>
+        <pre><code>Thanks, I updated the method name and added a unit test.
+
+      I kept the fallback because some legacy clients still rely on the old payload.
+      If you prefer, I can move the cleanup into a separate PR.</code></pre>
+        <p><strong>Useful English sentence:</strong> <em>I agree with the suggestion, but I would prefer to handle the refactor in a follow-up change to keep this PR focused.</em></p>
+        <blockquote class="callout">Analogi: diskusi taktik tim, beda pendapat boleh asal alasannya masuk akal.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB F. English for Debugging and Problem Solving</h2>
+        <h2>F.1 Explaining Bugs</h2>
+        <p>Ketika kamu menemukan bug, kemampuan menjelaskannya dengan bahasa Inggris yang jelas akan sangat membantu tim untuk debug lebih cepat. Bug yang dijelaskan dengan buruk memaksa rekan tim mengajukan banyak pertanyaan sebelum bisa mulai investigasi.</p>
+        <p>Gunakan formula ini: <strong>When + Where + What happened + Impact on user</strong>. Sertakan environment, versi, atau kondisi khusus agar developer langsung bisa mereproduksi masalahnya.</p>
+        <p><strong>Pola kalimat yang efektif:</strong></p>
+        <ul>
+          <li>"The bug occurs when a user applies a coupon before completing the checkout flow."</li>
+          <li>"This only happens in production, not in staging."</li>
+          <li>"The checkout button becomes disabled and the user cannot proceed to payment."</li>
+          <li>"This was first reported on March 15 and affects all users on iOS Safari."</li>
+          <li>"I can reproduce it consistently by following these steps."</li>
+        </ul>
+        <pre><code>[QA - Sinta]: I found a bug in the checkout flow.
+[QA - Sinta]: When a user applies a discount coupon after adding items to the cart, the checkout button becomes disabled.
+[QA - Sinta]: This happens on production only — staging works fine.
+[QA - Sinta]: I tested it with three different accounts and all of them are blocked at payment.
+[Backend Dev - Raka]: Thanks for the detail. Which coupon codes did you use?
+[QA - Sinta]: I used DISC10 and WELCOME5. Both trigger the issue.
+[Backend Dev - Raka]: Got it. I'll check the coupon validation logic — it might be clearing the cart state incorrectly.</code></pre>
+        <p><strong>Useful English sentences:</strong></p>
+        <ul>
+          <li>"This issue consistently reproduces when [condition]."</li>
+          <li>"The impact is that users cannot [action], which blocks the [flow]."</li>
+          <li>"I first noticed this on [date] after [event or deploy]."</li>
+        </ul>
+        <blockquote class="callout">Analogi: laporan ke bengkel yang jelas — "ban belakang bocor sejak pagi, sudah diperiksa anginnya" — jauh lebih membantu daripada cuma bilang "motornya ga enak". Developer butuh konteks spesifik untuk bisa langsung action.</blockquote>
+
+        <h2>F.2 Describing Errors</h2>
+        <p>Error messages, HTTP status codes, dan stack traces adalah data penting saat debugging. Ketika menjelaskan error ke rekan tim, jangan hanya bilang "ada error" — sertakan pesan aslinya, status code, dan konteks request.</p>
+        <p>Developer yang menerima laporan error butuh setidaknya tiga hal: <strong>apa error-nya, di endpoint atau file mana, dan dalam kondisi apa error itu muncul</strong>. Semakin lengkap informasinya, semakin cepat bug bisa ditemukan.</p>
+        <p><strong>Pola kalimat yang efektif:</strong></p>
+        <ul>
+          <li>"The API returns a 401 Unauthorized on POST /api/orders."</li>
+          <li>"The error message is: 'Token has expired or is invalid.'"</li>
+          <li>"This only happens for users with the admin role."</li>
+          <li>"The stack trace points to auth.middleware.js at line 42."</li>
+          <li>"There are no errors in the logs before this point — it seems to fail silently."</li>
+        </ul>
+        <pre><code>[Frontend Dev - Arif]: Hey, I keep getting a 401 when calling the orders endpoint.
+[Frontend Dev - Arif]: The error message is "Token has expired or is invalid."
+[Frontend Dev - Arif]: But I checked the token — it was issued 10 minutes ago and the expiry is set to 1 hour.
+[Frontend Dev - Arif]: Here is the full response body: { "error": "token_expired", "expiry": "2026-03-17T04:00:00Z" }
+[Backend Dev - Sari]: Interesting — that expiry timestamp looks off. Can you tell me what timezone your server clock is set to?
+[Frontend Dev - Arif]: It says UTC, but let me double-check the container env variable.
+[Backend Dev - Sari]: I think the JWT is being verified against a different clock. I'll check the token validation service — it might be comparing timestamps with mismatched timezones.</code></pre>
+        <p><strong>Useful English sentences:</strong></p>
+        <ul>
+          <li>"The server responds with [status code] and the message: '[error message]'."</li>
+          <li>"The stack trace points to [file] at line [number]."</li>
+          <li>"This error only occurs when [condition], not when [alternative]."</li>
+        </ul>
+        <blockquote class="callout">Analogi: kasih tau dokter gejala lengkap — suhu, durasi, lokasi sakit — bukan cuma bilang "ga enak badan". Dokter (developer) butuh data spesifik untuk diagnosa yang tepat.</blockquote>
+
+        <h2>F.3 Asking for Help in Technical Discussions</h2>
+        <p>Minta bantuan teknis bukan cuma soal melempar pertanyaan — tapi soal memberi konteks yang cukup agar orang lain bisa langsung membantu tanpa bolak-balik nanya balik. Developer yang memberikan konteks lengkap sebelum bertanya akan mendapat jawaban yang lebih cepat dan lebih tepat sasaran.</p>
+        <p>Gunakan pola ini sebelum meminta bantuan: <strong>What you were trying to do → What you already checked → Where you are stuck → What specific help you need</strong>. Ini menunjukkan kamu sudah berusaha dan menghargai waktu rekan tim.</p>
+        <p><strong>Pola kalimat yang efektif:</strong></p>
+        <ul>
+          <li>"I've been trying to fix the session timeout issue for the past hour."</li>
+          <li>"I already checked the Redis config and the auth middleware — both look fine."</li>
+          <li>"The logs show the session is created, but it expires immediately."</li>
+          <li>"Could someone help me review the session store configuration? I might be missing something."</li>
+          <li>"I'm not sure if this is a race condition or a config issue — any ideas?"</li>
+        </ul>
+        <pre><code>[Junior Dev - Dika]: Can I get some help? I'm stuck on a refresh token issue.
+[Junior Dev - Dika]: I've been debugging for about 2 hours. Here's what I found so far:
+[Junior Dev - Dika]: The access token expires correctly, but when the app calls /auth/refresh, it returns 403.
+[Junior Dev - Dika]: I already checked: the refresh token is in the cookie, and the endpoint is not rate-limited.
+[Junior Dev - Dika]: Could someone look at the refresh token validation logic? I think the issue might be in how we compare token families.
+[Senior Dev - Nana]: Good context, thanks. Can you paste the relevant validation code?
+[Senior Dev - Nana]: My guess is it's a cookie SameSite policy issue on cross-origin refresh calls — we had this exact problem two months ago.</code></pre>
+        <p><strong>Useful English sentences:</strong></p>
+        <ul>
+          <li>"I've already checked [X] and [Y], but I'm still stuck at [Z]."</li>
+          <li>"Could someone review [specific part]? I think the issue might be in [area]."</li>
+          <li>"I'm not sure if this is a [X] issue or a [Y] issue — any pointers would help."</li>
+        </ul>
+        <blockquote class="callout">Analogi: minta tolong dorong motor sambil bilang "sudah periksa aki dan bensin, tapi masih mati" — orang yang nolong langsung tahu harus ngecek apa, bukan mulai dari nol.</blockquote>
+
+        <h2>F.4 Writing Bug Reports</h2>
+        <p>Bug report yang baik adalah dokumen yang bisa dibaca oleh siapa pun di tim — developer yang tidak tahu konteksnya, QA lead, atau product manager — dan mereka langsung paham masalahnya tanpa harus menghubungi kamu.</p>
+        <p>Struktur standar bug report yang kuat: <strong>Title → Steps to Reproduce → Expected Result → Actual Result → Severity → Environment → Attachments</strong>. Setiap bagian harus diisi dengan jelas, bukan dikosongkan atau diisi dengan "N/A" tanpa alasan.</p>
+        <p><strong>Pola kalimat yang efektif:</strong></p>
+        <ul>
+          <li><strong>Title format:</strong> "[Page/Feature]: [What is broken] when [condition]"</li>
+          <li><strong>Steps:</strong> "1. Go to profile page. 2. Click Upload Avatar. 3. Select a PNG file. 4. Click Save."</li>
+          <li><strong>Expected:</strong> "Avatar uploads successfully and appears in the profile header."</li>
+          <li><strong>Actual:</strong> "Server returns 415 Unsupported Media Type. No feedback is shown to the user."</li>
+          <li><strong>Severity:</strong> "High — blocks all Safari users from updating their profile photo."</li>
+        </ul>
+        <pre><code>Title: [Profile] Avatar upload fails with 415 error on Safari
+
+Steps to Reproduce:
+1. Open the profile settings page on Safari 17 (macOS Ventura)
+2. Click "Upload Avatar"
+3. Select any .png or .jpg file under 2MB
+4. Click "Save"
+
+Expected Result:
+Avatar is uploaded and displayed on the profile header immediately.
+
+Actual Result:
+Server returns HTTP 415 Unsupported Media Type.
+The upload button spins briefly then stops — no error message is shown to the user.
+
+Severity: High
+Affected users: All Safari users on macOS (estimated 18% of our user base)
+Environment: Production | Safari 17.2 | macOS Ventura 13.4
+Attachments: screenshot.png, network-log.har</code></pre>
+        <p><strong>Useful English sentences:</strong></p>
+        <ul>
+          <li>"This issue is reproducible 100% of the time when following the steps above."</li>
+          <li>"The severity is [level] because it affects [user group] and blocks [critical action]."</li>
+          <li>"I have attached a screenshot and network log for reference."</li>
+        </ul>
+        <blockquote class="callout">Analogi: tiket keluhan pelanggan yang detail bikin teknisi langsung tahu part mana yang rusak tanpa harus tanya balik panjang lebar — menghemat waktu semua orang.</blockquote>
+
+        <h2>F.5 Explaining Fixes</h2>
+        <p>Setelah kamu menyelesaikan sebuah bug, jelaskan fix-nya dengan jelas — bukan hanya "sudah diperbaiki". Tim perlu memahami <strong>root cause, apa yang diubah, mengapa perubahan itu menyelesaikan masalah, dan bagaimana mencegahnya terulang</strong>.</p>
+        <p>Penjelasan fix yang baik meningkatkan pemahaman tim, membantu code reviewer memverifikasi solusinya, dan mempercepat onboarding developer baru yang menemukan kode yang sama di masa depan.</p>
+        <p><strong>Pola kalimat yang efektif:</strong></p>
+        <ul>
+          <li>"Root cause: the null check was missing before accessing the user's cart object."</li>
+          <li>"Fix: added a guard clause that returns an empty cart when the user object is undefined."</li>
+          <li>"I added a unit test that covers the null user scenario to prevent regression."</li>
+          <li>"This change is backward-compatible — existing behavior is unchanged for logged-in users."</li>
+          <li>"I also enabled a lint rule to catch similar null access patterns going forward."</li>
+        </ul>
+        <pre><code>[Backend Dev - Raka]: Fixed. Here's the summary:
+
+Root cause:
+The coupon validation middleware called cart.items.reduce() without
+checking if cart was null first. When a guest user applied a coupon,
+cart was undefined, which threw a TypeError and silently disabled
+the checkout button.
+
+Fix:
+Added a null guard before the reduce call:
+  if (!cart || !cart.items) return { discount: 0 };
+
+Tests added:
+- "should return zero discount when cart is null"
+- "should return zero discount when cart.items is empty"
+- "should apply discount correctly when cart has valid items"
+
+Prevention:
+Enabled the no-unsafe-optional-chaining ESLint rule project-wide.
+
+[QA - Sinta]: Clear summary, thanks. I'll verify the fix on staging now.
+[Tech Lead - Bimo]: Great write-up. Let's add the lint rule to our onboarding checklist so new devs know it's enforced.</code></pre>
+        <p><strong>Useful English sentences:</strong></p>
+        <ul>
+          <li>"The root cause was [X]. The fix addresses this by [Y]."</li>
+          <li>"I added [test description] to prevent this from regressing in the future."</li>
+          <li>"This fix is safe to deploy — it does not affect [other functionality]."</li>
+        </ul>
+        <blockquote class="callout">Analogi: teknisi bengkel yang baik bukan cuma tambal ban, tapi juga jelasin kenapa bisa bocor dan kasih rekomendasi pencegahan — itulah bedanya technician biasa dengan yang profesional.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB G. English for Technical Documentation</h2>
+        <h2>G.1 Reading Official Documentation</h2>
+        <p>Baca docs resmi dari contoh paling dasar, lalu naik ke advanced topics.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Start from:</li><li>- Getting Started</li><li>- API Reference</li><li>- Best Practices</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: belajar rute baru mulai dari peta utama dulu baru jalan tikus.</blockquote>
+
+        <h2>G.2 Understanding API Documentation</h2>
+        <p>Perhatikan endpoint, auth, request body, response schema, dan error codes.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>POST /v1/orders</li><li>Headers: Authorization</li><li>Body: { items: [] }</li><li>Responses: 201, 400, 401</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: menu restoran plus aturan pesan harus dibaca sebelum order.</blockquote>
+
+        <h2>G.3 Writing Technical Documentation</h2>
+        <p>Tulis docs dengan struktur konsisten biar tim ga buang waktu nanya hal sama.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Purpose</li><li>Prerequisites</li><li>Steps</li><li>Validation</li><li>Troubleshooting</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: SOP kerja yang rapi bikin shift pagi dan malam hasilnya sama.</blockquote>
+
+        <h2>G.4 Writing README Files</h2>
+        <p>README itu pintu masuk repo. Orang harus bisa run project dalam beberapa menit.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li># Project Name</li><li>## Setup</li><li>## Run</li><li>## Test</li><li>## Env Variables</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: README itu papan petunjuk di lobi gedung.</blockquote>
+
+        <h2>G.5 Writing Installation Guides</h2>
+        <p>Panduan instalasi harus langkah per langkah, include OS differences kalau ada.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Windows: install x</li><li>Linux: apt install x</li><li>Mac: brew install x</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: kayak buku rakitan furnitur, urutannya ga boleh loncat.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB H. English for Meetings</h2>
+        <h2>H.1 Daily Standup Meeting Examples</h2>
+        <p>Gunakan template biar ngomong lancar walau belum native.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Yesterday I...</li><li>Today I will...</li><li>I am blocked by...</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: kayak script pembukaan MC, bikin lo lebih pede.</blockquote>
+
+        <h2>H.2 Sprint Planning</h2>
+        <p>Bahas scope, estimate, dependencies, dan risk dengan kalimat singkat.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>"This task is 3 points."</li><li>"Dependency on payment API."</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: susun rencana belanja mingguan biar ga over budget.</blockquote>
+
+        <h2>H.3 Technical Discussions</h2>
+        <p>Diskusi teknis butuh framing: problem, options, trade-offs, recommendation.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Problem -&gt; Option A/B -&gt; Pros/Cons -&gt; Decision</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: milih kosan, bandingin harga, lokasi, dan fasilitas dulu.</blockquote>
+
+        <h2>H.4 Explaining Architecture</h2>
+        <p>Jelaskan arsitektur dari high-level dulu baru detail implementation.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Client -&gt; API Gateway -&gt; Services -&gt; Database</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: jelasin denah rumah dari ruang utama dulu baru detail kamar.</blockquote>
+
+        <h2>H.5 Asking Clarification in Meetings</h2>
+        <p>Kalau ada yang ga jelas, tanya saat itu juga dengan sopan.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>"Could you clarify the acceptance criteria?"</li><li>"Do we need backward compatibility?"</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: mending nanya arah sekali daripada nyasar satu jam.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB I. English for Job Applications</h2>
+        <h2>I.1 Writing a Developer Resume</h2>
+        <p>Resume harus fokus impact, bukan cuma daftar tools.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Built payment module that reduced failed transactions by 25%.</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: CV itu etalase karya, tunjukin hasil nyata bukan slogan.</blockquote>
+
+        <h2>I.2 Writing a Cover Letter</h2>
+        <p>Cover letter singkat: kenapa cocok, apa kontribusi, dan kenapa perusahaan itu.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>I am interested in this role because...</li><li>I can contribute by...</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: kayak perkenalan ke tim baru, harus relevan bukan muter-muter.</blockquote>
+
+        <h2>I.3 Writing a LinkedIn Profile</h2>
+        <p>Headline dan summary harus jelas role, stack, dan domain pengalaman.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Backend Developer | .NET | API | Cloud</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: LinkedIn itu papan nama profesional lo di jalan utama.</blockquote>
+
+        <h2>I.4 Communicating with Recruiters</h2>
+        <p>Balas recruiter dengan sopan, jelas availability, dan ekspektasi role.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Thank you for reaching out.</li><li>I am available for a call this week.</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: respon cepat itu kayak jawab chat klien, nunjukin lo profesional.</blockquote>
+
+        <h2>I.5 Writing Professional Emails</h2>
+        <p>Email profesional pakai subject jelas, tujuan jelas, penutup sopan.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Subject: Interview Availability</li><li>Body: available on Tue/Thu, 10:00-12:00</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: email kerja itu surat resmi, formatnya harus rapih.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB J. English for Technical Interviews</h2>
+        <h2>J.1 Introducing Yourself</h2>
+        <p>Self-introduction di technical interview harus singkat, relevan, dan langsung nunjukin value lo. Format aman: <strong>who you are, what you build, what impact you made, why you fit this role</strong>.</p>
+        <p>Jangan terlalu panjang. Tujuan intro bukan cerita semua pengalaman, tapi bikin interviewer cepat paham profil profesional lo.</p>
+        <p><strong>Examples you can use:</strong></p><ul><li>I am a backend developer with 3 years of experience building APIs with .NET and SQL Server.</li><li>I currently focus on authentication, payment integration, and API performance.</li><li>In my last project, I helped reduce response time by around 40 percent.</li><li>I enjoy turning unclear requirements into clear technical execution plans.</li></ul>
+        <p><strong>Example conversation:</strong></p>
+        <pre><code>[Interviewer]: Could you briefly introduce yourself?
+[Candidate]: Sure. I am a backend developer with 3 years of experience in .NET and SQL Server.
+[Candidate]: I mainly build API services and optimize system reliability.
+[Candidate]: In my recent project, I improved checkout response time by about 40 percent.
+[Interviewer]: Great, thanks. That is clear.</code></pre>
+        <p><strong>Roleplay practice:</strong></p>
+        <pre><code>[Roleplay Setup]
+Role A: Interviewer
+Role B: Candidate
+Task: Candidate gives a 45-second self-introduction.
+Goal: Clear structure and relevant technical impact.
+Feedback focus: confidence, clarity, and conciseness.</code></pre>
+        <blockquote class="callout">Analogy: the opening of an interview is like the opening of a presentation. If the first minute is clear, the rest of the discussion becomes much easier.</blockquote>
+
+        <h2>J.2 Explaining Your Projects</h2>
+        <p>Saat jelasin project, pakai struktur: <strong>context, challenge, your role, action, result, lesson learned</strong>. Ini bikin jawaban lo runtut dan nunjukin kedewasaan engineering.</p>
+        <p><strong>Examples you can use:</strong></p><ul><li>One of my recent projects was an order management platform for internal operations.</li><li>The challenge was slow checkout performance during campaign traffic spikes.</li><li>My role was to redesign API flow and optimize query execution.</li><li>I added caching, reduced unnecessary joins, and introduced endpoint monitoring.</li><li>As a result, average response time improved by around 40 percent.</li><li>We also reduced production incidents by adding alerting and runbooks.</li></ul>
+        <p><strong>Example conversation:</strong></p>
+        <pre><code>[Interviewer]: Tell me about a project you are proud of.
+[Candidate]: I worked on an order management platform used by internal operations.
+[Candidate]: Our challenge was slow checkout performance during campaign traffic.
+[Candidate]: I redesigned API flow, added caching, and optimized SQL queries.
+[Candidate]: The result was a 40 percent response-time improvement.
+[Interviewer]: Nice. What did you learn from that project?
+[Candidate]: Monitoring and observability should be designed early, not added too late.</code></pre>
+        <p><strong>Roleplay practice:</strong></p>
+        <pre><code>[Roleplay Setup]
+Role A: Interviewer
+Role B: Candidate
+Task: Candidate explains one project in 90 seconds.
+Goal: Show technical depth and measurable impact.
+Feedback focus: structure, metrics, and ownership clarity.</code></pre>
+        <blockquote class="callout">Analogy: explaining a project is like explaining a match replay. You need to show the situation, the strategy, and the final score.</blockquote>
+
+        <h2>J.3 Answering Technical Questions</h2>
+        <p>Jawab pertanyaan teknis dengan pola: <strong>define, approach, trade-off, decision</strong>. Interviewer biasanya nilai cara berpikir lo, bukan hafalan doang.</p>
+        <p>Kalau belum yakin, sebutkan asumsi lo dengan jelas. Ini lebih profesional daripada nebak jawaban.</p>
+        <p><strong>Examples you can use:</strong></p><ul><li>I would start with indexing for read-heavy queries to improve lookup speed.</li><li>I would monitor write overhead because too many indexes can slow down inserts.</li><li>If traffic is predictable, I would add caching for frequently requested data.</li><li>For distributed systems, I would clarify consistency requirements before design decisions.</li><li>If I am unsure, I state assumptions and choose the safest approach first.</li></ul>
+        <p><strong>Example conversation:</strong></p>
+        <pre><code>[Interviewer]: How would you optimize a slow database query?
+[Candidate]: First, I would inspect the execution plan and identify bottlenecks.
+[Candidate]: Then I would add or adjust indexes for read-heavy access patterns.
+[Candidate]: I would also evaluate caching if the data is requested frequently.
+[Candidate]: The trade-off is that more indexes can slow write operations.
+[Interviewer]: Good, that shows balanced reasoning.</code></pre>
+        <p><strong>Roleplay practice:</strong></p>
+        <pre><code>[Roleplay Setup]
+Role A: Interviewer
+Role B: Candidate
+Task: Answer 3 technical questions using define-approach-trade-off-decision.
+Goal: Demonstrate structured thinking under pressure.
+Feedback focus: logic, trade-off awareness, and communication clarity.</code></pre>
+        <blockquote class="callout">Analogy: answering technical questions is like solving a live case study. A good answer needs logic, not just memorized theory.</blockquote>
+
+        <h2>J.4 Explaining Your Code</h2>
+        <p>Waktu diminta jelasin kode, jangan langsung loncat ke detail random. Pakai urutan: <strong>purpose, flow, key decision, trade-off</strong>.</p>
+        <p>Jawaban yang bagus menghubungkan kode dengan hasil nyata: readability, maintainability, performance, atau reliability.</p>
+        <p><strong>Examples you can use:</strong></p><ul><li>This function validates request payload before business logic execution.</li><li>After validation, it maps input into a domain model and calls the service layer.</li><li>I separated validation to improve testability and reduce side effects.</li><li>I added a guard clause to prevent null reference errors early.</li><li>The retry logic handles transient failures from an external provider.</li></ul>
+        <p><strong>Example conversation:</strong></p>
+        <pre><code>[Interviewer]: Can you walk me through this method?
+[Candidate]: Sure. This method validates input before processing payment.
+[Candidate]: Then it maps the payload into a domain object and calls the service.
+[Candidate]: I added a guard clause to fail fast for invalid requests.
+[Candidate]: I also extracted retry logic to keep this method easier to test.
+[Interviewer]: Nice, your explanation is clear and structured.</code></pre>
+        <p><strong>Roleplay practice:</strong></p>
+        <pre><code>[Roleplay Setup]
+Role A: Interviewer
+Role B: Candidate
+Task: Candidate explains one function from a small code snippet.
+Goal: Explain both implementation and reasoning.
+Feedback focus: flow clarity, naming, and design rationale.</code></pre>
+        <blockquote class="callout">Analogy: explaining code is like walking someone through a recipe. You need to show the ingredients, the steps, and why certain choices were made.</blockquote>
+
+        <h2>J.5 Asking Questions to the Interviewer</h2>
+        <p>Interview itu two-way discussion. Pertanyaan yang bagus nunjukin lo serius soal quality tim, process, dan growth jangka panjang.</p>
+        <p>Hindari pertanyaan yang jawabannya gampang dicari di website perusahaan. Fokus ke hal yang benar-benar bantu lo evaluasi fit.</p>
+        <p><strong>Examples you can use:</strong></p><ul><li>How does your team handle code reviews and technical feedback?</li><li>What does success look like in the first three to six months for this role?</li><li>How are technical decisions made when team members disagree?</li><li>What are the main engineering challenges the team is facing right now?</li><li>How do you balance delivery speed with code quality and refactoring?</li></ul>
+        <p><strong>Example conversation:</strong></p>
+        <pre><code>[Candidate]: Thank you for the interview. May I ask a few questions?
+[Interviewer]: Of course.
+[Candidate]: How does your team handle code reviews and technical disagreements?
+[Interviewer]: We use async reviews first, then design sync if needed.
+[Candidate]: Great. What does success look like in the first 3 months?
+[Interviewer]: We expect strong onboarding, ownership of one service, and clear communication.</code></pre>
+        <p><strong>Roleplay practice:</strong></p>
+        <pre><code>[Roleplay Setup]
+Role A: Interviewer
+Role B: Candidate
+Task: Candidate asks 3 thoughtful end-of-interview questions.
+Goal: Show curiosity and role-fit evaluation skills.
+Feedback focus: question quality, relevance, and professionalism.</code></pre>
+        <blockquote class="callout">Analogy: an interview is not just a test for you. It is also your chance to evaluate whether the team and environment are a good fit.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB K. English for Remote Work</h2>
+        <h2>K.1 Communicating in Slack</h2>
+        <p>Pesan Slack harus to the point, pakai konteks, dan action request yang jelas.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>[Context] Payment API timeout in staging.</li><li>[Action] Need review on retry policy.</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: chat tim itu kayak HT lapangan, singkat tapi jelas.</blockquote>
+
+        <h2>K.2 Writing Clear Messages</h2>
+        <p>Hindari kalimat panjang muter-muter. Gunakan bullets kalau info banyak.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Issue:</li><li>Impact:</li><li>Next step:</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: catatan tempel kulkas harus kebaca sekali lihat.</blockquote>
+
+        <h2>K.3 Working with International Teams</h2>
+        <p>Pahami timezone, budaya komunikasi, dan ekspektasi response time.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>"I will hand over this task before EOD GMT+7."</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: main estafet, tongkat harus diserahin dengan timing pas.</blockquote>
+
+        <h2>K.4 Handling Miscommunication</h2>
+        <p>Kalau salah paham, langsung re-state poin penting dan confirm ulang.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>"Let me restate to confirm:</li><li>we release only to staging today, correct?"</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: kalau instruksi nyapu ga jelas, ulangin dulu area mana yang harus dibersihin.</blockquote>
+
+        <h2>K.5 Remote Work Etiquette</h2>
+        <p>Jaga etika remote: update status, tepat waktu, dokumentasi keputusan.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Status: available</li><li>Focus: payment integration</li><li>ETA update: 16:00</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: kerja remote itu kaya kerja shift, disiplin komunikasi adalah kuncinya.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB L. Developer Communication Templates</h2>
+        <h2>L.1 Asking for Help</h2>
+        <p>Pakai template biar minta bantuan ga bikin orang nebak-nebak.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Context: Payment callback in staging is not reaching the order service.</li><li>Tried: I checked the API key, webhook URL, and signature validator.</li><li>Current error: HTTP 401 on endpoint /api/webhooks/payment.</li><li>Needed help: Please review auth middleware for the webhook route.</li><li>Could you help me verify this flow end to end?</li><li>I have attached logs and request payload samples.</li><li>Let us align on the expected callback behavior before patching.</li></ul>
+        <blockquote class="callout">Analogi: kayak isi formulir servis, data lengkap bikin proses cepat.</blockquote>
+
+        <h2>L.2 Reporting a Bug</h2>
+        <p>Template bug report bantu standardisasi kualitas laporan di tim.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Title: Checkout fails after applying voucher DISCOUNT10.</li><li>Environment: Staging, Chrome 123, Windows 11, build 1.9.2.</li><li>Steps: Login -&gt; add product -&gt; apply voucher -&gt; click Checkout.</li><li>Expected: User is redirected to the payment page.</li><li>Actual: Error 500 appears and no transaction is created.</li><li>Attachment: Error screenshot and request ID from logs.</li><li>Severity: High, because users cannot complete purchases.</li></ul>
+        <blockquote class="callout">Analogi: tiket komplain dengan format tetap bikin CS lebih responsif.</blockquote>
+
+        <h2>L.3 Explaining a Technical Problem</h2>
+        <p>Gunakan format problem statement supaya diskusi ga melebar.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Problem: Average response time for the order-list endpoint is 4.5 seconds.</li><li>Constraints: We cannot change the database schema this week due to migration freeze.</li><li>Attempted solutions: Added index, default pagination to 20, and 30-second cache.</li><li>Recommendation: Move heavy aggregation to a background job and expose a summary endpoint.</li><li>Risk: Without changes, timeout risk increases during promo traffic.</li><li>Need decision: Approve phased optimization or schedule a migration window.</li></ul>
+        <blockquote class="callout">Analogi: presentasi tugas akhir harus ada rumusan masalah, bukan cerita bebas.</blockquote>
+
+        <h2>L.4 Giving Project Updates</h2>
+        <p>Update proyek lebih enak dibaca kalau konsisten formatnya antar anggota tim.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Done: create-order endpoint is complete and unit tests pass 100%.</li><li>In progress: Payment webhook integration and retriable queue.</li><li>Blockers: Waiting for IP whitelist approval from the payment gateway provider.</li><li>Next plan: Once whitelist is active, continue E2E testing and deploy to staging.</li><li>ETA: Code completion tomorrow at 15:00 WIB.</li><li>Support needed: QA help for mobile checkout regression flow.</li></ul>
+        <blockquote class="callout">Analogi: laporan kas harian harus format sama biar gampang dicek.</blockquote>
+
+        <h2>L.5 Scheduling Meetings</h2>
+        <p>Ajukan meeting dengan tujuan, agenda, dan durasi biar ga buang waktu.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Goal: finalize API contract</li><li>Duration: 30 minutes</li><li>Agenda: endpoint, payload, error codes</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: ngajak ngopi sambil kerja, harus jelas mau bahas apa.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB M. Common English Mistakes Developers Make</h2>
+        <h2>M.1 Grammar Mistakes</h2>
+        <p>Kesalahan umum: tense campur, subject-verb ga cocok, article keliru.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>// less clear</li><li>"Yesterday I fix bug"</li><li>// better</li><li>"Yesterday I fixed a bug"</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: grammar itu mur baut, kecil tapi bikin struktur kokoh.</blockquote>
+
+        <h2>M.2 Vocabulary Mistakes</h2>
+        <p>Sering ketuker antara issue/problem/bug atau feature/function.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>bug = defect</li><li>issue = broader problem</li><li>feature = capability</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: salah sebut bahan bisa bikin masakan beda hasil.</blockquote>
+
+        <h2>M.3 Miscommunication in Technical Context</h2>
+        <p>Miscommunication muncul saat asumsi ga dikonfirmasi atau istilah ga disepakati.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>"When you say done,</li><li>do you mean deployed to production?"</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: janjian "jam nanti" bikin salah paham kalau ga sebut jam pasti.</blockquote>
+
+        <h2>M.4 Writing Too Informally</h2>
+        <p>Di channel kerja, hindari terlalu santai yang bikin maksud jadi kabur.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>// too casual</li><li>"pls cek ya bro"</li><li>// professional</li><li>"Could you review this when you have time?"</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: beda gaya chat tongkrongan sama chat ke klien.</blockquote>
+
+        <h2>M.5 Improving Professional Communication</h2>
+        <p>Perbaiki komunikasi lewat feedback loop: tulis, review, revisi, ulang.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Write -&gt; Get feedback -&gt; Refine -&gt; Reuse template</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: latihan free throw, akurasi naik karena konsisten evaluasi.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB N. Practice Exercises</h2>
+        <h2>N.1 Reading Documentation Practice</h2>
+        <p>Latihan baca docs 10-15 menit per hari, tulis ringkasan 3 poin.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Topic:</li><li>Key point 1:</li><li>Key point 2:</li><li>Key point 3:</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: kayak latihan lari ringan tiap hari, konsisten lebih penting dari sekali panjang.</blockquote>
+
+        <h2>N.2 Writing Commit Messages Practice</h2>
+        <p>Ambil 5 perubahan kode lalu tulis commit message yang proper.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>fix(auth): refresh token validation</li><li>feat(ui): add loading state</li><li>refactor(api): split user handler</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: nulis judul berita, harus padat tapi nyampe.</blockquote>
+
+        <h2>N.3 Writing Bug Reports Practice</h2>
+        <p>Simulasikan bug case lalu tulis report lengkap dan terstruktur.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Title: ...</li><li>Severity: ...</li><li>Repro steps: ...</li><li>Attachments: ...</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: bikin laporan kejadian, detail kecil bisa jadi kunci.</blockquote>
+
+        <h2>N.4 Technical Conversation Practice</h2>
+        <p>Latihan role-play diskusi teknis dengan teman: satu jadi interviewer, satu jadi engineer.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Question: Why choose caching?</li><li>Answer: To reduce DB load and latency.</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: sparring sebelum pertandingan biar refleks komunikasi kebentuk.</blockquote>
+
+        <h2>N.5 Mock Interview Practice</h2>
+        <p>Lakukan mock interview berkala dan rekam jawaban untuk evaluasi.</p>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Self intro</li><li>Project deep dive</li><li>System design basics</li><li>Q and A</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: gladi resik sebelum hari H.</blockquote>
+      </section>
+
+      <section class="node section">
+        <h2>BAB O. Glossary</h2>
+        <h2>O.1 Programming Terms</h2>
+        <p>Istilah coding harian yang wajib lo kuasai biar ga nyasar saat baca docs.</p>
+        <ul>
+          <li>Variable, Function, Parameter, Return, Exception</li>
+          <li>Compile, Runtime, Dependency, Build, Deploy</li>
+        </ul>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>compile = translate source code</li><li>runtime = execution phase</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: ini kamus lapangan, hafal istilah bikin komunikasi sat set.</blockquote>
+
+        <h2>O.2 Software Development Terms</h2>
+        <p>Kosa kata proses kerja tim software dari planning sampai release.</p>
+        <ul>
+          <li>Sprint, Backlog, Story Point, Pull Request, Code Review</li>
+          <li>Release, Rollback, Incident, Postmortem</li>
+        </ul>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>incident = production problem</li><li>rollback = revert to previous stable version</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: kayak istilah di dunia event, tiap kata punya fungsi operasional.</blockquote>
+
+        <h2>O.3 Technical Communication Terms</h2>
+        <p>Istilah komunikasi yang sering dipakai saat koordinasi teknis antar tim.</p>
+        <ul>
+          <li>Clarification, Alignment, Context, Action Item, Blocker</li>
+          <li>Follow-up, Escalation, Hand-off, ETA</li>
+        </ul>
+        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>ETA = estimated time of arrival</li><li>alignment = shared understanding</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
+        <blockquote class="callout">Analogi: istilah komunikasi ini kayak kode sinyal di lapangan, bikin kerja bareng lebih sinkron.</blockquote>
+
+        <div class="summary">
+          <strong>Kesimpulan:</strong> kalau English lo naik, skill teknis lo jadi lebih keliatan, karena lo bisa jelasin ide, negosiasi keputusan, dan kolaborasi lintas tim tanpa hambatan besar.
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <script>
+    const copyBtn = document.getElementById("copyRichHtmlBtn");
+    const copySafeBtn = document.getElementById("copyTiptapSafeBtn");
+    const copyStatus = document.getElementById("copyStatus");
+    const docNode = document.querySelector(".doc");
+
+    function unwrapElement(el) {
+      const parent = el.parentNode;
+      if (!parent) return;
+      while (el.firstChild) {
+        parent.insertBefore(el.firstChild, el);
+      }
+      parent.removeChild(el);
+    }
+
+    function buildTiptapSafeHtml() {
+      const clone = docNode.cloneNode(true);
+
+      clone.querySelectorAll(".meta, h1, .subtitle").forEach((el) => el.remove());
+
+      clone.querySelectorAll(".summary").forEach((el) => {
+        const p = document.createElement("p");
+        p.innerHTML = el.innerHTML;
+        el.replaceWith(p);
+      });
+
+      clone.querySelectorAll("section, .node, div").forEach((el) => unwrapElement(el));
+
+      const allowed = new Set(["H2", "H3", "P", "UL", "OL", "LI", "STRONG", "EM", "BR", "BLOCKQUOTE", "PRE", "CODE"]);
+
+      const walker = document.createTreeWalker(clone, NodeFilter.SHOW_ELEMENT, null);
+      const toRemove = [];
+      while (walker.nextNode()) {
+        const el = walker.currentNode;
+        if (!allowed.has(el.tagName)) {
+          toRemove.push(el);
+        }
+      }
+
+      toRemove.forEach((el) => unwrapElement(el));
+      return clone.innerHTML.trim();
+    }
+
+    async function copyHtml(content, label) {
+      try {
+        const plain = content
+          .replace(/<\/?[^>]+(>|$)/g, "")
+          .replace(/\n{3,}/g, "\n\n")
+          .trim();
+
+        if (window.ClipboardItem) {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              "text/html": new Blob([content], { type: "text/html" }),
+              "text/plain": new Blob([plain], { type: "text/plain" })
+            })
+          ]);
+        } else {
+          await navigator.clipboard.writeText(content);
+        }
+
+        copyStatus.textContent = label + " copied. Tinggal paste ke Tiptap.";
+      } catch (err) {
+        copyStatus.textContent = "Gagal copy otomatis. Coba manual copy.";
+        console.error(err);
+      }
+    }
+
+    copyBtn.addEventListener("click", () => {
+      copyHtml(docNode.innerHTML.trim(), "Rich HTML");
+    });
+
+    copySafeBtn.addEventListener("click", () => {
+      copyHtml(buildTiptapSafeHtml(), "Tiptap-Safe HTML");
+    });
+  </script>
+</body>
+</html>
+

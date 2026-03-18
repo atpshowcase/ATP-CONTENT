@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Context Protocol: Standar Baru untuk AI</title>
+    <!-- Font Setup: Inter (Clean, Modern) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #000000;
+            --gray: #f5f5f5;
+            --light-gray: #e5e5e5;
+            --medium-gray: #888888;
+            --dark-gray: #333333;
+            --accent: #000000;
+            --accent-light: #f0f0f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        /* === SLIDE CONTAINER === */
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: var(--bg);
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--light-gray);
+        }
+
+        .slide:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* === HEADER === */
+        .slide-top {
+            padding: 48px 64px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 120px;
+            z-index: 10;
+        }
+
+        .username {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--medium-gray);
+        }
+
+        .slide-number {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--medium-gray);
+            background: var(--gray);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--light-gray);
+        }
+
+        /* === CONTENT AREA === */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 64px;
+            text-align: center;
+        }
+
+        /* === FOOTER === */
+        .slide-bottom {
+            height: 120px;
+            padding: 0 64px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .website-badge {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--medium-gray);
+            text-decoration: none;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .cta-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--dark-gray);
+        }
+
+        /* === TYPOGRAPHY & ELEMENTS === */
+        .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--medium-gray);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 72px;
+            line-height: 0.9;
+            font-weight: 800;
+            margin-bottom: 32px;
+            letter-spacing: -2px;
+        }
+
+        h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+
+        .big-text {
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-top: 32px;
+            font-family: 'Inter', sans-serif;
+            color: var(--dark-gray);
+        }
+
+        .highlight {
+            background: var(--accent);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* === CARD COMPONENTS === */
+        .card {
+            background: var(--gray);
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            text-align: left;
+            width: 100%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: var(--dark-gray);
+        }
+
+        .card-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .card-content {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--dark-gray);
+        }
+
+        /* === FEATURE LISTS === */
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 32px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: var(--gray);
+            border-radius: 12px;
+            border: 1px solid var(--light-gray);
+            transition: transform 0.2s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 20px;
+            color: var(--dark-gray);
+            margin-top: 2px;
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .feature-description {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--dark-gray);
+        }
+
+        /* === GRID LAYOUTS === */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 32px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 32px;
+        }
+
+        /* === VISUAL ELEMENTS === */
+        .visual-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 32px 0;
+        }
+
+        .visual-icon {
+            font-size: 48px;
+            color: var(--dark-gray);
+            opacity: 0.8;
+        }
+
+        /* === ACCENT CARD === */
+        .accent-card {
+            background: var(--accent);
+            color: white;
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            padding: 32px;
+            margin-top: 32px;
+            width: 100%;
+        }
+
+        .accent-card .card-title {
+            color: white;
+        }
+
+        .accent-card .card-content {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* === TERMINAL === */
+        .terminal {
+            background: var(--dark-gray);
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 24px 0;
+            width: 100%;
+        }
+
+        .terminal-line {
+            margin-bottom: 8px;
+        }
+
+        .terminal-prompt {
+            color: #22c55e;
+        }
+
+        .terminal-command {
+            color: white;
+        }
+
+        .terminal-output {
+            color: #888;
+        }
+
+        /* === SUMMARY LIST === */
+        .summary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            margin-bottom: 32px;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: var(--gray);
+            border-radius: 12px;
+            border: 1px solid var(--light-gray);
+        }
+
+        .summary-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            background: var(--accent-light);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .summary-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--dark-gray);
+        }
+
+        .summary-text strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        /* === DATE BADGE === */
+        .date-badge {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--medium-gray);
+            background: var(--gray);
+            padding: 6px 12px;
+            border-radius: 16px;
+            border: 1px solid var(--light-gray);
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="feed-grid">
+
+        <!-- SLIDE 1: INTRODUCTION -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username"><i class="fa-brands fa-instagram"></i> @code_penguin</div>
+                <div class="slide-number">#1</div>
+            </div>
+            <div class="content">
+                <div class="date-badge">Nov 25, 2024</div>
+                <div class="subtitle">Standar Baru Gila</div>
+                <h1>Model Context<br>Protocol</h1>
+                <div class="visual-container">
+                    <i class="fas fa-network-wired visual-icon"></i>
+                    <i class="fas fa-plug visual-icon"></i>
+                    <i class="fas fa-robot visual-icon"></i>
+                </div>
+                <p class="big-text">Cara baru buat <span class="highlight">nyambungin AI</span> sama data-data penting</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-globe"></i> www.codepenguin.id</div>
+                <div class="cta-text">Lanjut Gan <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: THE PROBLEM -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#2</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Masalah Utama</div>
+                <h2>AI Kesepian<br>Gak Koneksi</h2>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-lock feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Data Terkunci</div>
+                            <div class="feature-description">Data-data penting tersebar di sistem-sistem yang terpisah dan ketinggalan zaman</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-puzzle-piece feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Ribet Integrasi</div>
+                            <div class="feature-description">Setiap data source harus bikin koneksi manual, capek deh!</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Susah Dikembangin</div>
+                            <div class="feature-description">Mau scale sistem? Ribet banget, butuh banyak resources</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="big-text">AI paling canggih pun <span class="highlight">gak bisa akses data</span> yang penting</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Masalahnya</div>
+                <div class="cta-text">Solusinya <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: THE SOLUTION -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#3</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Solusi Canggih</div>
+                <h2>MCP: Satu<br>Protokol Buat</h2>
+
+                <div class="visual-container">
+                    <i class="fas fa-server visual-icon"></i>
+                    <i class="fas fa-exchange-alt visual-icon"></i>
+                    <i class="fas fa-brain visual-icon"></i>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-plug card-icon"></i>
+                        <div class="card-title">Standar Universal</div>
+                    </div>
+                    <div class="card-content">
+                        MCP itu standar terbuka yang nyambungin AI sama data sources. Gak perlu lagi ribet bikin integrasi satu-satu, cukup pake protokol ini doang!
+                    </div>
+                </div>
+
+                <p class="big-text">Cara yang lebih <span class="highlight">gampang dan aman</span> buat AI akses data</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Protokolnya</div>
+                <div class="cta-text">Arsitekturnya <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: ARCHITECTURE -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#4</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Cara Kerjanya</div>
+                <h2>Koneksi<br>Dua Arah</h2>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-server card-icon"></i>
+                            <div class="card-title">MCP Servers</div>
+                        </div>
+                        <div class="card-content">
+                            Developers expose data lewat MCP servers. Ini kayak pintu gerbang yang aman buat AI akses data-data penting
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-robot card-icon"></i>
+                            <div class="card-title">MCP Clients</div>
+                        </div>
+                        <div class="card-content">
+                            AI applications yang connect ke MCP servers. Ini yang nentuin mau ambil data dari mana dan mau ngapain
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accent-card">
+                    <div class="card-header">
+                        <i class="fas fa-shield-alt card-icon"></i>
+                        <div class="card-title">Aman dari Awal</div>
+                    </div>
+                    <div class="card-content">
+                        MCP dirancang dengan security sebagai prioritas utama. Jadi data-data penting lu aman dari yang nggak punya akses
+                    </div>
+                </div>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Arsitekturnya</div>
+                <div class="cta-text">Komponennya <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: COMPONENTS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#5</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Senjatanya</div>
+                <h2>Build Pake<br>MCP</h2>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-book feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Dokumentasi Lengkap</div>
+                            <div class="feature-description">Tutorial lengkap dan SDK buat berbagai platform. Gak perlu bingung lagi mulai dari mana</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-desktop feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Claude Desktop</div>
+                            <div class="feature-description">MCP server support langsung di Claude Desktop apps. Install tinggal klik!</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-code-branch feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Open Source</div>
+                            <div class="feature-description">Koleksi MCP servers buat berbagai enterprise systems. Gratis dan bisa dikembangin!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="big-text">Claude 3.5 Sonnet <span class="highlight">jago banget</span> bikin MCP implementations</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Komponennya</div>
+                <div class="cta-text">Servers Ready <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: PRE-BUILT SERVERS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#6</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Ready to Use</div>
+                <h2>Pre-Built<br>Servers</h2>
+
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fab fa-google-drive card-icon"></i>
+                            <div class="card-title">Google Drive</div>
+                        </div>
+                        <div class="card-content">
+                            Access files dan documents dari Google Drive
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fab fa-slack card-icon"></i>
+                            <div class="card-title">Slack</div>
+                        </div>
+                        <div class="card-content">
+                            Integrasikan messages dan channels dari Slack
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fab fa-github card-icon"></i>
+                            <div class="card-title">GitHub</div>
+                        </div>
+                        <div class="card-content">
+                            Access repositories dan code dari GitHub
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fab fa-git-alt card-icon"></i>
+                            <div class="card-title">Git</div>
+                        </div>
+                        <div class="card-content">
+                            Version control dan repository management
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-database card-icon"></i>
+                            <div class="card-title">Postgres</div>
+                        </div>
+                        <div class="card-content">
+                            Database connectivity dan query execution
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fab fa-chrome card-icon"></i>
+                            <div class="card-title">Puppeteer</div>
+                        </div>
+                        <div class="card-content">
+                            Web scraping dan browser automation
+                        </div>
+                    </div>
+                </div>
+
+                <p class="big-text">Popular enterprise systems <span class="highlight">ready to integrate</span></p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Ecosystem</div>
+                <div class="cta-text">Adopters <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: ADOPTERS -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#7</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Early Adopters</div>
+                <h2>Industry<br>Leaders</h2>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fab fa-square feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Block</div>
+                            <div class="feature-description">"Open technologies like MCP are bridges that connect AI to real-world applications"</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-rocket feature-icon"></i>
+                        <div class="feature-text">
+                            <div class="feature-title">Apollo</div>
+                            <div class="feature-description">Mengintegrasikan MCP ke dalam systems untuk enhanced AI capabilities</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-tools card-icon"></i>
+                        <div class="card-title">Development Tools Companies</div>
+                    </div>
+                    <div class="card-content">
+                        <strong>Zed, Replit, Codeium, dan Sourcegraph</strong> sedang bekerja dengan MCP untuk enhance platforms mereka, enabling AI agents untuk retrieve relevant information dan produce lebih nuanced code.
+                    </div>
+                </div>
+
+                <p class="big-text">Building <span class="highlight">agentic systems</span> yang remove burden of mechanical work</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge">Adoption</div>
+                <div class="cta-text">Future <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: GETTING STARTED -->
+        <div class="slide">
+            <div class="slide-top">
+                <div class="username">@code_penguin</div>
+                <div class="slide-number">#8</div>
+            </div>
+            <div class="content">
+                <div class="subtitle">Start Building</div>
+                <h2>Getting Started<br>with MCP</h2>
+
+                <div class="summary-list">
+                    <div class="summary-item">
+                        <div class="summary-number">1</div>
+                        <div class="summary-text">
+                            <strong>Install Pre-built Servers:</strong> Available through Claude Desktop app untuk quick start
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">2</div>
+                        <div class="summary-text">
+                            <strong>Build Your First Server:</strong> Follow quickstart guide untuk custom implementations
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">3</div>
+                        <div class="summary-text">
+                            <strong>Test Locally:</strong> Claude for Work customers bisa test MCP servers dengan internal systems
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">4</div>
+                        <div class="summary-text">
+                            <strong>Deploy Production:</strong> Remote production MCP servers untuk entire organization
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">5</div>
+                        <div class="summary-text">
+                            <strong>Contribute:</strong> Join open-source community dan share implementations
+                        </div>
+                    </div>
+                </div>
+
+                <p class="big-text">Build <span class="highlight">future of context-aware AI</span> together</p>
+            </div>
+            <div class="slide-bottom">
+                <div class="website-badge"><i class="fa-solid fa-bookmark"></i> Save & Share</div>
+                <div class="cta-text">@code_penguin</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
