@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fundamental Antropologi Tongkrongan Complete - Tiptap Style</title>
+  <style>
+    :root {
+      --page-bg: #f2efe8;
+      --editor-bg: #fcfbf8;
+      --toolbar-bg: #f5f2ea;
+      --text: #1f1f1b;
+      --muted: #666154;
+      --line: #d9d2c7;
+      --chip: #ece6da;
+      --chip-active: #d9cfbf;
+      --maxw: 920px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #f7f4ed, var(--page-bg));
+      color: var(--text);
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      line-height: 1.75;
+      padding: 28px 14px;
+    }
+
+    .editor-shell {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      background: var(--editor-bg);
+      box-shadow: 0 16px 48px rgba(65, 47, 22, 0.12);
+    }
+
+    .toolbar {
+      border-bottom: 1px solid var(--line);
+      background: var(--toolbar-bg);
+      padding: 10px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .actions {
+      border-bottom: 1px solid var(--line);
+      background: #f8f5ee;
+      padding: 10px 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .chip {
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 0.78rem;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--muted);
+      user-select: none;
+    }
+
+    .chip.active {
+      background: var(--chip-active);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .copy-btn {
+      border: 1px solid var(--line);
+      background: #efe8dc;
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    .copy-note {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .section-copy-btn {
+      margin: 0.25rem 0 0.55rem;
+    }
+
+    .copy-actions-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0.25rem 0 0.55rem;
+    }
+
+    .doc {
+      padding: 30px 24px 46px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    h1 {
+      margin: 10px 0 8px;
+      line-height: 1.25;
+      font-size: clamp(1.6rem, 2.6vw, 2.15rem);
+    }
+
+    .subtitle {
+      margin-top: 0;
+      color: #4b463d;
+      font-size: 1rem;
+    }
+
+    h2 {
+      margin-top: 1.4rem;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+      font-size: 1.28rem;
+    }
+
+    h3 {
+      margin-top: 1rem;
+      margin-bottom: 0.3rem;
+      font-size: 1.05rem;
+      color: #2e2a22;
+    }
+
+    p {
+      margin: 0.52rem 0;
+    }
+
+    ul, ol {
+      margin: 0.5rem 0 0.85rem 1.2rem;
+    }
+
+    .node {
+      border-top: 1px solid #e4ddcf;
+      padding-top: 12px;
+      margin-top: 14px;
+    }
+
+    .summary {
+      border: 1px solid #dfd6c5;
+      background: #f7f2e8;
+      padding: 12px 14px;
+      margin: 12px 0 16px;
+    }
+
+    .summary strong {
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    blockquote.callout {
+      border-left: 3px solid #9b8f7b;
+      margin: 0.7rem 0 0.95rem;
+      padding: 0.25rem 0.8rem;
+      color: #433d33;
+      background: #f8f4ec;
+    }
+
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border: 1px solid #2e2e2e;
+      border-left: 3px solid #9b8f7b;
+      padding: 10px 12px;
+      overflow-x: auto;
+      line-height: 1.55;
+      margin: 0.7rem 0 0.95rem;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.9rem;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+  <main class="editor-shell">
+    <div class="toolbar">
+      <span class="chip active">Paragraph</span>
+      <span class="chip">Heading</span>
+      <span class="chip">Bullet List</span>
+      <span class="chip">Ordered List</span>
+      <span class="chip">Code Block</span>
+      <span class="chip">Blockquote</span>
+    </div>
+
+    <div class="actions">
+      <button class="copy-btn" id="copyRichHtmlBtn" type="button">Copy Rich HTML for Tiptap</button>
+      <button class="copy-btn" id="copyTiptapSafeBtn" type="button">Copy Tiptap-Safe HTML</button>
+      <span class="copy-note" id="copyStatus">Copy ini, lalu paste ke Tiptap.</span>
+    </div>
+
+    <article class="doc" id="mainDoc">
+      <p class="meta">Tiptap Style Notes - Fundamental Antropologi</p>
+      <h1>Fundamental Antropologi - Dari Nol Sampai Kebayang Cara Baca Masyarakat</h1>
+      <p class="subtitle">Materi antropologi dibahas santai gaya tongkrongan Indonesia, tapi tetap runut, tajam, dan kepake buat baca fenomena sosial di dunia nyata.</p>
+
+      <div class="summary">
+        <strong>Map Cepat Section:</strong>
+        <p>BAB A Pengantar Antropologi, BAB B Budaya dan Masyarakat, BAB C Struktur Sosial, BAB D Kepercayaan dan Praktik Budaya, BAB E Perubahan Sosial dan Globalisasi, BAB F Isu Kontemporer dalam Antropologi.</p>
+        <p>Format sub-bab: A.1, A.2, B.1, dan seterusnya.</p>
+      </div>
+
+      <section class="node section" data-section="A">
+        <h2>BAB A. Pengantar Antropologi</h2>
+
+        <section class="subsection" data-code="A.1">
+          <h3>A.1 Apa itu Antropologi</h3>
+          <p>Antropologi itu ilmu yang ngebahas manusia secara utuh: cara hidupnya, cara mikirnya, nilai yang dipegang, sampai pola relasi sosialnya. Jadi bukan cuma bahas budaya tradisional, tapi juga kehidupan modern termasuk budaya digital.</p>
+          <p>Secara simpel, antropologi ngajarin kita buat lihat manusia dalam konteks, bukan nge-judge dari satu kejadian doang. Dari sini kita bisa lebih paham kenapa kelompok berbeda bisa punya kebiasaan berbeda.</p>
+          <ul>
+            <li>Fokus utama: manusia, budaya, dan relasi sosial.</li>
+            <li>Sudut pandang: holistik, lihat keterkaitan banyak faktor.</li>
+            <li>Tujuan: memahami, bukan buru-buru menghakimi.</li>
+          </ul>
+          <p><strong>Catatan belajar:</strong></p>
+          <ul>
+            <li>Apa yang dianggap "normal" di satu komunitas belum tentu normal di komunitas lain.</li>
+            <li>Konteks selalu penting sebelum menarik kesimpulan.</li>
+          </ul>
+          <blockquote class="callout">Analogi: antropologi itu kayak jadi anak tongkrongan yang bukan cuma denger gosip, tapi paham sejarah grup, aturan main, dan dinamika tiap orang.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="A.2">
+          <h3>A.2 Perspektif dan Pendekatan Antropologi</h3>
+          <p>Dalam antropologi ada pendekatan holistik, komparatif, plus kacamata emik dan etik. Emik itu lihat dari sudut pandang orang dalam, etik itu dari peneliti sebagai orang luar.</p>
+          <p>Kalau dua perspektif ini dipakai bareng, analisis jadi lebih adil. Kita bisa ngerti pengalaman asli warga sekaligus punya kerangka analisis yang lebih luas.</p>
+          <ul>
+            <li>Holistik: budaya, ekonomi, politik, dan simbol saling nyambung.</li>
+            <li>Komparatif: bandingin antar komunitas buat lihat pola.</li>
+            <li>Emik + etik: gabung pemahaman internal dan eksternal.</li>
+          </ul>
+          <p><strong>Kerangka sederhana observasi:</strong></p>
+          <ol>
+            <li>Apa yang orang lakukan?</li>
+            <li>Kenapa menurut mereka itu masuk akal?</li>
+            <li>Apa maknanya kalau dilihat dari teori sosial?</li>
+          </ol>
+          <blockquote class="callout">Analogi: emik itu kayak denger cerita langsung dari anggota tongkrongan, etik itu kayak moderator netral yang ngerangkum pola besar.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="A.3">
+          <h3>A.3 Metode Penelitian Antropologi</h3>
+          <p>Metode andalan antropologi biasanya observasi partisipatif, wawancara, etnografi, dan studi lapangan. Peneliti gak cuma nonton dari jauh, tapi ikut masuk dalam aktivitas warga supaya dapet gambaran asli.</p>
+          <p>Kuncinya ada di kedalaman data. Lebih bagus sedikit responden tapi dalem, daripada banyak data tapi dangkal dan gak nyambung.</p>
+          <ul>
+            <li>Observasi partisipatif: ikut kegiatan sehari-hari komunitas.</li>
+            <li>Wawancara: gali makna dari pengalaman personal.</li>
+            <li>Etnografi: narasi utuh tentang kehidupan sosial.</li>
+          </ul>
+          <p><strong>Checklist lapangan:</strong></p>
+          <ul>
+            <li>Siapa aktor kunci di komunitas?</li>
+            <li>Kapan aktivitas penting terjadi?</li>
+            <li>Simbol atau bahasa apa yang sering muncul?</li>
+          </ul>
+          <blockquote class="callout">Analogi: riset antropologi itu kayak nongkrong rutin berbulan-bulan, bukan sekadar lewat 10 menit terus sok paham.</blockquote>
+        </section>
+      </section>
+
+      <section class="node section" data-section="B">
+        <h2>BAB B. Budaya dan Masyarakat</h2>
+
+        <section class="subsection" data-code="B.1">
+          <h3>B.1 Konsep Kebudayaan</h3>
+          <p>Budaya itu sistem makna yang dipelajari dan diwariskan. Isinya bukan cuma tarian atau pakaian tradisional, tapi juga pola pikir, kebiasaan, sampai cara ambil keputusan.</p>
+          <p>Budaya selalu hidup dan berubah. Jadi jangan bayangin budaya itu benda mati yang beku.</p>
+          <ul>
+            <li>Budaya dipelajari, bukan bawaan lahir.</li>
+            <li>Budaya diwariskan antar generasi.</li>
+            <li>Budaya adaptif terhadap perubahan zaman.</li>
+          </ul>
+          <p><strong>Contoh elemen budaya:</strong></p>
+          <ul>
+            <li>Nilai: apa yang dianggap penting.</li>
+            <li>Norma: aturan perilaku.</li>
+            <li>Simbol: tanda yang punya makna bersama.</li>
+          </ul>
+          <blockquote class="callout">Analogi: budaya itu kayak "vibes" tongkrongan yang bikin orang baru langsung tahu mana yang dianggap keren dan mana yang dianggap aneh.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="B.2">
+          <h3>B.2 Nilai, Norma, dan Simbol</h3>
+          <p>Nilai adalah prinsip yang dianggap ideal, norma itu aturan perilaku, dan simbol adalah media makna. Tiga hal ini bikin masyarakat punya pedoman bareng.</p>
+          <p>Kalau nilai berubah, norma biasanya ikut geser. Simbol juga bisa berubah makna tergantung konteks generasi.</p>
+          <ul>
+            <li>Nilai memandu orientasi hidup.</li>
+            <li>Norma ngatur perilaku harian.</li>
+            <li>Simbol menyimpan pesan sosial.</li>
+          </ul>
+          <p><strong>Pola baca cepat:</strong> Nilai melahirkan norma, norma membentuk kebiasaan, dan simbol memperkuat identitas kelompok.</p>
+          <blockquote class="callout">Analogi: di tongkrongan, nilai "solid" bisa jadi norma saling backup, lalu simbolnya muncul dari jargon khas yang cuma dimengerti anggota.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="B.3">
+          <h3>B.3 Bahasa dan Komunikasi</h3>
+          <p>Bahasa bukan cuma alat ngobrol, tapi juga pembentuk identitas. Pilihan kata bisa nunjukin kelas sosial, kedekatan, bahkan posisi kuasa.</p>
+          <p>Di era digital, bahasa makin cair. Slang, meme, dan singkatan jadi bagian dari budaya komunikasi baru.</p>
+          <ul>
+            <li>Bahasa membentuk cara pandang realitas.</li>
+            <li>Bahasa jadi penanda identitas komunitas.</li>
+            <li>Komunikasi lintas budaya butuh sensitivitas konteks.</li>
+          </ul>
+          <p><strong>Contoh analisis:</strong></p>
+          <ul>
+            <li>Kata apa yang dianggap sopan di komunitas A?</li>
+            <li>Ekspresi apa yang dianggap ofensif di komunitas B?</li>
+          </ul>
+          <blockquote class="callout">Analogi: bahasa itu kayak kode internal tongkrongan; kalau paham, lo nyambung. Kalau enggak, lo ngerasa "asing" meski lagi di tempat yang sama.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="B.4">
+          <h3>B.4 Sosialisasi dan Enkulturasi</h3>
+          <p>Sosialisasi itu proses belajar jadi anggota masyarakat, sedangkan enkulturasi lebih spesifik ke proses menyerap budaya sendiri dari kecil sampai dewasa.</p>
+          <p>Agen sosialisasi bisa keluarga, sekolah, teman, media, dan sekarang platform digital. Semua agen ini ikut ngebentuk karakter sosial seseorang.</p>
+          <ul>
+            <li>Keluarga menanamkan nilai dasar.</li>
+            <li>Teman sebaya menguatkan identitas sosial.</li>
+            <li>Media digital mempercepat perubahan nilai.</li>
+          </ul>
+          <p><strong>Skema sederhana:</strong> Rumah, sekolah, pergaulan, dan media saling tarik-menarik membentuk perilaku.</p>
+          <blockquote class="callout">Analogi: ini kayak proses jadi "anak tongkrongan beneran", awalnya canggung, lama-lama paham aturan tak tertulis dan gaya komunikasi grup.</blockquote>
+        </section>
+      </section>
+
+      <section class="node section" data-section="C">
+        <h2>BAB C. Struktur Sosial</h2>
+
+        <section class="subsection" data-code="C.1">
+          <h3>C.1 Organisasi Sosial</h3>
+          <p>Organisasi sosial bahas bagaimana masyarakat tersusun: keluarga, kekerabatan, kelompok sosial, sampai stratifikasi. Struktur ini ngatur siapa berhubungan dengan siapa dan dalam posisi apa.</p>
+          <p>Dengan paham struktur sosial, kita bisa lihat kenapa akses peluang bisa beda antar kelompok.</p>
+          <ul>
+            <li>Keluarga: unit dasar relasi sosial.</li>
+            <li>Kelompok sosial: ruang identitas dan solidaritas.</li>
+            <li>Stratifikasi: pembagian status dan sumber daya.</li>
+          </ul>
+          <p><strong>Pertanyaan kunci:</strong></p>
+          <ul>
+            <li>Siapa yang punya otoritas?</li>
+            <li>Siapa yang punya akses sumber daya?</li>
+            <li>Siapa yang suaranya sering diabaikan?</li>
+          </ul>
+          <blockquote class="callout">Analogi: struktur sosial itu kayak role di tongkrongan; ada yang jadi penggerak, ada yang jadi penengah, ada juga yang sering ngikut arus.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="C.2">
+          <h3>C.2 Sistem Ekonomi Tradisional</h3>
+          <p>Dalam banyak komunitas tradisional, ekonomi tidak melulu soal profit, tapi soal bertahan hidup, berbagi, dan menjaga relasi sosial. Ada pola subsistensi, pertukaran, dan distribusi yang khas.</p>
+          <p>Logika ekonominya sering berbasis komunitas, bukan individu semata.</p>
+          <ul>
+            <li>Subsistensi: produksi untuk kebutuhan dasar.</li>
+            <li>Pertukaran: barter atau mekanisme sosial tertentu.</li>
+            <li>Distribusi: pembagian hasil berdasarkan nilai lokal.</li>
+          </ul>
+          <p><strong>Prinsip umum:</strong> produksi yang cukup mendorong relasi sosial lebih aman dan komunitas lebih stabil.</p>
+          <blockquote class="callout">Analogi: bukan soal siapa paling cuan, tapi gimana semua anak tongkrongan tetap kebagian dan relasi gak retak.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="C.3">
+          <h3>C.3 Sistem Politik</h3>
+          <p>Sistem politik dalam antropologi ngeliat cara kekuasaan dijalankan: siapa pemimpin, bagaimana keputusan dibuat, dan gimana legitimasi dibangun.</p>
+          <p>Bentuknya bisa formal atau informal. Bahkan aturan tidak tertulis sering lebih kuat dari aturan resmi.</p>
+          <ul>
+            <li>Kepemimpinan bisa berbasis keturunan, prestasi, atau karisma.</li>
+            <li>Otoritas lahir dari kepercayaan sosial.</li>
+            <li>Konflik politik sering terkait distribusi sumber daya.</li>
+          </ul>
+          <p><strong>Kerangka observasi politik lokal:</strong> aktor, kepentingan, aturan main, dan hasil keputusan.</p>
+          <blockquote class="callout">Analogi: di tongkrongan, kadang yang paling didengar bukan yang paling vokal, tapi yang paling dipercaya buat ngambil keputusan.</blockquote>
+        </section>
+      </section>
+
+      <section class="node section" data-section="D">
+        <h2>BAB D. Kepercayaan dan Praktik Budaya</h2>
+
+        <section class="subsection" data-code="D.1">
+          <h3>D.1 Sistem Kepercayaan</h3>
+          <p>Sistem kepercayaan meliputi agama, mitos, ritual, magi, dan kepercayaan lokal. Fungsinya bukan cuma spiritual, tapi juga sosial: ngasih arah hidup dan menjaga kohesi kelompok.</p>
+          <p>Dalam banyak masyarakat, ritual jadi ruang penting buat negosiasi identitas dan solidaritas.</p>
+          <ul>
+            <li>Agama memberi kerangka nilai moral.</li>
+            <li>Mitos menyimpan narasi asal-usul dan makna.</li>
+            <li>Ritual menegaskan ikatan sosial.</li>
+          </ul>
+          <p><strong>Contoh sudut analisis ritual:</strong></p>
+          <ul>
+            <li>Siapa yang memimpin?</li>
+            <li>Simbol apa yang dipakai?</li>
+            <li>Nilai apa yang dikuatkan?</li>
+          </ul>
+          <blockquote class="callout">Analogi: ritual itu kayak agenda rutin tongkrongan yang bikin rasa kebersamaan tetap hidup walau orangnya sibuk masing-masing.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="D.2">
+          <h3>D.2 Seni dan Ekspresi Budaya</h3>
+          <p>Seni itu media ekspresi nilai, kritik sosial, dan identitas komunitas. Lewat seni, masyarakat nyimpen sejarah dan emosi kolektif dalam bentuk yang bisa dirasakan bareng.</p>
+          <p>Simbolisme dalam seni sering lebih dalam dari yang kelihatan di permukaan. Makanya perlu baca konteks budaya, bukan cuma bentuk visualnya.</p>
+          <ul>
+            <li>Seni tradisional menjaga warisan kolektif.</li>
+            <li>Seni kontemporer sering jadi ruang kritik.</li>
+            <li>Simbol seni merekam memori sosial.</li>
+          </ul>
+          <p><strong>Langkah baca karya budaya:</strong></p>
+          <ol>
+            <li>Lihat bentuknya.</li>
+            <li>Cari konteks sosialnya.</li>
+            <li>Tafsirkan makna simboliknya.</li>
+          </ol>
+          <blockquote class="callout">Analogi: seni di komunitas itu kayak inside joke tongkrongan; kelihatan simpel, tapi maknanya dalem buat yang ngerti ceritanya.</blockquote>
+        </section>
+      </section>
+
+      <section class="node section" data-section="E">
+        <h2>BAB E. Perubahan Sosial dan Globalisasi</h2>
+
+        <section class="subsection" data-code="E.1">
+          <h3>E.1 Perubahan Budaya</h3>
+          <p>Budaya selalu berubah lewat difusi, akulturasi, dan asimilasi. Difusi itu penyebaran unsur budaya, akulturasi itu percampuran tanpa menghilangkan identitas utama, asimilasi cenderung melebur lebih jauh.</p>
+          <p>Perubahan ini tidak netral. Ada tarik-menarik kuasa, ekonomi, dan identitas di baliknya.</p>
+          <ul>
+            <li>Difusi: unsur budaya menyebar antar kelompok.</li>
+            <li>Akulturasi: unsur baru masuk tanpa menghapus inti lama.</li>
+            <li>Asimilasi: peleburan lebih kuat antar identitas budaya.</li>
+          </ul>
+          <p><strong>Formula cepat:</strong> kontak budaya, waktu, dan relasi kuasa mendorong perubahan budaya.</p>
+          <blockquote class="callout">Analogi: kayak playlist tongkrongan, lagu baru masuk terus, tapi kadang lagu lama tetap jadi anthem wajib.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="E.2">
+          <h3>E.2 Globalisasi</h3>
+          <p>Globalisasi bikin arus informasi, barang, dan gaya hidup makin cepat. Dampaknya dua sisi: peluang akses makin luas, tapi risiko homogenisasi budaya juga makin besar.</p>
+          <p>Respon tiap komunitas beda-beda. Ada yang adaptif, ada yang resistif, ada juga yang bikin versi hibrida biar tetap relevan.</p>
+          <ul>
+            <li>Budaya populer bergerak lintas negara dengan cepat.</li>
+            <li>Identitas lokal bisa melemah atau justru menguat.</li>
+            <li>Platform digital jadi mesin percepatan globalisasi.</li>
+          </ul>
+          <p><strong>Pola respon komunitas:</strong> adopsi penuh, adaptasi lokal, atau penolakan selektif.</p>
+          <blockquote class="callout">Analogi: tren global itu kayak challenge viral; ada yang ikut mentah-mentah, ada yang remix biar cocok sama gaya tongkrongannya sendiri.</blockquote>
+        </section>
+      </section>
+
+      <section class="node section" data-section="F">
+        <h2>BAB F. Isu Kontemporer dalam Antropologi</h2>
+
+        <section class="subsection" data-code="F.1">
+          <h3>F.1 Antropologi dan Pembangunan</h3>
+          <p>Antropologi bantu memastikan program pembangunan gak asal top-down. Pendekatan ini penting biar kebijakan sesuai kebutuhan lokal, bukan sekadar bagus di dokumen.</p>
+          <p>Kalau konteks sosial diabaikan, proyek pembangunan sering gagal meski anggarannya besar.</p>
+          <ul>
+            <li>Pemetaan kebutuhan lokal sebelum intervensi.</li>
+            <li>Pelibatan komunitas dalam perencanaan.</li>
+            <li>Evaluasi dampak sosial, bukan cuma angka output.</li>
+          </ul>
+          <p><strong>Prinsip pembangunan berbasis antropologi:</strong> dengar warga, pahami konteks, rancang bersama, lalu evaluasi bersama.</p>
+          <blockquote class="callout">Analogi: bikin program tanpa denger warga itu kayak pesen makan buat tongkrongan tanpa nanya preferensi, ujungnya banyak yang gak kemakan.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="F.2">
+          <h3>F.2 Antropologi dan Lingkungan</h3>
+          <p>Relasi manusia dan alam jadi isu sentral. Banyak komunitas punya kearifan lokal yang sebenarnya relevan banget buat krisis iklim, tapi sering diremehkan.</p>
+          <p>Antropologi mengajak kita lihat lingkungan bukan cuma objek eksploitasi, tapi ruang hidup bersama yang harus dijaga.</p>
+          <ul>
+            <li>Kearifan lokal punya logika ekologis jangka panjang.</li>
+            <li>Kerusakan lingkungan berdampak sosial berlapis.</li>
+            <li>Solusi efektif butuh kolaborasi ilmu + praktik lokal.</li>
+          </ul>
+          <p><strong>Skema dampak:</strong> kerusakan alam memicu gangguan mata pencaharian dan berujung pada perubahan struktur sosial.</p>
+          <blockquote class="callout">Analogi: jaga lingkungan itu kayak jaga basecamp tongkrongan; kalau tempatnya rusak, semua aktivitas ikut berantakan.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="F.3">
+          <h3>F.3 Antropologi Digital</h3>
+          <p>Antropologi digital mempelajari budaya di ruang online: media sosial, komunitas game, forum, sampai ekonomi kreator. Dunia digital bukan dunia semu, karena dampaknya nyata ke identitas dan relasi sosial.</p>
+          <p>Isu pentingnya meliputi algoritma, performa identitas, budaya cancel, dan pembentukan opini publik yang super cepat.</p>
+          <ul>
+            <li>Identitas online bisa berbeda dari offline, tapi saling mempengaruhi.</li>
+            <li>Platform membentuk perilaku lewat desain dan algoritma.</li>
+            <li>Jejak digital jadi bagian dari memori sosial.</li>
+          </ul>
+          <p><strong>Pertanyaan riset digital:</strong></p>
+          <ul>
+            <li>Siapa yang paling diuntungkan algoritma?</li>
+            <li>Narasi apa yang paling cepat viral?</li>
+            <li>Komunitas mana yang paling rentan diserang?</li>
+          </ul>
+          <blockquote class="callout">Analogi: dunia digital itu kayak tongkrongan raksasa 24 jam; rame terus, cepat berubah, dan kalau gak kritis lo gampang kebawa arus.</blockquote>
+        </section>
+      </section>
+    </article>
+  </main>
+
+  <script>
+    (function () {
+      const statusEl = document.getElementById("copyStatus");
+      const docRoot = document.getElementById("mainDoc");
+
+      const ALLOWED_TAGS = new Set([
+        "H1", "H2", "H3", "H4", "H5", "H6",
+        "P", "UL", "OL", "LI",
+        "STRONG", "B", "EM", "I",
+        "BLOCKQUOTE", "PRE", "CODE", "BR"
+      ]);
+
+      function setStatus(msg, isError) {
+        statusEl.textContent = msg;
+        statusEl.style.color = isError ? "#b42318" : "var(--muted)";
+      }
+
+      function removeCopyControls(root) {
+        root.querySelectorAll(".copy-btn, .copy-actions-inline, .section-copy-btn").forEach((el) => el.remove());
+      }
+
+      function sanitizeForTiptap(html) {
+        const parser = new DOMParser();
+        const parsed = parser.parseFromString(`<div>${html}</div>`, "text/html");
+        const wrapper = parsed.body.firstElementChild;
+
+        const cleanNode = (node) => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            return parsed.createTextNode(node.textContent || "");
+          }
+
+          if (node.nodeType !== Node.ELEMENT_NODE) {
+            return null;
+          }
+
+          const tag = node.tagName.toUpperCase();
+          const children = Array.from(node.childNodes).map(cleanNode).filter(Boolean);
+
+          if (!ALLOWED_TAGS.has(tag)) {
+            const frag = parsed.createDocumentFragment();
+            children.forEach((child) => frag.appendChild(child));
+            return frag;
+          }
+
+          const el = parsed.createElement(tag.toLowerCase());
+          children.forEach((child) => el.appendChild(child));
+          return el;
+        };
+
+        const out = parsed.createElement("div");
+        Array.from(wrapper.childNodes).forEach((child) => {
+          const cleaned = cleanNode(child);
+          if (cleaned) out.appendChild(cleaned);
+        });
+
+        return out.innerHTML;
+      }
+
+      async function copyToClipboard(html, plainText) {
+        if (navigator.clipboard && window.ClipboardItem) {
+          const item = new ClipboardItem({
+            "text/html": new Blob([html], { type: "text/html" }),
+            "text/plain": new Blob([plainText], { type: "text/plain" })
+          });
+          await navigator.clipboard.write([item]);
+        } else if (navigator.clipboard) {
+          await navigator.clipboard.writeText(plainText);
+        } else {
+          throw new Error("Clipboard API tidak tersedia di browser ini.");
+        }
+      }
+
+      function cloneWithoutButtons(el) {
+        const clone = el.cloneNode(true);
+        removeCopyControls(clone);
+        return clone;
+      }
+
+      function copyRichWholeDoc() {
+        const cloned = cloneWithoutButtons(docRoot);
+        const richHtml = cloned.innerHTML;
+        const plain = cloned.textContent || "";
+        return copyToClipboard(richHtml, plain).then(() => {
+          setStatus("Rich HTML berhasil dicopy. Tinggal paste ke Tiptap.");
+        });
+      }
+
+      function copySafeWholeDoc() {
+        const cloned = cloneWithoutButtons(docRoot);
+        const safeHtml = sanitizeForTiptap(cloned.innerHTML);
+        const plain = cloned.textContent || "";
+        return copyToClipboard(safeHtml, plain).then(() => {
+          setStatus("Tiptap-safe HTML berhasil dicopy.");
+        });
+      }
+
+      function copySection(sectionEl) {
+        const cloned = cloneWithoutButtons(sectionEl);
+        const richHtml = cloned.innerHTML;
+        const plain = cloned.textContent || "";
+        return copyToClipboard(richHtml, plain).then(() => {
+          const code = sectionEl.getAttribute("data-section");
+          setStatus(`Isi BAB ${code} berhasil dicopy.`);
+        });
+      }
+
+      function copySubCode(subEl) {
+        const code = subEl.getAttribute("data-code") || "";
+        return copyToClipboard(code, code).then(() => {
+          setStatus(`Kode ${code} berhasil dicopy.`);
+        });
+      }
+
+      function copySubTitle(subEl) {
+        const code = subEl.getAttribute("data-code") || "";
+        const h3 = subEl.querySelector("h3");
+        const full = h3 ? h3.textContent.trim() : "";
+        const title = full.replace(new RegExp(`^${code}\\s+`), "");
+        return copyToClipboard(title, title).then(() => {
+          setStatus(`Judul ${code} berhasil dicopy.`);
+        });
+      }
+
+      function copySubContent(subEl) {
+        const temp = subEl.cloneNode(true);
+        const h3 = temp.querySelector("h3");
+        if (h3) h3.remove();
+        removeCopyControls(temp);
+        const richHtml = temp.innerHTML;
+        const plain = temp.textContent || "";
+        return copyToClipboard(richHtml, plain).then(() => {
+          const code = subEl.getAttribute("data-code") || "";
+          setStatus(`Isi ${code} berhasil dicopy.`);
+        });
+      }
+
+      function attachButtons() {
+        document.querySelectorAll(".section").forEach((section) => {
+          const h2 = section.querySelector("h2");
+          if (h2) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "copy-btn section-copy-btn";
+            btn.textContent = "Copy BAB";
+            btn.addEventListener("click", () => {
+              copySection(section).catch((err) => setStatus(err.message, true));
+            });
+            h2.insertAdjacentElement("afterend", btn);
+          }
+
+          section.querySelectorAll(".subsection").forEach((sub) => {
+            const h3 = sub.querySelector("h3");
+            if (!h3) return;
+
+            const group = document.createElement("div");
+            group.className = "copy-actions-inline";
+
+            const code = sub.getAttribute("data-code") || "X.0";
+
+            const btnCode = document.createElement("button");
+            btnCode.type = "button";
+            btnCode.className = "copy-btn";
+            btnCode.textContent = code;
+            btnCode.addEventListener("click", () => {
+              copySubCode(sub).catch((err) => setStatus(err.message, true));
+            });
+
+            const btnTitle = document.createElement("button");
+            btnTitle.type = "button";
+            btnTitle.className = "copy-btn";
+            btnTitle.textContent = `Judul ${code}`;
+            btnTitle.addEventListener("click", () => {
+              copySubTitle(sub).catch((err) => setStatus(err.message, true));
+            });
+
+            const btnContent = document.createElement("button");
+            btnContent.type = "button";
+            btnContent.className = "copy-btn";
+            btnContent.textContent = `Isi ${code}`;
+            btnContent.addEventListener("click", () => {
+              copySubContent(sub).catch((err) => setStatus(err.message, true));
+            });
+
+            group.appendChild(btnCode);
+            group.appendChild(btnTitle);
+            group.appendChild(btnContent);
+            h3.insertAdjacentElement("afterend", group);
+          });
+        });
+      }
+
+      document.getElementById("copyRichHtmlBtn").addEventListener("click", () => {
+        copyRichWholeDoc().catch((err) => setStatus(err.message, true));
+      });
+
+      document.getElementById("copyTiptapSafeBtn").addEventListener("click", () => {
+        copySafeWholeDoc().catch((err) => setStatus(err.message, true));
+      });
+
+      attachButtons();
+    })();
+  </script>
+</body>
+</html>

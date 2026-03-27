@@ -168,6 +168,24 @@
       margin-bottom: 4px;
     }
 
+    .premium-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin: 0.6rem 0 1rem;
+    }
+
+    .premium-card {
+      border: 1px solid #ddd1bc;
+      background: #f8f3e8;
+      padding: 10px 11px;
+    }
+
+    .premium-card strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
     blockquote.callout {
       border-left: 3px solid #9b8f7b;
       margin: 0.7rem 0 0.95rem;
@@ -214,13 +232,53 @@
     <article class="doc">
       <p class="meta">Tiptap Style Notes - React.js Fundamentals</p>
       <h1>React.js Fundamentals Learning Roadmap Complete</h1>
-      <p class="subtitle">Belajar React dari dasar sampai siap bikin aplikasi interaktif, dibahas santai tapi komprehensif dan praktis.</p>
+      <p class="subtitle">Belajar React dari nol sampai portfolio-ready dengan target output nyata: 3 mini project, 1 capstone production-grade, dan skill interview React dasar-menengah.</p>
 
       <div class="summary">
         <strong>Map Cepat Section:</strong>
-        <p>BAB A Introduction and Setup, BAB B JSX and Components, BAB C Props and State, BAB D Events and Conditional Rendering, BAB E Lists Forms and Styling, BAB F useEffect Hook and Data Fetching, BAB G Routing and State Management, BAB H Custom Hooks and Performance, BAB I Best Practices and Deployment, BAB J Learning Path and Practice Projects.</p>
+        <p>BAB 0 Positioning Kelas Premium, BAB A Introduction and Setup, BAB B JSX and Components, BAB C Props and State, BAB D Events and Conditional Rendering, BAB E Lists Forms and Styling, BAB F useEffect Hook and Data Fetching, BAB G Routing and State Management, BAB H Custom Hooks and Performance, BAB I Best Practices and Deployment, BAB J Learning Path and Practice Projects, BAB K Career Readiness and Delivery Standards.</p>
         <p>Sub-bab ditulis dengan format A.1, A.2, B.1, B.2, dan seterusnya.</p>
       </div>
+
+      <section class="node section">
+        <h2>BAB 0. Positioning Kelas Premium</h2>
+
+        <h3>0.1 Siapa yang Cocok Ikut Kelas Ini</h3>
+        <ul>
+          <li>Pemula yang baru masuk JavaScript dan ingin transisi ke React dengan jalur jelas.</li>
+          <li>Frontend developer junior yang ingin naik level ke project architecture yang rapi.</li>
+          <li>Freelancer yang butuh portfolio React siap jual untuk closing project client.</li>
+        </ul>
+
+        <h3>0.2 Nilai Nyata yang Didapat Peserta</h3>
+        <div class="premium-grid">
+          <div class="premium-card">
+            <strong>Outcome Terukur</strong>
+            <p>Peserta lulus dengan minimum 1 capstone yang lolos rubric performa, code quality, dan UX.</p>
+          </div>
+          <div class="premium-card">
+            <strong>Portfolio Siap Tunjuk</strong>
+            <p>Hasil akhir bisa dipakai untuk apply kerja, pitching freelance, atau personal branding.</p>
+          </div>
+          <div class="premium-card">
+            <strong>Simulasi Real Project</strong>
+            <p>Belajar pakai skenario sprint mingguan, bukan sekadar nonton materi lalu selesai.</p>
+          </div>
+          <div class="premium-card">
+            <strong>Systematic Feedback</strong>
+            <p>Tiap milestone punya checklist evaluasi sehingga peserta tahu gap yang harus diperbaiki.</p>
+          </div>
+        </div>
+
+        <h3>0.3 Learning Contract (Standar Kelulusan)</h3>
+        <p>Kelas ini didesain seperti bootcamp mini, bukan materi pasif. Peserta dinyatakan <strong>complete</strong> jika menuntaskan seluruh milestone core berikut:</p>
+        <ol>
+          <li>Menyelesaikan 3 mini project (state, API, routing).</li>
+          <li>Menyelesaikan 1 capstone dengan struktur folder, reusable components, dan error handling.</li>
+          <li>Deploy aplikasi ke Vercel/Netlify + menyertakan README teknis.</li>
+          <li>Lolos minimal 70/100 pada rubric final review.</li>
+        </ol>
+      </section>
 
       <section class="node section">
         <h2>BAB A. Introduction and Setup</h2>
@@ -242,6 +300,26 @@
 
         <h3>A.3 Setting Up React Project</h3>
         <p>Setup React modern pakai Vite itu cepat dan ringan. Alternatif lain adalah Create React App (CRA) tapi sekarang Vite lebih recommended.</p>
+        <p><strong>Kenapa pakai Vite, kenapa tidak setup biasa aja?</strong> Karena di project real, waktu tunggu itu mahal. Vite ngasih feedback loop yang jauh lebih cepat saat ngoding.</p>
+        <ul>
+          <li>Startup dev server jauh lebih cepat, jadi tidak buang waktu nunggu project nyala.</li>
+          <li>Hot Module Replacement (HMR) lebih responsif, perubahan kecil langsung kelihatan tanpa reload berat.</li>
+          <li>Pakai native ES modules saat development, jadi proses compile tidak seberat approach lama.</li>
+          <li>Build production tetap optimal dan modern (minify, code split, siap deploy).</li>
+          <li>Ecosystem plugin rapi dan konfigurasi relatif simpel untuk scale up project.</li>
+        </ul>
+        <p>Kalau "biasa aja" pakai setup lama, biasanya bottleneck muncul di startup lambat, rebuild lebih berat, dan pengalaman dev kurang nyaman saat project makin besar.</p>
+        <div class="summary">
+          <strong>Compare Cepat: Vite vs CRA (React Setup Lama)</strong>
+          <ul>
+            <li>Peran tools: React adalah library UI, sedangkan Vite/CRA adalah tool untuk menjalankan dan build project React.</li>
+            <li>Waktu start project: Vite umumnya lebih cepat, CRA cenderung lebih lambat saat bootstrap dev server.</li>
+            <li>Feedback saat ngoding: HMR Vite biasanya lebih responsif, CRA bisa terasa lebih berat di project besar.</li>
+            <li>Pengembangan modern: Vite memanfaatkan native ES modules saat development, CRA lebih bergantung pada bundling tradisional.</li>
+            <li>Build production: keduanya bisa dipakai deploy, tapi Vite biasanya lebih simpel untuk optimasi modern.</li>
+            <li>Kondisi memilih: pilih Vite untuk project baru; pilih CRA hanya kalau maintain legacy codebase yang sudah terlanjur pakai CRA.</li>
+          </ul>
+        </div>
         <pre><code>npm create vite@latest my-app -- --template react
 cd my-app
 npm install
@@ -703,13 +781,13 @@ week6: Mini project end-to-end</code></pre>
         <blockquote class="callout">Analogi: learning path itu roadmap. Jangan skip milestone demi acceleration, core foundation tetap prioritas.</blockquote>
 
         <h3>J.2 Practice Project Ideas</h3>
-        <ul>
-          <li>Counter App dengan useState.</li>
-          <li>To-Do List dengan CRUD operations.</li>
-          <li>Weather App dengan API integration.</li>
-          <li>Portfolio atau Blog dengan React Router.</li>
-          <li>Real-time Chat atau Collaboration app dengan Context API.</li>
-        </ul>
+        <p>Gunakan model project bertahap supaya peserta naik level secara sistematis:</p>
+        <ol>
+          <li>Mini Project 1: Smart Counter and Expense Tracker (fokus state + event handling).</li>
+          <li>Mini Project 2: Task Manager CRUD (fokus list key, form validation, dan state flow).</li>
+          <li>Mini Project 3: Weather Dashboard (fokus async fetch, loading, error state).</li>
+          <li>Capstone: React Productivity Suite (routing, context, reusable hooks, deployment).</li>
+        </ol>
         <blockquote class="callout">Analogi: project adalah gym buat skill. Latihan rutin lebih efektif daripada nonton tutorial panjang.</blockquote>
 
         <h3>J.3 Common Pitfalls and How to Avoid</h3>
@@ -720,9 +798,42 @@ week6: Mini project end-to-end</code></pre>
           <li>Key di list harus unique, jangan pakai index kalau list dynamic.</li>
         </ul>
 
+        <h3>J.4 Rubric Penilaian Capstone (Skala 100)</h3>
+        <ul>
+          <li>Arsitektur dan struktur folder: 20 poin.</li>
+          <li>Kualitas komponen, props, state management: 20 poin.</li>
+          <li>Integrasi API, loading, error handling: 20 poin.</li>
+          <li>UX, konsistensi styling, dan responsive behavior: 20 poin.</li>
+          <li>Deployment, README, dan demo presentation: 20 poin.</li>
+        </ul>
+
         <div class="summary">
-          <strong>Kesimpulan:</strong> React adalah powerful library buat UI. Fokus kuatkan foundation state management dan component composition, sisanya akan mudah menyusul. Dengan praktik bertahap, lo bakal siap handle project real-world dengan percaya diri.
+          <strong>Kesimpulan:</strong> React adalah powerful library buat UI modern. Dengan jalur belajar bertahap + evaluasi berbasis rubric + capstone portfolio, peserta bukan cuma paham teori, tapi siap kirim hasil kerja yang bisa diuangkan.
         </div>
+      </section>
+
+      <section class="node section">
+        <h2>BAB K. Career Readiness and Delivery Standards</h2>
+
+        <h3>K.1 Paket Hasil Akhir yang Harus Dimiliki Peserta</h3>
+        <ul>
+          <li>1 link repository GitHub yang bersih (commit rapi, struktur jelas).</li>
+          <li>1 link live demo aplikasi capstone.</li>
+          <li>1 README project (fitur, arsitektur, setup, screenshot).</li>
+          <li>1 catatan pembelajaran: problem, solusi, dan keputusan teknis.</li>
+        </ul>
+
+        <h3>K.2 Simulasi Interview React Dasar-Menengah</h3>
+        <p>Peserta harus mampu menjawab pertanyaan practical berikut secara terstruktur:</p>
+        <ul>
+          <li>Perbedaan props dan state + kapan pakai masing-masing.</li>
+          <li>Kenapa useEffect bisa infinite loop dan cara mencegahnya.</li>
+          <li>Kapan harus pakai Context API vs lifting state up.</li>
+          <li>Strategi optimasi komponen dengan React.memo/useMemo/useCallback.</li>
+        </ul>
+
+        <h3>K.3 Value Justification Kelas Berbayar</h3>
+        <p>Harga kelas bukan dibayar untuk video semata, tapi untuk <strong>sistem transformasi skill</strong>: roadmap jelas, proyek real, standar evaluasi, dan hasil akhir yang bisa dipakai untuk karier. Dengan format ini, kelas layak diposisikan di level premium karena output peserta terukur dan bisa diverifikasi.</p>
       </section>
     </article>
   </main>

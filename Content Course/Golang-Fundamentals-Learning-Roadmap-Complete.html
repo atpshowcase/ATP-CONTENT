@@ -244,6 +244,14 @@ func main() {
           <li><strong>Performance</strong>: compiled language, native binary.</li>
           <li><strong>Concurrency</strong>: goroutines dan channels built-in.</li>
         </ul>
+        <p><strong>Fakta unik yang bikin Go beda:</strong></p>
+        <ul>
+          <li>Go mulai dikembangkan di Google sekitar 2007 oleh Robert Griesemer, Rob Pike, dan Ken Thompson.</li>
+          <li>Go di-open source ke publik pada 2009, lalu rilis stabil Go 1 pada 2012.</li>
+          <li>Go punya janji kompatibilitas Go 1, jadi code lama umumnya tetap jalan di versi baru.</li>
+          <li>Tool gofmt jadi standar format resmi, makanya style coding tim Go biasanya konsisten tanpa debat panjang.</li>
+          <li>Mascot Go yang terkenal adalah Gopher, ilustrasinya dibuat oleh Renee French.</li>
+        </ul>
         <pre><code>go version
 
 go env</code></pre>
@@ -277,12 +285,31 @@ func main() {
 
         <h3>B.2 Variables and Basic Data Types</h3>
         <p>Di Go, lo bisa deklarasi variable pakai <strong>var</strong> atau shorthand <strong>:=</strong>. Tipe dasar yang paling sering dipakai: int, float64, bool, string.</p>
+        <p><strong>Kapan pakai var vs :=</strong>: pakai <strong>:=</strong> kalau lo inisialisasi langsung di dalam function. Pakai <strong>var</strong> kalau butuh deklarasi tanpa nilai awal, butuh tipe eksplisit, atau deklarasi di level package.</p>
+        <p><strong>Reason kenapa gak harus over-declare tipe (misal selalu nulis string, int, float manual)</strong>: compiler Go sudah bisa infer tipe dari nilai awal. Kode jadi lebih ringkas, tetap type-safe, dan lebih cepat dibaca saat review.</p>
+        <ul>
+          <li>Lebih sedikit noise, jadi fokus ke logic, bukan repetisi tipe.</li>
+          <li>Tetap aman karena Go strong-typed, bukan dynamic-typed.</li>
+          <li>Refactor lebih enak karena perubahan nilai awal otomatis ikut mengubah inferensi tipe yang relevan.</li>
+        </ul>
         <pre><code>var umur int = 25
 kota := "Bandung"
 aktif := true
 nilai := 87.5
 
 fmt.Println(umur, kota, aktif, nilai)</code></pre>
+        <p>Go juga support deklarasi banyak variable sekaligus, jadi enak buat nilai yang saling berhubungan.</p>
+        <pre><code>var (
+          firstName string = "Rani"
+          lastName  string = "Saputra"
+          isMember  bool   = true
+      )
+
+      lat, lng := -6.2, 106.8
+
+      fmt.Println(firstName, lastName, isMember)
+      fmt.Println("koordinat:", lat, lng)</code></pre>
+        <p><strong>Catatan penting</strong>: Go tidak mengizinkan variable dideklarasi tapi tidak dipakai. Ini sengaja supaya code tetap bersih dan minim dead code.</p>
         <blockquote class="callout">Analogi: variable itu laci-laci penyimpanan, setiap laci punya label isi yang jelas.</blockquote>
 
         <h3>B.3 Zero Values and Constants</h3>
@@ -299,10 +326,46 @@ var nama string
 const appName = "BelajarGo"
 
 fmt.Println(total, isReady, nama, appName)</code></pre>
+        <p>Selain itu, tipe lain juga punya zero value bawaan:</p>
+        <ul>
+          <li>pointer jadi nil</li>
+          <li>slice jadi nil (len 0, belum alokasi data)</li>
+          <li>map jadi nil (harus make sebelum diisi)</li>
+          <li>struct berisi zero value dari setiap field-nya</li>
+        </ul>
+        <pre><code>var p *int
+      var tags []string
+      var scores map[string]int
+
+      type User struct {
+          Name string
+          Age  int
+      }
+
+      var u User
+
+      fmt.Println(p == nil)         // true
+      fmt.Println(tags == nil)      // true
+      fmt.Println(scores == nil)    // true
+      fmt.Println(u.Name, u.Age)    // "" 0</code></pre>
+        <p><strong>Constants</strong> cocok untuk nilai yang tidak boleh berubah seperti tax rate, batas maksimum retry, atau nama aplikasi.</p>
+        <pre><code>const (
+          taxRate   = 0.11
+          maxRetry  = 3
+          appRegion = "ap-southeast-1"
+      )
+
+      fmt.Println(taxRate, maxRetry, appRegion)</code></pre>
         <blockquote class="callout">Analogi: kalau lo belum isi form, sistem tetap kasih nilai default biar alur gak rusak.</blockquote>
 
         <h3>B.4 Type Conversion and Operators</h3>
         <p>Go tegas soal tipe data, jadi conversion harus eksplisit. Operator standar dipakai buat hitung, bandingin, dan bikin logika.</p>
+        <p><strong>Kenapa gak pakai tipe decimal bawaan?</strong> Go sengaja menjaga tipe primitif tetap kecil dan sederhana. Karena itu, tidak ada primitive <strong>decimal</strong> seperti di sebagian bahasa lain.</p>
+        <p>Untuk kebutuhan uang/akuntansi, praktik aman biasanya:</p>
+        <ul>
+          <li>Simpan nilai sebagai integer satuan terkecil (contoh: rupiah penuh atau cents) agar presisi stabil.</li>
+          <li>Kalau butuh presisi tinggi non-biner, pakai package seperti <strong>math/big</strong> atau library decimal khusus.</li>
+        </ul>
         <pre><code>a := 10
 b := 3
 
@@ -313,6 +376,34 @@ valid := (a &gt; 0) &amp;&amp; (b &gt; 0)
 rata := float64(a) / float64(b)
 
 fmt.Println(hasil, isBesar, valid, rata)</code></pre>
+  <pre><code>// Contoh uang disimpan sebagai integer
+harga := 150000   // Rp150.000
+diskon := 12500   // Rp12.500
+total := harga - diskon
+fmt.Println(total) // 137500</code></pre>
+        <p>Karena strong typing, int tidak otomatis berubah ke float64. Lo harus konversi manual supaya hasil hitung sesuai ekspektasi.</p>
+        <pre><code>price := 15000
+      discount := 12.5
+
+      finalPrice := float64(price) - (float64(price) * discount / 100)
+      fmt.Println(finalPrice)</code></pre>
+        <p>Contoh operator yang sering dipakai di code harian:</p>
+        <ul>
+          <li>Arithmetic: +, -, *, /, %</li>
+          <li>Comparison: ==, !=, &gt;, &lt;, &gt;=, &lt;=</li>
+          <li>Logical: &amp;&amp;, ||, !</li>
+          <li>Assignment kombinasi: +=, -=, *=</li>
+        </ul>
+        <pre><code>x := 7
+      y := 2
+
+      fmt.Println(x % y)         // 1
+      fmt.Println(x == y)        // false
+      fmt.Println(x &gt; 5 &amp;&amp; y &gt; 1) // true
+
+      x += 3
+      fmt.Println(x) // 10</code></pre>
+        <p><strong>Tips</strong>: hati-hati integer division. 5 / 2 hasilnya 2, bukan 2.5. Kalau mau desimal, konversi dulu ke float64.</p>
         <blockquote class="callout">Analogi: barang beda ukuran harus disesuaikan dulu sebelum masuk rak yang sama.</blockquote>
       </section>
 
@@ -371,6 +462,7 @@ fmt.Println(hasil, sisa)</code></pre>
 
         <h3>C.4 Variadic and Anonymous Functions</h3>
         <p>Variadic function menerima jumlah argumen yang fleksibel. Anonymous function cocok buat operasi cepat atau callback kecil.</p>
+        <p><strong>Variadic</strong> pakai tanda <strong>...</strong> sebelum tipe parameter. Secara internal, parameter ini diperlakukan seperti slice. Jadi lo bisa kirim nilai satuan atau langsung lempar slice pakai <strong>...</strong> juga.</p>
         <pre><code>func jumlah(nums ...int) int {
     total := 0
     for _, n := range nums {
@@ -385,7 +477,47 @@ double := func(x int) int {
 
 fmt.Println(jumlah(1, 2, 3, 4))
 fmt.Println(double(5))</code></pre>
-        <blockquote class="callout">Analogi: variadic itu kayak lo buka meja makan buat tamu jumlahnya bisa berubah-ubah.</blockquote>
+    <pre><code>angka := []int{10, 20, 30}
+fmt.Println(jumlah(angka...)) // slice di-unpack jadi argumen variadic</code></pre>
+    <p><strong>Apa arti underscore (_) di for range?</strong> Di Go, <strong>range</strong> biasanya ngasih dua nilai: index dan value. Simbol <strong>_</strong> artinya nilai itu sengaja diabaikan karena tidak dipakai.</p>
+    <pre><code>for i, n := range nums {
+  fmt.Println(i, n) // pakai index dan value
+}
+
+for _, n := range nums {
+  fmt.Println(n) // index diabaikan
+}
+
+for i := range nums {
+  fmt.Println(i) // cuma index
+}</code></pre>
+    <p><strong>Anonymous function</strong> juga sering dipakai sebagai closure, yaitu function yang "ingat" variable di scope luar.</p>
+    <pre><code>counter := func() func() int {
+  x := 0
+  return func() int {
+    x++
+    return x
+  }
+}
+
+next := counter()
+fmt.Println(next()) // 1
+fmt.Println(next()) // 2</code></pre>
+  <p><strong>Maksud contoh closure di atas:</strong></p>
+  <ol>
+    <li><strong>counter()</strong> membuat variable <strong>x</strong> dengan nilai awal 0.</li>
+    <li><strong>counter()</strong> mengembalikan function dalam yang tetap punya akses ke <strong>x</strong>.</li>
+    <li>Saat <strong>next := counter()</strong>, function <strong>next</strong> membawa "memori" miliknya sendiri.</li>
+    <li>Panggilan pertama <strong>next()</strong> membuat <strong>x</strong> jadi 1, panggilan kedua jadi 2, dan seterusnya.</li>
+    <li>Kalau bikin <strong>next2 := counter()</strong>, maka <strong>next2</strong> punya <strong>x</strong> baru (tidak berbagi state dengan <strong>next</strong>).</li>
+  </ol>
+  <pre><code>next := counter()
+next2 := counter()
+
+fmt.Println(next())  // 1
+fmt.Println(next())  // 2
+fmt.Println(next2()) // 1 (state terpisah)</code></pre>
+  <blockquote class="callout">Analogi: closure itu kayak tiap function punya dompet pribadi. Isi dompetnya (state) tetap kebawa dan bertambah tiap kali function itu dipanggil.</blockquote>
       </section>
 
       <section class="node section">
