@@ -608,7 +608,7 @@ npm test</code></pre>
         <ul>
           <li><strong>Title format:</strong> "[Page/Feature]: [What is broken] when [condition]"</li>
           <li><strong>Steps:</strong> "1. Go to profile page. 2. Click Upload Avatar. 3. Select a PNG file. 4. Click Save."</li>
-          <li><strong>Expected:</strong> "Avatar uploads successfully and appears in the profile header."</li>
+          <li><strong>Expected:</strong> "Avatar uploads successfully and appears in the profile header immediately."</li>
           <li><strong>Actual:</strong> "Server returns 415 Unsupported Media Type. No feedback is shown to the user."</li>
           <li><strong>Severity:</strong> "High — blocks all Safari users from updating their profile photo."</li>
         </ul>
@@ -637,7 +637,7 @@ Attachments: screenshot.png, network-log.har</code></pre>
           <li>"The severity is [level] because it affects [user group] and blocks [critical action]."</li>
           <li>"I have attached a screenshot and network log for reference."</li>
         </ul>
-        <blockquote class="callout">Analogi: tiket keluhan pelanggan yang detail bikin teknisi langsung tahu part mana yang rusak tanpa harus tanya balik panjang lebar — menghemat waktu semua orang.</blockquote>
+        <blockquote class="callout">Analogi: tiket keluhan pelanggan yang detail bikin CS lebih responsif.</blockquote>
 
         <h2>F.5 Explaining Fixes</h2>
         <p>Setelah kamu menyelesaikan sebuah bug, jelaskan fix-nya dengan jelas — bukan hanya "sudah diperbaiki". Tim perlu memahami <strong>root cause, apa yang diubah, mengapa perubahan itu menyelesaikan masalah, dan bagaimana mencegahnya terulang</strong>.</p>
@@ -683,154 +683,315 @@ Enabled the no-unsafe-optional-chaining ESLint rule project-wide.
 
       <section class="node section">
         <h2>BAB G. English for Technical Documentation</h2>
-        <h2>G.1 Reading Official Documentation</h2>
-        <p>Baca docs resmi dari contoh paling dasar, lalu naik ke advanced topics.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Start from:</li><li>- Getting Started</li><li>- API Reference</li><li>- Best Practices</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: belajar rute baru mulai dari peta utama dulu baru jalan tikus.</blockquote>
 
-        <h2>G.2 Understanding API Documentation</h2>
-        <p>Perhatikan endpoint, auth, request body, response schema, dan error codes.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>POST /v1/orders</li><li>Headers: Authorization</li><li>Body: { items: [] }</li><li>Responses: 201, 400, 401</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: menu restoran plus aturan pesan harus dibaca sebelum order.</blockquote>
+        <section class="subsection" data-code="G.1">
+          <h3>G.1 Reading Official Documentation</h2>
+          <p>Membaca dokumentasi resmi adalah skill fundamental. Cara paling efisien adalah dengan mengikuti alur yang sudah disediakan: mulai dari "Getting Started" untuk pemahaman dasar, lalu lanjut ke "API Reference" untuk detail teknis, dan diakhiri dengan "Best Practices" untuk penggunaan yang optimal.</p>
+          <p>Jangan langsung melompat ke bagian yang kompleks. Membangun fondasi pemahaman dari awal akan menghemat banyak waktu saat debugging nanti.</p>
+          <p><strong>Urutan membaca yang disarankan:</strong></p>
+          <ul>
+            <li><strong>Getting Started / Quick Start:</strong> Bagian ini memberikan tutorial langkah demi langkah untuk menjalankan fungsionalitas paling dasar. Tujuannya agar lo bisa mendapatkan "quick win" dan memahami konsep utama.</li>
+            <li><strong>Core Concepts:</strong> Menjelaskan ide-ide besar di balik library atau framework tersebut. Memahami ini membantu lo membuat keputusan arsitektur yang lebih baik.</li>
+            <li><strong>API Reference:</strong> Kamus lengkap semua fungsi, kelas, dan parameter yang tersedia. Gunakan ini saat lo butuh detail spesifik tentang sebuah fungsi.</li>
+            <li><strong>Guides / Best Practices:</strong> Berisi pola-pola yang direkomendasikan dan cara menghindari kesalahan umum.</li>
+          </ul>
+          <pre><code>// My learning process for a new library
+1. Follow the 'Getting Started' guide to run the basic example.
+2. Read the 'Core Concepts' to understand the architecture.
+3. Skim the 'API Reference' to know what's available.
+4. Check the 'Best Practices' before building a real feature.</code></pre>
+          <blockquote class="callout">Analogi: Ini seperti belajar rute baru. Lo lihat dulu peta utamanya (Getting Started), pahami jalan-jalan protokolnya (Core Concepts), baru setelah itu lo bisa mulai mencari jalan tikus atau rute alternatif (API Reference).</blockquote>
+        </section>
 
-        <h2>G.3 Writing Technical Documentation</h2>
-        <p>Tulis docs dengan struktur konsisten biar tim ga buang waktu nanya hal sama.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Purpose</li><li>Prerequisites</li><li>Steps</li><li>Validation</li><li>Troubleshooting</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: SOP kerja yang rapi bikin shift pagi dan malam hasilnya sama.</blockquote>
+        <section class="subsection" data-code="G.2">
+          <h3>G.2 Understanding API Documentation</h2>
+          <p>Dokumentasi API (seringkali dalam format OpenAPI/Swagger) adalah kontrak antara backend dan frontend (atau service lain). Memahaminya dengan benar sangat krusial untuk integrasi yang mulus. Fokus pada elemen-elemen kunci berikut:</p>
+          <ul>
+            <li><strong>Endpoint & Method:</strong> URL dan metode HTTP yang digunakan (e.g., `POST /v1/orders`).</li>
+            <li><strong>Authentication:</strong> Bagaimana cara API mengautentikasi request? (e.g., `Authorization: Bearer <token>`).</li>
+            <li><strong>Request Body/Parameters:</strong> Data apa yang harus dikirim? Apa saja field yang wajib dan opsional? Bagaimana formatnya?</li>
+            <li><strong>Response Schema:</strong> Data apa yang akan diterima jika request berhasil? Bagaimana struktur JSON-nya?</li>
+            <li><strong>Error Codes:</strong> Kode status HTTP apa saja yang mungkin dikembalikan jika terjadi error (e.g., `400 Bad Request`, `401 Unauthorized`, `404 Not Found`) dan apa artinya.</li>
+          </ul>
+          <pre><code>// Analyzing an API endpoint
+- Endpoint: POST /v1/orders
+- Auth: Required, Bearer Token.
+- Body: { "items": [{ "productId": "string", "quantity": "number" }] }
+- Success Response (201): { "orderId": "string", "status": "pending" }
+- Error Response (400): { "error": "Invalid input" }</code></pre>
+          <blockquote class="callout">Analogi: Membaca dokumentasi API itu seperti membaca menu di restoran beserta aturan pemesanannya. Lo harus tahu nama menunya (endpoint), cara bayarnya (auth), bahan apa yang bisa dipilih (request body), dan seperti apa hidangan yang akan datang (response schema).</blockquote>
+        </section>
 
-        <h2>G.4 Writing README Files</h2>
-        <p>README itu pintu masuk repo. Orang harus bisa run project dalam beberapa menit.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li># Project Name</li><li>## Setup</li><li>## Run</li><li>## Test</li><li>## Env Variables</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: README itu papan petunjuk di lobi gedung.</blockquote>
+        <section class="subsection" data-code="G.3">
+          <h3>G.3 Writing Technical Documentation</h2>
+          <p>Menulis dokumentasi teknis internal (misalnya di Confluence atau Notion) bertujuan untuk standarisasi pengetahuan dan mengurangi pertanyaan berulang. Dokumentasi yang baik memiliki struktur yang konsisten sehingga anggota tim bisa dengan cepat menemukan informasi yang mereka butuhkan.</p>
+          <p>Struktur yang solid memastikan bahwa siapa pun yang membaca dapat mereplikasi proses atau memahami fitur tanpa perlu bertanya langsung.</p>
+          <p><strong>Struktur dokumentasi yang direkomendasikan:</strong></p>
+          <ul>
+            <li><strong>Purpose:</strong> Jelaskan secara singkat tujuan dari dokumen ini. Untuk apa fitur/proses ini ada?</li>
+            <li><strong>Prerequisites:</strong> Apa saja yang harus disiapkan atau dimiliki sebelum mengikuti panduan ini? (e.g., akses, tools, versi software).</li>
+            <li><strong>Steps:</strong> Langkah-langkah yang harus diikuti secara berurutan. Gunakan penomoran dan sertakan screenshot jika perlu.</li>
+            <li><strong>Validation:</strong> Bagaimana cara memverifikasi bahwa langkah-langkah tersebut berhasil? Apa hasil yang diharapkan?</li>
+            <li><strong>Troubleshooting:</strong> Daftar masalah umum yang mungkin terjadi dan cara mengatasinya.</li>
+          </ul>
+          <blockquote class="callout">Analogi: Ini seperti menulis SOP (Standard Operating Procedure) di sebuah pabrik. Dengan SOP yang jelas, hasil produksi dari shift pagi dan shift malam akan memiliki kualitas yang sama karena mengikuti panduan yang identik.</blockquote>
+        </section>
 
-        <h2>G.5 Writing Installation Guides</h2>
-        <p>Panduan instalasi harus langkah per langkah, include OS differences kalau ada.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Windows: install x</li><li>Linux: apt install x</li><li>Mac: brew install x</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: kayak buku rakitan furnitur, urutannya ga boleh loncat.</blockquote>
+        <section class="subsection" data-code="G.4">
+          <h3>G.4 Writing README Files</h2>
+          <p>File `README.md` adalah wajah dari repository lo. Ini adalah hal pertama yang dilihat oleh developer lain. README yang baik memungkinkan seseorang untuk bisa menjalankan proyek secara lokal dalam hitungan menit, bukan jam.</p>
+          <p>README harus ringkas, jelas, dan fokus pada informasi paling esensial untuk memulai.</p>
+          <p><strong>Struktur README yang esensial:</strong></p>
+          <ul>
+            <li><strong>Project Name & Description:</strong> Nama proyek dan penjelasan singkat tentang apa yang dilakukannya.</li>
+            <li><strong>Prerequisites:</strong> Versi Node.js, Docker, atau tools lain yang dibutuhkan.</li>
+            <li><strong>Installation / Setup:</strong> Perintah untuk meng-clone repo dan meng-install dependensi (e.g., `npm install`).</li>
+            <li><strong>Running the App:</strong> Perintah untuk menjalankan aplikasi di mode development (e.g., `npm run dev`).</li>
+            <li><strong>Running Tests:</strong> Perintah untuk menjalankan unit test atau integration test (e.g., `npm test`).</li>
+            <li><strong>Environment Variables:</strong> Penjelasan tentang variabel lingkungan yang perlu di-set di file `.env`.</li>
+          </ul>
+          <blockquote class="callout">Analogi: README itu seperti papan petunjuk di lobi sebuah gedung. Pengunjung harus bisa dengan cepat menemukan informasi tentang cara menuju ke lantai yang mereka tuju tanpa harus bertanya ke resepsionis.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="G.5">
+          <h3>G.5 Writing Installation Guides</h2>
+          <p>Panduan instalasi yang baik harus sangat detail dan tidak membuat asumsi tentang tingkat keahlian pembaca. Setiap langkah harus eksplisit dan berurutan. Jika proses instalasi berbeda antar sistem operasi, sediakan instruksi yang terpisah untuk masing-masing OS.</p>
+          <p>Tujuannya adalah menghilangkan semua kemungkinan kebingungan dan memastikan prosesnya semulus mungkin.</p>
+          <p><strong>Contoh struktur panduan instalasi:</strong></p>
+          <pre><code>### Prerequisites
+- Node.js (v18 or later)
+- Docker and Docker Compose
+
+### Installation Steps
+
+1. **Clone the repository:**
+   `git clone [URL]`
+
+2. **Install dependencies:**
+   `npm install`
+
+3. **Setup environment variables:**
+   `cp .env.example .env`
+   (Then, fill in the required values in the `.env` file)
+
+4. **For Windows users:**
+   Run `install-windows-deps.bat` to install additional tools.
+
+5. **For macOS/Linux users:**
+   Run `brew install [tool-name]` or `sudo apt-get install [tool-name]`.</code></pre>
+          <blockquote class="callout">Analogi: Ini persis seperti buku panduan merakit furnitur dari IKEA. Setiap langkah, setiap baut, dan setiap alat yang dibutuhkan dijelaskan secara berurutan. Urutannya tidak boleh dilompati agar hasilnya sempurna.</blockquote>
+        </section>
       </section>
 
       <section class="node section">
         <h2>BAB H. English for Meetings</h2>
-        <h2>H.1 Daily Standup Meeting Examples</h2>
-        <p>Gunakan template biar ngomong lancar walau belum native.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Yesterday I...</li><li>Today I will...</li><li>I am blocked by...</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: kayak script pembukaan MC, bikin lo lebih pede.</blockquote>
 
-        <h2>H.2 Sprint Planning</h2>
-        <p>Bahas scope, estimate, dependencies, dan risk dengan kalimat singkat.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>"This task is 3 points."</li><li>"Dependency on payment API."</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: susun rencana belanja mingguan biar ga over budget.</blockquote>
+        <section class="subsection" data-code="H.1">
+          <h3>H.1 Daily Standup Meeting Examples</h2>
+          <p>Daily standup adalah ritual sinkronisasi cepat, bukan sesi cerita panjang. Tujuannya agar semua anggota tim tahu progres, hambatan, dan rencana kerja hari ini. Kuncinya adalah tetap ringkas dan fokus pada tiga pilar: apa yang sudah dikerjakan, apa yang akan dikerjakan, dan apa yang menghambat.</p>
+          <p>Menggunakan template membantu lo menyampaikan update dengan jelas dan percaya diri, bahkan jika bahasa Inggris bukan bahasa utama lo.</p>
+          <p><strong>Contoh kalimat yang bisa dipakai:</strong></p>
+          <ul>
+            <li><strong>Yesterday:</strong> "Yesterday, I finished the implementation for the login feature and submitted the pull request for review."</li>
+            <li><strong>Today:</strong> "Today, I will start working on ticket #123, which is about user profile validation."</li>
+            <li><strong>Blockers:</strong> "I am blocked by the missing API documentation for the payment gateway. I can't proceed without it."</li>
+            <li><strong>Offering Help:</strong> "I have some free capacity today. Let me know if anyone needs help with their tasks."</li>
+          </ul>
+          <pre><code>// Good standup update
+"Yesterday, I completed the unit tests for the new service.
+Today, I will address the feedback from the PR review.
+I have no blockers at the moment."</code></pre>
+          <blockquote class="callout">Analogi: Standup itu seperti laporan singkat dari pos jaga. Cukup sampaikan kejadian penting selama giliran jaga, rencana patroli berikutnya, dan jika ada halangan. Cepat, padat, dan jelas.</blockquote>
+        </section>
 
-        <h2>H.3 Technical Discussions</h2>
-        <p>Diskusi teknis butuh framing: problem, options, trade-offs, recommendation.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Problem -&gt; Option A/B -&gt; Pros/Cons -&gt; Decision</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: milih kosan, bandingin harga, lokasi, dan fasilitas dulu.</blockquote>
+        <section class="subsection" data-code="H.2">
+          <h3>H.2 Sprint Planning</h2>
+          <p>Di sprint planning, komunikasi yang efektif berpusat pada negosiasi scope, memberikan estimasi, mengidentifikasi dependensi, dan mengangkat potensi risiko. Kalimat yang lo gunakan harus singkat, jelas, dan bisa diukur.</p>
+          <p>Ini bukan saatnya untuk diskusi teknis yang mendalam, tapi lebih ke arah menyepakati "apa" yang akan dikerjakan dan "berapa" usahanya.</p>
+          <p><strong>Contoh kalimat yang bisa dipakai:</strong></p>
+          <ul>
+            <li><strong>Estimation:</strong> "Based on the complexity, I think this task is a 3-point story."</li>
+            <li><strong>Clarification:</strong> "Could you clarify the acceptance criteria for this task? The description seems a bit vague."</li>
+            <li><strong>Dependencies:</strong> "This task has a dependency on the new API from the payment team. We can't start until their part is ready."</li>
+            <li><strong>Risks:</strong> "There is a risk of delay if the third-party library doesn't support our use case. We need a backup plan."</li>
+          </ul>
+          <pre><code>// During task breakdown
+"To implement this, we need two sub-tasks: one for the backend endpoint and one for the UI changes.
+The backend part seems like a 2-pointer, but the UI is a 5-pointer due to complex state management."</code></pre>
+          <blockquote class="callout">Analogi: Sprint planning itu seperti menyusun rencana belanja mingguan. Lo tentukan menu apa saja yang mau dimasak (scope), perkirakan biayanya (estimate), dan pastikan semua bahan tersedia di pasar (dependencies).</blockquote>
+        </section>
 
-        <h2>H.4 Explaining Architecture</h2>
-        <p>Jelaskan arsitektur dari high-level dulu baru detail implementation.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Client -&gt; API Gateway -&gt; Services -&gt; Database</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: jelasin denah rumah dari ruang utama dulu baru detail kamar.</blockquote>
+        <section class="subsection" data-code="H.3">
+          <h3>H.3 Technical Discussions</h2>
+          <p>Diskusi teknis yang produktif memerlukan struktur agar tidak melebar ke mana-mana. Cara paling efektif adalah dengan membingkai percakapan menggunakan alur: masalah, opsi solusi, perbandingan (trade-offs), dan rekomendasi.</p>
+          <p>Struktur ini membantu semua orang mengikuti alur berpikir lo dan membuat keputusan berdasarkan data, bukan sekadar opini.</p>
+          <p><strong>Contoh alur diskusi:</strong></p>
+          <ol>
+            <li><strong>Problem:</strong> "The current database query is too slow, causing timeouts during peak hours."</li>
+            <li><strong>Option A:</strong> "We can add an index to the `orders` table." (Pros: Easy to implement. Cons: Increases storage size).</li>
+            <li><strong>Option B:</strong> "We can introduce a caching layer with Redis." (Pros: Very fast response time. Cons: More complex setup and maintenance).</li>
+            <li><strong>Recommendation:</strong> "I recommend starting with Option A because it's a low-risk fix. If the problem persists, we can explore Option B."</li>
+          </ol>
+          <pre><code>// Framing a recommendation
+"Given our current timeline, I suggest we go with the simpler solution for now and create a follow-up ticket to explore a more robust approach in the next quarter."</code></pre>
+          <blockquote class="callout">Analogi: Ini seperti memilih kosan. Lo identifikasi masalahnya (butuh tempat tinggal), cari beberapa opsi (kosan A, B, C), bandingkan harga, lokasi, dan fasilitasnya (trade-offs), lalu pilih yang paling sesuai dengan budget dan kebutuhan.</blockquote>
+        </section>
 
-        <h2>H.5 Asking Clarification in Meetings</h2>
-        <p>Kalau ada yang ga jelas, tanya saat itu juga dengan sopan.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>"Could you clarify the acceptance criteria?"</li><li>"Do we need backward compatibility?"</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: mending nanya arah sekali daripada nyasar satu jam.</blockquote>
+        <section class="subsection" data-code="H.4">
+          <h3>H.4 Explaining Architecture</h2>
+          <p>Saat menjelaskan arsitektur sistem, mulailah dari gambaran besar (high-level view) sebelum masuk ke detail teknis. Ini membantu audiens (terutama yang non-teknis) untuk memahami alur utama dan tujuan sistem secara keseluruhan.</p>
+          <p>Gunakan diagram sederhana dan fokus pada interaksi antar komponen utama.</p>
+          <p><strong>Contoh penjelasan arsitektur:</strong></p>
+          <ul>
+            <li><strong>High-Level:</strong> "Our system follows a microservices architecture. When a user makes a request from the client application, it first hits our API Gateway."</li>
+            <li><strong>Component Interaction:</strong> "The API Gateway is responsible for authentication and routing the request to the appropriate service, for example, the Order Service or the User Service."</li>
+            <li><strong>Data Flow:</strong> "Each service has its own database to ensure loose coupling. For example, the Order Service manages all order data in its own PostgreSQL database."</li>
+          </ul>
+          <pre><code>// Explaining a flow
+"The client sends a request to the API Gateway.
+The Gateway validates the token and forwards the request to the Product Service.
+The Product Service fetches data from its database and returns the response."</code></pre>
+          <blockquote class="callout">Analogi: Menjelaskan arsitektur itu seperti menjelaskan denah sebuah mal. Lo tunjukkan dulu di mana pintu masuk utama, lobi, dan eskalator (high-level), baru setelah itu jelaskan detail toko-toko yang ada di setiap lantai.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="H.5">
+          <h3>H.5 Asking for Clarification in Meetings</h2>
+          <p>Jika ada sesuatu yang tidak jelas dalam meeting, lebih baik bertanya saat itu juga daripada membuat asumsi yang salah dan menyebabkan rework. Bertanya adalah tanda profesionalisme, bukan kebodohan.</p>
+          <p>Gunakan frasa yang sopan untuk menyela atau meminta penjelasan lebih lanjut. Fokus pada "apa" yang perlu diperjelas.</p>
+          <p><strong>Contoh kalimat untuk meminta klarifikasi:</strong></p>
+          <ul>
+            <li><strong>On Requirements:</strong> "Could you please clarify the acceptance criteria for this feature?"</li>
+            <li><strong>On Technical Terms:</strong> "Sorry, I'm not familiar with that term. Could you explain what 'idempotency' means in this context?"</li>
+            <li><strong>On Decisions:</strong> "Just to confirm, are we all in agreement to proceed with Option B?"</li>
+            <li><strong>On Scope:</strong> "To be clear, is backward compatibility a requirement for this release?"</li>
+          </ul>
+          <pre><code>// Politely interrupting for clarification
+"If I may interrupt for a second, I want to make sure I understand correctly.
+Are you saying we should prioritize performance over new features for this quarter?"</code></pre>
+          <blockquote class="callout">Analogi: Mending bertanya arah sekali di persimpangan jalan daripada tersesat selama satu jam. Bertanya di awal menghemat banyak waktu dan energi.</blockquote>
+        </section>
       </section>
 
       <section class="node section">
         <h2>BAB I. English for Job Applications</h2>
-        <h2>I.1 Writing a Developer Resume</h2>
-        <p>Resume harus fokus impact, bukan cuma daftar tools.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Built payment module that reduced failed transactions by 25%.</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: CV itu etalase karya, tunjukin hasil nyata bukan slogan.</blockquote>
+        <p>Proses mencari kerja adalah skill tersendiri. Kemampuan untuk mempresentasikan diri lo secara profesional melalui tulisan—baik di resume, cover letter, maupun email—adalah langkah pertama untuk mendapatkan perhatian rekruter dan membuka pintu kesempatan.</p>
 
-        <h2>I.2 Writing a Cover Letter</h2>
-        <p>Cover letter singkat: kenapa cocok, apa kontribusi, dan kenapa perusahaan itu.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>I am interested in this role because...</li><li>I can contribute by...</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: kayak perkenalan ke tim baru, harus relevan bukan muter-muter.</blockquote>
+        <section class="subsection" data-code="I.1">
+          <h3>I.1 Writing a Developer Resume</h3>
+          <p>Resume seorang developer seharusnya tidak hanya menjadi daftar teknologi yang dikuasai. Resume yang paling efektif adalah yang menunjukkan <strong>dampak</strong> (impact) dari pekerjaan lo. Alih-alih hanya menulis "Worked on the payment module," jelaskan hasil atau pencapaian dari pekerjaan tersebut.</p>
+          <p>Gunakan metrik yang terukur jika memungkinkan. Angka membuat pencapaian lo lebih konkret dan meyakinkan.</p>
+          <p><strong>Contoh Penulisan Berbasis Dampak:</strong></p>
+          <ul>
+            <li><strong>Instead of:</strong> "Responsible for the product recommendation feature."</li>
+            <li><strong>Write this:</strong> "Engineered a new product recommendation engine, resulting in a 15% increase in user engagement and a 5% uplift in average order value."</li>
+          </ul>
+          <pre><code>// Contoh poin resume yang kuat
+- Built a new payment module that successfully reduced failed transactions by 25% through improved error handling and a retry mechanism.
+- Optimized database queries for the main dashboard, decreasing page load time from 5 seconds to under 800ms.
+- Refactored a legacy monolith service into microservices, improving deployment speed by 40% and reducing infrastructure costs.</code></pre>
+          <blockquote class="callout">Analogi: CV itu seperti etalase portofolio seorang seniman. Jangan hanya menulis daftar kuas dan cat yang lo punya. Tunjukkan lukisan-lukisan terbaik yang sudah lo hasilkan. Hasil karya berbicara lebih keras daripada daftar alat.</blockquote>
+        </section>
 
-        <h2>I.3 Writing a LinkedIn Profile</h2>
-        <p>Headline dan summary harus jelas role, stack, dan domain pengalaman.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Backend Developer | .NET | API | Cloud</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: LinkedIn itu papan nama profesional lo di jalan utama.</blockquote>
+        <section class="subsection" data-code="I.2">
+          <h3>I.2 Writing a Cover Letter</h3>
+          <p>Cover letter bukanlah ringkasan resume lo. Tujuannya adalah untuk membuat koneksi personal dengan perusahaan dan peran yang lo lamar. Jaga agar tetap singkat, idealnya 3-4 paragraf, dan fokus pada tiga hal utama:</p>
+          <ol>
+            <li><strong>Why this company?</strong> Tunjukkan bahwa lo sudah melakukan riset dan tertarik pada misi atau produk perusahaan.</li>
+            <li><strong>Why this role?</strong> Hubungkan pengalaman spesifik lo dengan apa yang dibutuhkan dalam deskripsi pekerjaan.</li>
+            <li><strong>How can you contribute?</strong> Jelaskan kontribusi unik yang bisa lo bawa ke tim.</li>
+          </ol>
+          <p><strong>Contoh Struktur Cover Letter Singkat:</strong></p>
+          <pre><code>Dear [Hiring Manager Name],
 
-        <h2>I.4 Communicating with Recruiters</h2>
-        <p>Reply to recruiters politely, confirm your availability clearly, and communicate your role expectations early.</p>
-        <p>The goal is simple: <strong>clear, timely, and professional communication</strong>. Keep a warm tone, but avoid language that is too casual.</p>
-        <p><strong>Practical principles when replying to recruiters:</strong></p>
-        <ul>
-          <li>Start with brief appreciation: thank you for reaching out.</li>
-          <li>State your interest clearly: interested / currently exploring opportunities.</li>
-          <li>Share specific availability: day, time, and timezone when relevant.</li>
-          <li>Ask key questions early: role scope, tech stack, work model, and compensation range.</li>
-          <li>Close with a clear next step: looking forward to your response.</li>
-        </ul>
-        <p><strong>Useful sentences you can use:</strong></p>
-        <ul>
-          <li>Thank you for reaching out. I appreciate your message.</li>
-          <li>I am available for a call this week, preferably on Tuesday or Thursday.</li>
-          <li>Could you share more details about the team structure and core responsibilities?</li>
-          <li>Before we proceed, may I ask about the work model and compensation range for this role?</li>
-          <li>I look forward to hearing from you.</li>
-        </ul>
-        <p><strong>Example dialog 1 (First Response):</strong></p>
-        <pre><code>[Recruiter]: Hi, we found your profile and would like to discuss a Backend Developer role.
-      [Candidate]: Hello, thank you for reaching out.
-      [Candidate]: I am interested in learning more about this opportunity.
-      [Candidate]: I am available for a call on Tuesday or Thursday, between 10:00 and 12:00 WIB.
-      [Candidate]: Could you also share the tech stack and team structure before the call?
-      [Recruiter]: Sure, I will send the job description and available interview slots.
-      [Candidate]: That sounds great. Thank you, and I look forward to it.</code></pre>
-        <p><strong>Example dialog 2 (Clarifying and Negotiating Scope):</strong></p>
-        <pre><code>[Recruiter]: We would like to move you to the next interview stage.
-      [Candidate]: Thank you for the update.
-      [Candidate]: Before we proceed, could you clarify whether this role is focused more on feature delivery or platform reliability?
-      [Recruiter]: It is about 70 percent feature delivery and 30 percent reliability improvements.
-      [Candidate]: Thank you, that is helpful. Could you also share the expected compensation range and remote policy?
-      [Recruiter]: The range is X to Y, and the role is hybrid.
-      [Candidate]: Understood. The scope aligns with my goals, and I would be happy to continue.</code></pre>
-        <p><strong>Example by Chat (WhatsApp/LinkedIn DM):</strong></p>
-        <pre><code>[Recruiter]: Hi, are you open to a Senior Backend role?
-      [Candidate]: Hi, thank you for reaching out.
-      [Candidate]: Yes, I am currently open to relevant opportunities.
-      [Candidate]: Could you share the main responsibilities and tech stack first?
-      [Recruiter]: The stack is Go, PostgreSQL, and AWS. The role is hybrid.
-      [Candidate]: Great, that aligns with my background.
-      [Candidate]: I am available for a 20-minute call tomorrow at 10:30 WIB or 15:00 WIB.
-      [Recruiter]: 15:00 WIB works.
-      [Candidate]: Perfect. Please share the meeting link when convenient. Thank you.</code></pre>
-        <p><strong>Example by Call (Phone/Google Meet):</strong></p>
-        <pre><code>[Recruiter]: Hi, thanks for joining. Is this still a good time?
-      [Candidate]: Yes, absolutely. Thank you for arranging the call.
-      [Recruiter]: Great. Could you briefly introduce yourself?
-      [Candidate]: Certainly. I am a backend developer with three years of experience building APIs in Go and .NET.
-      [Candidate]: Recently, I have focused on performance optimization and production reliability.
-      [Recruiter]: Nice. What are you looking for in your next role?
-      [Candidate]: I am looking for a role with clear ownership, strong engineering standards, and room for growth.
-      [Candidate]: Before moving forward, may I ask about team size, on-call expectations, and the compensation range?
-      [Recruiter]: Of course, let me walk you through those details.
-      [Candidate]: Perfect, thank you.</code></pre>
-        <p><strong>Quick reply template for recruiters:</strong></p>
-        <pre><code>Hi [Recruiter Name],
+I am writing to express my strong interest in the Backend Developer role at [Company Name], which I found on [Platform]. I have been following [Company Name]'s work in the fintech space for a while, and I am particularly impressed by your mission to simplify digital payments for small businesses.
 
-      Thank you for reaching out about the [Role Title] opportunity.
-      I would be glad to learn more and I am available for a short call on [Day/Time, Timezone].
+In my previous role at [Previous Company], I was responsible for developing and maintaining a high-throughput payment processing system, which aligns directly with the requirements of this role. For example, I successfully led a project to reduce transaction latency by 30%.
 
-      Before we proceed, could you share details about:
-      - team structure
-      - core responsibilities
-      - work model and compensation range
+I am confident that my experience in building scalable, resilient systems can be a valuable asset to your team. I am excited about the opportunity to contribute to your product and help drive your mission forward.
 
-      I look forward to your response.
+Thank you for your time and consideration. I look forward to hearing from you soon.
 
-      Best regards,
-      [Your Name]</code></pre>
-        <blockquote class="callout">Analogi: respon cepat itu kayak jawab chat klien, nunjukin lo profesional.</blockquote>
+Sincerely,
+[Your Name]</code></pre>
+          <blockquote class="callout">Analogi: Menulis cover letter itu seperti perkenalan pertama di sebuah acara networking. Lo tidak akan menceritakan seluruh riwayat hidup lo. Sebaliknya, lo akan fokus pada topik yang relevan dengan lawan bicara untuk membangun koneksi.</blockquote>
+        </section>
 
-        <h2>I.5 Writing Professional Emails</h2>
-        <p>Email profesional pakai subject jelas, tujuan jelas, penutup sopan.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Subject: Interview Availability</li><li>Body: available on Tue/Thu, 10:00-12:00</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: email kerja itu surat resmi, formatnya harus rapih.</blockquote>
+        <section class="subsection" data-code="I.3">
+          <h3>I.3 Writing a LinkedIn Profile</h3>
+          <p>Profil LinkedIn adalah kartu nama digital lo. Headline dan summary adalah dua bagian pertama yang dilihat orang, jadi pastikan keduanya dioptimalkan untuk menarik perhatian rekruter yang tepat. Buatlah jelas, ringkas, dan kaya akan kata kunci yang relevan.</p>
+          <p><strong>Elemen Kunci Profil LinkedIn:</strong></p>
+          <ul>
+            <li><strong>Headline:</strong> Jangan hanya menulis "Software Engineer". Buat lebih spesifik. Sertakan peran utama, 2-3 teknologi kunci, dan mungkin domain industri lo.</li>
+            <li><strong>Summary (About Section):</strong> Tulis ringkasan singkat tentang siapa lo sebagai seorang profesional, apa yang menjadi spesialisasi lo, dan apa yang lo cari di peran selanjutnya.</li>
+            <li><strong>Experience:</strong> Sama seperti resume, fokus pada dampak dan pencapaian, bukan hanya tugas.</li>
+          </ul>
+          <p><strong>Contoh Headline yang Efektif:</strong></p>
+          <pre><code>- Backend Developer | .NET, Go, AWS | Building Scalable Fintech Solutions
+- Senior Frontend Engineer | React, TypeScript, GraphQL | Passionate about UI/UX
+- Mobile Developer (Android/Kotlin) | TDD & Clean Architecture Enthusiast</code></pre>
+          <blockquote class="callout">Analogi: Profil LinkedIn lo adalah papan nama toko lo di jalan utama internet. Headline adalah nama toko dan slogan utamanya. Harus cukup menarik dan informatif agar orang mau "masuk" dan melihat-lihat lebih jauh.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="I.4">
+          <h3>I.4 Communicating with Recruiters</h3>
+          <p>Interaksi pertama dengan rekruter menentukan nada untuk keseluruhan proses wawancara. Tujuannya sederhana: komunikasi yang jelas, tepat waktu, dan profesional. Pertahankan nada yang ramah, tetapi hindari bahasa yang terlalu santai.</p>
+          <p><strong>Prinsip Praktis saat Membalas Rekruter:</strong></p>
+          <ul>
+            <li><strong>Mulai dengan Apresiasi Singkat:</strong> Ucapkan terima kasih telah dihubungi.</li>
+            <li><strong>Nyatakan Minat dengan Jelas:</strong> Sebutkan jika lo tertarik atau sedang aktif mencari peluang.</li>
+            <li><strong>Bagikan Ketersediaan Spesifik:</strong> Sebutkan hari, jam, dan zona waktu.</li>
+            <li><strong>Ajukan Pertanyaan Kunci di Awal:</strong> Tanyakan lingkup peran, stack teknologi, model kerja, dan rentang kompensasi.</li>
+            <li><strong>Tutup dengan Langkah Selanjutnya yang Jelas:</strong> Tunjukkan bahwa lo menantikan respons mereka.</li>
+          </ul>
+          <p><strong>Contoh Dialog 1 (Respon Pertama via Email):</strong></p>
+          <pre><code>Hi [Recruiter Name],
+
+Thank you for reaching out about the [Role Title] opportunity.
+I would be glad to learn more and I am available for a short call on Tuesday or Thursday, between 10:00 and 12:00 WIB.
+
+Before we proceed, could you share details about:
+- The team structure and core responsibilities
+- The work model (remote/hybrid/on-site) and compensation range
+
+I look forward to your response.
+
+Best regards,
+[Your Name]</code></pre>
+          <p><strong>Contoh Dialog 2 (Chat via WhatsApp/LinkedIn):</strong></p>
+          <pre><code>**Recruiter:** Hi, are you open to a Senior Backend role?
+**You:** Hi, thank you for reaching out. Yes, I am currently open to relevant opportunities. Could you share the main responsibilities and tech stack first?
+**Recruiter:** The stack is Go, PostgreSQL, and AWS. The role is hybrid.
+**You:** Great, that aligns with my background. I am available for a 20-minute call tomorrow at 10:30 WIB or 15:00 WIB.
+**Recruiter:** 15:00 WIB works.
+**You:** Perfect. Please share the meeting link when convenient. Thank you.</code></pre>
+          <blockquote class="callout">Analogi: Merespons rekruter itu seperti membalas email dari klien penting. Respons yang cepat, jelas, dan sopan menunjukkan bahwa lo adalah seorang profesional yang terorganisir dan serius.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="I.5">
+          <h3>I.5 Writing Professional Emails</h3>
+          <p>Email tetap menjadi alat komunikasi formal utama dalam proses lamaran kerja. Menulis email yang profesional menunjukkan rasa hormat dan perhatian terhadap detail. Selalu gunakan subjek yang jelas, sampaikan tujuan lo secara langsung, dan tutup dengan sopan.</p>
+          <p><strong>Struktur Email Profesional:</strong></p>
+          <ul>
+            <li><strong>Subject Line:</strong> Buat subjek yang spesifik. Misalnya, "Interview Availability for Backend Developer Role" lebih baik daripada hanya "Interview".</li>
+            <li><strong>Salutation:</strong> Gunakan sapaan formal seperti "Dear Mr./Ms. [Last Name]," atau "Hello [First Name]," jika komunikasinya sudah lebih santai.</li>
+            <li><strong>Body:</strong> Langsung ke intinya. Nyatakan tujuan email di kalimat pertama. Gunakan paragraf pendek dan poin-poin untuk keterbacaan.</li>
+            <li><strong>Closing:</strong> Gunakan penutup profesional seperti "Sincerely," atau "Best regards,".</li>
+          </ul>
+          <p><strong>Contoh Email Follow-up Setelah Interview:</strong></p>
+          <pre><code>**Subject:** Following up on the Backend Developer Interview
+
+Dear [Interviewer Name],
+
+Thank you again for taking the time to speak with me today about the Backend Developer role. I truly enjoyed our conversation and learning more about the engineering culture at [Company Name].
+
+Our discussion about [mention a specific topic, e.g., the company's approach to system scalability] further solidified my interest in this opportunity.
+
+I am very excited about the possibility of joining your team. Please let me know if there is any additional information I can provide.
+
+Best regards,
+[Your Name]</code></pre>
+          <blockquote class="callout">Analogi: Email kerja itu seperti surat resmi versi digital. Formatnya harus rapi, bahasanya harus sopan, dan tujuannya harus jelas. Ini adalah cerminan profesionalisme lo.</blockquote>
+        </section>
       </section>
 
       <section class="node section">
@@ -937,114 +1098,413 @@ Feedback focus: question quality, relevance, and professionalism.</code></pre>
 
       <section class="node section">
         <h2>BAB K. English for Remote Work</h2>
-        <h2>K.1 Communicating in Slack</h2>
-        <p>Pesan Slack harus to the point, pakai konteks, dan action request yang jelas.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>[Context] Payment API timeout in staging.</li><li>[Action] Need review on retry policy.</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: chat tim itu kayak HT lapangan, singkat tapi jelas.</blockquote>
 
-        <h2>K.2 Writing Clear Messages</h2>
-        <p>Hindari kalimat panjang muter-muter. Gunakan bullets kalau info banyak.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Issue:</li><li>Impact:</li><li>Next step:</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: catatan tempel kulkas harus kebaca sekali lihat.</blockquote>
+        <section class="subsection" data-code="K.1">
+          <h3>K.1 Communicating in Slack/Teams</h2>
+          <p>Komunikasi asinkron di platform seperti Slack atau Microsoft Teams menuntut efisiensi. Hindari memulai percakapan hanya dengan "Hi" atau "Hello" dan menunggu balasan. Sebaliknya, sampaikan pesan lo secara lengkap dalam satu kali kirim: berikan konteks, jelaskan masalahnya, dan sebutkan apa yang lo butuhkan.</p>
+          <p>Pendekatan ini menghargai waktu rekan kerja, karena mereka bisa langsung memahami dan merespons ketika mereka punya waktu, tanpa perlu percakapan bolak-balik yang tidak perlu.</p>
+          <p><strong>Contoh Pola Komunikasi yang Efektif:</strong></p>
+          <ul>
+            <li><strong>Bad:</strong> "Hi Rina." (menunggu balasan...)</li>
+            <li><strong>Good:</strong> "Hi Rina, I'm seeing 500 errors on the staging payment API when using a new user account. I've already checked the logs but can't find the root cause. Could you take a look when you have a moment?"</li>
+            <li>Gunakan <strong>threads</strong> untuk menjaga diskusi tetap terorganisir dan tidak mengganggu channel utama.</li>
+            <li>Gunakan <strong>@mentions</strong> dengan bijak. Tag orang yang benar-benar perlu merespons.</li>
+          </ul>
+          <pre><code>// Pesan yang jelas dan bisa langsung ditindaklanjuti
+"Hi @dev-team, the latest deployment to staging (build #123) is causing the login page to fail.
+The console shows a 'ChunkLoadError'.
+Rolling back to build #122 for now. Can someone from the frontend team investigate?"</code></pre>
+          <blockquote class="callout">Analogi: Komunikasi di chat tim itu seperti menggunakan walkie-talkie (HT) di lapangan. Sampaikan pesanmu dengan singkat, padat, dan jelas dalam satu transmisi. Sebutkan siapa yang dituju, apa situasinya, dan tindakan apa yang diperlukan. Selesai.</blockquote>
+        </section>
 
-        <h2>K.3 Working with International Teams</h2>
-        <p>Pahami timezone, budaya komunikasi, dan ekspektasi response time.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>"I will hand over this task before EOD GMT+7."</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: main estafet, tongkat harus diserahin dengan timing pas.</blockquote>
+        <section class="subsection" data-code="K.2">
+          <h3>K.2 Writing Clear Messages</h2>
+          <p>Dalam komunikasi tertulis, kejelasan adalah segalanya. Pesan yang panjang dan berbelit-belit akan sulit dipahami dan seringkali diabaikan. Buat pesan lo mudah di-scan dengan menggunakan format yang tepat.</p>
+          <p>Gunakan bullet points untuk daftar, penomoran untuk langkah-langkah, `bold` untuk penekanan, dan blok kode untuk cuplikan teknis. Ini membantu pembaca menyerap informasi penting dengan cepat.</p>
+          <p><strong>Contoh Struktur Pesan yang Jelas:</strong></p>
+          <pre><code>**Issue:**
+Users are reporting that they cannot reset their password.
 
-        <h2>K.4 Handling Miscommunication</h2>
-        <p>Kalau salah paham, langsung re-state poin penting dan confirm ulang.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>"Let me restate to confirm:</li><li>we release only to staging today, correct?"</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: kalau instruksi nyapu ga jelas, ulangin dulu area mana yang harus dibersihin.</blockquote>
+**Impact:**
+All users who forgot their password are currently blocked from logging in.
 
-        <h2>K.5 Remote Work Etiquette</h2>
-        <p>Jaga etika remote: update status, tepat waktu, dokumentasi keputusan.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Status: available</li><li>Focus: payment integration</li><li>ETA update: 16:00</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: kerja remote itu kaya kerja shift, disiplin komunikasi adalah kuncinya.</blockquote>
+**Investigation:**
+- The API at `POST /reset-password` is returning a 404 Not Found.
+- This started after the deployment of the `auth-refactor` branch this morning.
+
+**Next Step:**
+I will investigate the route configuration in the latest release.
+@dan, could you confirm if any route paths were changed in your last PR?</code></pre>
+          <blockquote class="callout">Analogi: Pesan yang jelas itu seperti catatan yang ditempel di pintu kulkas. Harus bisa dibaca dan dipahami dalam sekali lihat. Langsung ke intinya, tanpa perlu penjelasan panjang lebar.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="K.3">
+          <h3>K.3 Working with International Teams</h2>
+          <p>Bekerja dengan tim internasional bukan hanya soal bahasa, tapi juga soal kesadaran akan zona waktu dan budaya komunikasi. Selalu sebutkan zona waktu (misalnya WIB, GMT+7, PST) saat menjadwalkan pertemuan atau memberikan ETA.</p>
+          <p>Pahami bahwa beberapa budaya lebih direct (langsung) sementara yang lain lebih indirect. Over-communication seringkali lebih baik daripada asumsi. Dokumentasikan keputusan penting secara tertulis untuk menghindari kebingungan.</p>
+          <p><strong>Contoh kalimat yang efektif:</strong></p>
+          <ul>
+            <li><strong>Scheduling:</strong> "I'm available between 9 AM - 11 AM PST (11 PM - 1 AM WIB). Does that work for you?"</li>
+            <li><strong>Handover:</strong> "I've completed the implementation. I'll hand over the testing and deployment to the EU team before I sign off."</li>
+            <li><strong>Setting Expectations:</strong> "Since it's already late in your timezone, I'll post the summary here and you can review it tomorrow morning."</li>
+          </ul>
+          <blockquote class="callout">Analogi: Ini seperti lari estafet. Lo harus memastikan tongkat estafet diserahkan dengan mulus dan pada waktu yang tepat ke pelari berikutnya. Komunikasi yang jelas adalah kunci agar tongkat tidak jatuh.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="K.4">
+          <h3>K.4 Handling Miscommunication</h2>
+          <p>Kesalahpahaman pasti terjadi dalam komunikasi, terutama dalam lingkungan remote dan lintas budaya. Kunci untuk menanganinya adalah dengan cepat mengidentifikasi dan mengklarifikasi, bukan menyalahkan.</p>
+          <p>Jika lo merasa ada kebingungan, segera ulangi pemahaman lo (re-state) dan minta konfirmasi. Gunakan frasa yang netral dan fokus untuk mencapai pemahaman bersama.</p>
+          <p><strong>Contoh kalimat untuk klarifikasi:</strong></p>
+          <ul>
+            <li>"Let me restate to make sure I understand correctly. Our goal for this sprint is to finish the API, but the UI is out of scope. Is that right?"</li>
+            <li>"I might have misunderstood. I thought we agreed to deploy this on Friday. Could you confirm the new deployment date?"</li>
+            <li>"Just to be on the same page, when you say 'ASAP', do you mean within the next hour or by the end of the day?"</li>
+          </ul>
+          <pre><code>// Mengklarifikasi setelah meeting
+"Hi team, just to summarize our decision and prevent any misunderstanding:
+1. We will proceed with Option A (the simpler fix).
+2. The deployment is scheduled for Thursday, not Friday.
+3. I will be responsible for updating the documentation.
+Please let me know if I missed anything."</code></pre>
+          <blockquote class="callout">Analogi: Jika instruksi untuk membersihkan rumah tidak jelas, lebih baik bertanya ulang, "Jadi, area yang perlu dibersihkan hanya ruang tamu dan dapur, kan?" daripada langsung menyapu seluruh rumah dan ternyata salah.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="K.5">
+          <h3>K.5 Remote Work Etiquette</h3>
+          <p>Etiket dalam kerja remote sangat penting untuk menjaga kepercayaan dan produktivitas tim. Ini bukan tentang pengawasan, tapi tentang visibilitas dan rasa hormat terhadap waktu dan fokus rekan kerja.</p>
+          <p><strong>Praktik etiket yang baik:</strong></p>
+          <ul>
+            <li><strong>Update Status:</strong> Gunakan status Slack/Teams untuk menunjukkan ketersediaan (e.g., 🟢 Available, 🎧 Focus Time, 🥪 Lunch, 🔴 Away).</li>
+            <li><strong>Be Punctual:</strong> Hadir tepat waktu di semua meeting online.</li>
+            <li><strong>Document Decisions:</strong> "Per our call just now, we've decided to move forward with the database migration next week. I've created a ticket to track this."</li>
+            <li><strong>Respect Focus Time:</strong> Hindari menelepon atau mengirim pesan mendesak kepada rekan kerja yang statusnya sedang "Focus Time", kecuali jika benar-benar darurat.</li>
+          </ul>
+          <blockquote class="callout">Analogi: Kerja remote itu seperti kerja shift di sebuah pos komando. Setiap orang harus disiplin dalam mengkomunikasikan status mereka, kapan mereka berjaga, kapan mereka istirahat, dan mencatat setiap kejadian penting di buku log. Ini memastikan operasi tetap berjalan lancar 24/7.</blockquote>
+        </section>
       </section>
 
       <section class="node section">
         <h2>BAB L. Developer Communication Templates</h2>
-        <h2>L.1 Asking for Help</h2>
-        <p>Pakai template biar minta bantuan ga bikin orang nebak-nebak.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Context: Payment callback in staging is not reaching the order service.</li><li>Tried: I checked the API key, webhook URL, and signature validator.</li><li>Current error: HTTP 401 on endpoint /api/webhooks/payment.</li><li>Needed help: Please review auth middleware for the webhook route.</li><li>Could you help me verify this flow end to end?</li><li>I have attached logs and request payload samples.</li><li>Let us align on the expected callback behavior before patching.</li></ul>
-        <blockquote class="callout">Analogi: kayak isi formulir servis, data lengkap bikin proses cepat.</blockquote>
+        <p>Menggunakan template untuk komunikasi teknis sehari-hari bisa secara drastis mengurangi ambiguitas dan mempercepat penyelesaian masalah. Template memastikan semua informasi yang relevan disertakan, sehingga rekan kerja bisa langsung paham tanpa perlu bertanya-tanya.</p>
 
-        <h2>L.2 Reporting a Bug</h2>
-        <p>Template bug report bantu standardisasi kualitas laporan di tim.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Title: Checkout fails after applying voucher DISCOUNT10.</li><li>Environment: Staging, Chrome 123, Windows 11, build 1.9.2.</li><li>Steps: Login -&gt; add product -&gt; apply voucher -&gt; click Checkout.</li><li>Expected: User is redirected to the payment page.</li><li>Actual: Error 500 appears and no transaction is created.</li><li>Attachment: Error screenshot and request ID from logs.</li><li>Severity: High, because users cannot complete purchases.</li></ul>
-        <blockquote class="callout">Analogi: tiket komplain dengan format tetap bikin CS lebih responsif.</blockquote>
+        <section class="subsection" data-code="L.1">
+          <h3>L.1 Asking for Help</h2>
+          <p>Saat meminta bantuan, tujuan lo adalah memudahkan orang lain untuk membantu. Berikan semua konteks yang relevan di awal agar tidak ada waktu yang terbuang untuk menanyakan hal-hal dasar. Struktur yang jelas menunjukkan bahwa lo sudah berusaha menyelesaikan masalahnya sendiri.</p>
+          <p><strong>Template Efektif untuk Meminta Bantuan:</strong></p>
+          <pre><code>**Context:**
+I'm working on the payment callback feature. The callback from the payment gateway in the staging environment is not reaching our order service.
 
-        <h2>L.3 Explaining a Technical Problem</h2>
-        <p>Gunakan format problem statement supaya diskusi ga melebar.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Problem: Average response time for the order-list endpoint is 4.5 seconds.</li><li>Constraints: We cannot change the database schema this week due to migration freeze.</li><li>Attempted solutions: Added index, default pagination to 20, and 30-second cache.</li><li>Recommendation: Move heavy aggregation to a background job and expose a summary endpoint.</li><li>Risk: Without changes, timeout risk increases during promo traffic.</li><li>Need decision: Approve phased optimization or schedule a migration window.</li></ul>
-        <blockquote class="callout">Analogi: presentasi tugas akhir harus ada rumusan masalah, bukan cerita bebas.</blockquote>
+**What I've Tried:**
+- I've double-checked the API key and it's correct.
+- I've verified the webhook URL is configured properly in the payment gateway dashboard.
+- I've run the signature validator locally with a sample payload, and it passed.
 
-        <h2>L.4 Giving Project Updates</h2>
-        <p>Update proyek lebih enak dibaca kalau konsisten formatnya antar anggota tim.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Done: create-order endpoint is complete and unit tests pass 100%.</li><li>In progress: Payment webhook integration and retriable queue.</li><li>Blockers: Waiting for IP whitelist approval from the payment gateway provider.</li><li>Next plan: Once whitelist is active, continue E2E testing and deploy to staging.</li><li>ETA: Code completion tomorrow at 15:00 WIB.</li><li>Support needed: QA help for mobile checkout regression flow.</li></ul>
-        <blockquote class="callout">Analogi: laporan kas harian harus format sama biar gampang dicek.</blockquote>
+**Current Error:**
+The payment gateway is reporting an HTTP 401 Unauthorized error when trying to hit our endpoint at `/api/webhooks/payment`.
 
-        <h2>L.5 Scheduling Meetings</h2>
-        <p>Ajukan meeting dengan tujuan, agenda, dan durasi biar ga buang waktu.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Goal: finalize API contract</li><li>Duration: 30 minutes</li><li>Agenda: endpoint, payload, error codes</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: ngajak ngopi sambil kerja, harus jelas mau bahas apa.</blockquote>
+**Specific Help Needed:**
+Could someone from the backend team please review the authentication middleware for the webhook route? I suspect there might be a misconfiguration there. I've attached the logs and sample request payloads to the ticket [TICKET-123].</code></pre>
+          <blockquote class="callout">Analogi: Meminta bantuan dengan template ini seperti mengisi formulir servis kendaraan. Lo memberikan semua detail—model mobil, gejala masalah, dan apa saja yang sudah dicek. Mekanik bisa langsung mendiagnosis masalahnya tanpa harus menebak-nebak.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="L.2">
+          <h3>L.2 Reporting a Bug</h2>
+          <p>Laporan bug yang baik adalah kunci untuk perbaikan yang cepat. Template membantu standardisasi laporan di seluruh tim, memastikan setiap laporan berisi informasi minimum yang dibutuhkan developer untuk mereproduksi dan memperbaiki bug tersebut.</p>
+          <p><strong>Template Laporan Bug yang Jelas:</strong></p>
+          <pre><code>**Title:**
+Checkout fails with a 500 error after applying the 'DISCOUNT10' voucher.
+
+**Environment:**
+- Staging environment
+- Build version: 1.9.2
+- Browser: Chrome 123 on Windows 11
+
+**Steps to Reproduce:**
+1. Log in as a user.
+2. Add any product to the cart.
+3. Go to the cart page and apply the voucher code 'DISCOUNT10'.
+4. Click the "Checkout" button.
+
+**Expected Result:**
+The user should be redirected to the payment page to complete the transaction.
+
+**Actual Result:**
+An error page with a "500 Internal Server Error" message appears. No transaction is created in the system.
+
+**Attachments:**
+- Screenshot of the error page.
+- Request ID from the log: `xyz-abc-123`.
+
+**Severity:**
+High. This bug prevents users from completing purchases, directly impacting revenue.</code></pre>
+          <blockquote class="callout">Analogi: Ini seperti mengisi laporan klaim asuransi. Semakin lengkap dan terstruktur laporannya—dengan kronologi, bukti foto, dan saksi—semakin cepat proses klaimnya disetujui.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="L.3">
+          <h3>L.3 Explaining a Technical Problem</h2>
+          <p>Saat menjelaskan masalah teknis yang kompleks, gunakan format "problem statement" yang terstruktur. Ini membantu menjaga diskusi tetap fokus pada solusi, bukan berdebat tentang masalahnya. Format ini sangat berguna dalam rapat teknis atau saat menulis dokumen desain.</p>
+          <p><strong>Template untuk Menjelaskan Masalah Teknis:</strong></p>
+          <pre><code>**Problem:**
+The average response time for the `GET /api/orders` endpoint has increased to 4.5 seconds under normal load, exceeding our 2-second SLA.
+
+**Constraints:**
+We cannot make any database schema changes this week due to a scheduled data migration freeze.
+
+**Attempted Solutions:**
+1. Added a database index to the `created_at` column.
+2. Implemented default pagination to limit results to 20 per page.
+3. Added a 30-second cache at the API gateway level.
+(These attempts only reduced the response time to 3.8 seconds).
+
+**Recommendation:**
+I propose we move the heavy data aggregation logic (calculating total sales, etc.) to a background job that runs every hour. The main endpoint will then serve a pre-calculated summary, and a separate endpoint can provide detailed data if needed.
+
+**Risk of Inaction:**
+If we don't address this, there's a high risk of endpoint timeouts and cascading failures during the upcoming promo period.
+
+**Decision Needed:**
+Do we approve moving forward with this phased optimization, or should we schedule a dedicated window to perform a more significant schema migration?</code></pre>
+          <blockquote class="callout">Analogi: Ini seperti presentasi proposal skripsi. Lo harus mulai dengan rumusan masalah yang jelas, batasan masalah, studi literatur (solusi yang sudah dicoba), baru kemudian mengajukan metode penelitian (rekomendasi solusi).</blockquote>
+        </section>
+
+        <section class="subsection" data-code="L.4">
+          <h3>L.4 Giving Project Updates</h2>
+          <p>Update proyek yang konsisten dan mudah dibaca sangat penting dalam kerja tim. Format yang standar memungkinkan semua orang—dari manajer hingga sesama developer—dengan cepat memahami progres, hambatan, dan rencana selanjutnya tanpa perlu membaca paragraf yang panjang.</p>
+          <p><strong>Template Update Proyek Harian/Mingguan:</strong></p>
+          <pre><code>**Done:**
+- The `create-order` endpoint implementation is complete.
+- All unit tests for the order service are passing (100% coverage).
+
+**In Progress:**
+- Integrating the payment webhook and implementing a retriable queue for failed callbacks. Currently at 50% completion.
+
+**Blockers:**
+- I am waiting for IP whitelist approval from the payment gateway provider. I cannot proceed with E2E testing until this is resolved. I have followed up with them this morning.
+
+**Next Plan:**
+- Once the IP whitelist is active, I will continue with E2E testing.
+- After testing, I will deploy the feature to the staging environment.
+
+**ETA:**
+- Code completion is estimated for tomorrow at 15:00 WIB, assuming the blocker is resolved today.</code></pre>
+          <blockquote class="callout">Analogi: Ini seperti laporan kas harian di toko. Formatnya selalu sama: pemasukan, pengeluaran, saldo akhir. Siapapun yang membacanya bisa langsung mengerti kondisi keuangan tanpa perlu penjelasan tambahan.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="L.5">
+          <h3>L.5 Scheduling Meetings</h2>
+          <p>Setiap undangan meeting harus menghargai waktu orang lain. Ajukan meeting hanya jika diperlukan, dan selalu sertakan tujuan yang jelas, agenda yang terperinci, dan durasi yang realistis. Ini memastikan meeting berjalan efisien dan tidak membuang-buang waktu.</p>
+          <p><strong>Template Undangan Meeting yang Efektif:</strong></p>
+          <pre><code>**Subject:**
+Meeting: Finalize API Contract for New Notification Service
+
+**Goal:**
+To finalize the API contract (endpoints, request/response payloads, and error codes) for the new notification service.
+
+**Duration:**
+30 minutes
+
+**Agenda:**
+1. Review proposed endpoint paths (5 mins).
+2. Confirm request and response payload structure (15 mins).
+3. Agree on a standard set of error codes (10 mins).
+
+**Required Attendees:**
+@anna (Product), @budi (Backend), @charlie (Frontend)
+
+To make this meeting productive, please review the attached API draft beforehand.</code></pre>
+          <blockquote class="callout">Analogi: Mengajak meeting tanpa agenda itu seperti mengajak orang pergi tanpa tujuan. Semua orang bingung mau ke mana dan akhirnya hanya buang-buang bensin. Meeting dengan agenda jelas itu seperti punya itinerary liburan yang terencana.</blockquote>
+        </section>
       </section>
 
       <section class="node section">
         <h2>BAB M. Common English Mistakes Developers Make</h2>
-        <h2>M.1 Grammar Mistakes</h2>
-        <p>Kesalahan umum: tense campur, subject-verb ga cocok, article keliru.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>// less clear</li><li>"Yesterday I fix bug"</li><li>// better</li><li>"Yesterday I fixed a bug"</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: grammar itu mur baut, kecil tapi bikin struktur kokoh.</blockquote>
+        <p>Sebagai developer, kita sering fokus pada bahasa pemrograman, tapi bahasa komunikasi (Inggris) sama pentingnya. Menghindari kesalahan umum dapat meningkatkan kejelasan, profesionalisme, dan mengurangi miskomunikasi dalam tim.</p>
 
-        <h2>M.2 Vocabulary Mistakes</h2>
-        <p>Sering ketuker antara issue/problem/bug atau feature/function.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>bug = defect</li><li>issue = broader problem</li><li>feature = capability</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: salah sebut bahan bisa bikin masakan beda hasil.</blockquote>
+        <section class="subsection" data-code="M.1">
+          <h3>M.1 Grammar Mistakes</h2>
+          <p>Kesalahan tata bahasa yang paling umum seringkali sederhana namun dapat mengganggu kejelasan. Fokus pada beberapa area kunci dapat memberikan dampak besar.</p>
+          <ul>
+            <li><strong>Inconsistent Tense:</strong> Mencampuradukkan waktu sekarang dan lampau dalam satu kalimat.</li>
+            <li><strong>Subject-Verb Agreement:</strong> Subjek dan kata kerja tidak cocok (e.g., "The team are..." seharusnya "The team is...").</li>
+            <li><strong>Incorrect Articles:</strong> Salah menggunakan "a", "an", atau "the".</li>
+          </ul>
+          <p><strong>Contoh Perbaikan:</strong></p>
+          <pre><code>// Kurang Jelas (Tense salah)
+"Yesterday I fix the bug and push the code."
 
-        <h2>M.3 Miscommunication in Technical Context</h2>
-        <p>Miscommunication muncul saat asumsi ga dikonfirmasi atau istilah ga disepakati.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>"When you say done,</li><li>do you mean deployed to production?"</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: janjian "jam nanti" bikin salah paham kalau ga sebut jam pasti.</blockquote>
+// Lebih Baik
+"Yesterday I fixed the bug and pushed the code."
 
-        <h2>M.4 Writing Too Informally</h2>
-        <p>Di channel kerja, hindari terlalu santai yang bikin maksud jadi kabur.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>// too casual</li><li>"pls cek ya bro"</li><li>// professional</li><li>"Could you review this when you have time?"</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: beda gaya chat tongkrongan sama chat ke klien.</blockquote>
+// Kurang Jelas (Subject-Verb Agreement salah)
+"The data from the API are incorrect."
 
-        <h2>M.5 Improving Professional Communication</h2>
-        <p>Perbaiki komunikasi lewat feedback loop: tulis, review, revisi, ulang.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Write -&gt; Get feedback -&gt; Refine -&gt; Reuse template</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: latihan free throw, akurasi naik karena konsisten evaluasi.</blockquote>
+// Lebih Baik
+"The data from the API is incorrect." (Data dianggap sebagai satu kesatuan)
+
+// Kurang Jelas (Artikel salah)
+"I need to create new index in database."
+
+// Lebih Baik
+"I need to create a new index in the database."</code></pre>
+          <blockquote class="callout">Analogi: Grammar itu seperti mur dan baut dalam sebuah mesin. Mungkin terlihat kecil dan sepele, tapi tanpanya, seluruh struktur bisa goyah dan tidak berfungsi dengan baik.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="M.2">
+          <h3>M.2 Vocabulary Mistakes</h2>
+          <p>Dalam konteks teknis, beberapa kata memiliki makna yang sangat spesifik. Menggunakan kata yang salah dapat menyebabkan kebingungan tentang tingkat keparahan atau sifat dari suatu situasi.</p>
+          <p><strong>Perbedaan Kata yang Sering Tertukar:</strong></p>
+          <ul>
+            <li><strong>Bug vs. Issue vs. Problem:</strong>
+              <ul>
+                <li>A <strong>bug</strong> is a specific defect in the code. (e.g., "Clicking the button causes a crash.")</li>
+                <li>An <strong>issue</strong> is a broader term that can include bugs, feature requests, or questions. (e.g., "The login process is confusing for new users.")</li>
+                <li>A <strong>problem</strong> is a high-level challenge. (e.g., "Our user retention is decreasing.")</li>
+              </ul>
+            </li>
+            <li><strong>Feature vs. Function:</strong>
+              <ul>
+                <li>A <strong>feature</strong> is a distinct capability of the software from a user's perspective. (e.g., "The app has a dark mode feature.")</li>
+                <li>A <strong>function</strong> is a block of code that performs a specific task. (e.g., "I wrote a function to calculate the total price.")</li>
+              </ul>
+            </li>
+          </ul>
+          <blockquote class="callout">Analogi: Salah memilih kata itu seperti salah mengambil bumbu saat memasak. Lo mau membuat opor ayam (masalah performa), tapi malah mengambil bumbu rendang (membahas bug minor). Hasilnya akan sangat berbeda dari yang diharapkan.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="M.3">
+          <h3>M.3 Miscommunication in Technical Context</h2>
+          <p>Miskomunikasi teknis seringkali muncul dari asumsi yang tidak terkonfirmasi. Istilah yang tampaknya sederhana seperti "done" bisa memiliki arti yang sangat berbeda bagi orang yang berbeda. Selalu klarifikasi untuk memastikan semua orang memiliki pemahaman yang sama.</p>
+          <p><strong>Contoh Klarifikasi untuk Menghindari Miskomunikasi:</strong></p>
+          <pre><code>// Rekan kerja: "The feature is done."
+// Klarifikasi Anda:
+"Great to hear! Just to be on the same page, when you say 'done', does that mean:
+a) The code is complete on your local machine?
+b) It's deployed to staging for QA?
+c) Or it's already live in production?"</code></pre>
+          <p>Frasa lain yang berguna:</p>
+          <ul>
+            <li>"Let me rephrase to make sure I understand..."</li>
+            <li>"Could you give me a specific example?"</li>
+          </ul>
+          <blockquote class="callout">Analogi: Janjian bertemu "nanti" adalah resep bencana. "Nanti" bisa berarti 10 menit lagi atau 2 jam lagi. Selalu sebutkan waktu yang spesifik, misalnya "jam 3 sore", untuk menghindari salah paham.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="M.4">
+          <h3>M.4 Writing Too Informally</h2>
+          <p>Meskipun lingkungan kerja developer seringkali santai, komunikasi tertulis yang terlalu informal bisa terlihat tidak profesional dan menyebabkan kebingungan. Hindari singkatan yang tidak umum, slang, atau bahasa yang terlalu santai, terutama dalam dokumentasi atau komunikasi dengan tim lain.</p>
+          <p><strong>Contoh Perbandingan Gaya Bahasa:</strong></p>
+          <pre><code>// Terlalu Santai
+"yo @devs, pls cek ya pr gw, thx"
+
+// Profesional dan Jelas
+"Hi @dev-team, I've submitted a pull request for the login fix. Could you please review it when you have a moment? Thanks!"
+
+// Terlalu Santai
+"ntar malem gw push y"
+
+// Profesional dan Jelas
+"I plan to push the final changes this evening."</code></pre>
+          <blockquote class="callout">Analogi: Ini seperti membedakan gaya berpakaian. Lo tidak akan memakai celana pendek dan sandal jepit saat bertemu klien penting, meskipun itu pakaian ternyaman lo. Sesuaikan gaya komunikasi dengan audiens dan konteksnya.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="M.5">
+          <h3>M.5 Improving Professional Communication</h2>
+          <p>Komunikasi adalah skill yang bisa dilatih, bukan bakat bawaan. Cara terbaik untuk meningkatkannya adalah melalui siklus feedback yang berkelanjutan: tulis, minta masukan, perbaiki, lalu gunakan kembali pola yang berhasil.</p>
+          <p><strong>Siklus Peningkatan Komunikasi (Feedback Loop):</strong></p>
+          <ol>
+            <li><strong>Write:</strong> Tulis draf pertama dari email, pesan, atau dokumen lo.</li>
+            <li><strong>Get Feedback:</strong> Minta rekan kerja yang lo percaya untuk membacanya dan memberikan masukan. Apakah pesannya jelas? Apakah ada yang ambigu?</li>
+            <li><strong>Refine:</strong> Perbaiki tulisan lo berdasarkan masukan yang diterima.</li>
+            <li><strong>Reuse:</strong> Simpan versi yang sudah diperbaiki sebagai template untuk digunakan di masa depan.</li>
+          </ol>
+          <blockquote class="callout">Analogi: Ini seperti latihan free throw dalam basket. Lo melempar, melihat apakah bola masuk, menganalisis gerakan, lalu mencoba lagi dengan perbaikan. Semakin sering lo melakukan siklus evaluasi ini, semakin akurat lemparan (komunikasi) lo.</blockquote>
+        </section>
       </section>
 
       <section class="node section">
         <h2>BAB N. Practice Exercises</h2>
-        <h2>N.1 Reading Documentation Practice</h2>
-        <p>Latihan baca docs 10-15 menit per hari, tulis ringkasan 3 poin.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Topic:</li><li>Key point 1:</li><li>Key point 2:</li><li>Key point 3:</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: kayak latihan lari ringan tiap hari, konsisten lebih penting dari sekali panjang.</blockquote>
+        <p>Teori tanpa praktik tidak akan menghasilkan kemahiran. Alokasikan sedikit waktu setiap hari atau setiap minggu untuk melatih skill komunikasi bahasa Inggris lo secara aktif. Konsistensi adalah kunci.</p>
 
-        <h2>N.2 Writing Commit Messages Practice</h2>
-        <p>Ambil 5 perubahan kode lalu tulis commit message yang proper.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>fix(auth): refresh token validation</li><li>feat(ui): add loading state</li><li>refactor(api): split user handler</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: nulis judul berita, harus padat tapi nyampe.</blockquote>
+        <section class="subsection" data-code="N.1">
+          <h3>N.1 Reading Documentation Practice</h2>
+          <p>Membaca dokumentasi teknis adalah salah satu cara terbaik untuk menyerap kosakata dan pola kalimat yang benar. Jadikan ini kebiasaan harian.</p>
+          <p><strong>Latihan:</strong></p>
+          <ul>
+            <li>Alokasikan 10-15 menit setiap hari untuk membaca dokumentasi resmi dari library atau framework yang lo gunakan (e.g., React docs, MDN, Stripe API docs).</li>
+            <li>Setelah membaca, tulis ringkasan singkat dalam 3 poin kunci menggunakan bahasa Inggris.</li>
+          </ul>
+          <p><strong>Contoh Hasil Latihan:</strong></p>
+          <pre><code>**Topic:** React's `useEffect` Hook Documentation
 
-        <h2>N.3 Writing Bug Reports Practice</h2>
-        <p>Simulasikan bug case lalu tulis report lengkap dan terstruktur.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Title: ...</li><li>Severity: ...</li><li>Repro steps: ...</li><li>Attachments: ...</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: bikin laporan kejadian, detail kecil bisa jadi kunci.</blockquote>
+**Key Points:**
+1. `useEffect` runs after every render by default.
+2. The dependency array `[]` makes it run only once after the initial render.
+3. The cleanup function returned by `useEffect` is used to prevent memory leaks.</code></pre>
+          <blockquote class="callout">Analogi: Ini seperti lari pagi. Lo tidak perlu lari maraton setiap hari. Lari ringan 15 menit secara konsisten jauh lebih bermanfaat untuk kesehatan jangka panjang daripada lari 3 jam sekali sebulan.</blockquote>
+        </section>
 
-        <h2>N.4 Technical Conversation Practice</h2>
-        <p>Latihan role-play diskusi teknis dengan teman: satu jadi interviewer, satu jadi engineer.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Question: Why choose caching?</li><li>Answer: To reduce DB load and latency.</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: sparring sebelum pertandingan biar refleks komunikasi kebentuk.</blockquote>
+        <section class="subsection" data-code="N.2">
+          <h3>N.2 Writing Commit Messages Practice</h2>
+          <p>Commit message adalah bentuk dokumentasi mini. Menulisnya dengan baik melatih kemampuan lo untuk merangkum perubahan teknis secara singkat dan jelas.</p>
+          <p><strong>Latihan:</strong></p>
+          <ul>
+            <li>Di akhir hari, lihat kembali 3-5 perubahan kode yang sudah lo buat.</li>
+            <li>Tulis ulang commit message-nya mengikuti standar Conventional Commits.</li>
+          </ul>
+          <p><strong>Contoh Hasil Latihan:</strong></p>
+          <pre><code>// Commit message awal yang kurang jelas
+"fixed stuff"
 
-        <h2>N.5 Mock Interview Practice</h2>
-        <p>Lakukan mock interview berkala dan rekam jawaban untuk evaluasi.</p>
-        <p><strong>Contoh yang bisa dipakai:</strong></p><ul><li>Self intro</li><li>Project deep dive</li><li>System design basics</li><li>Q and A</li><li>Could you clarify this part before we proceed?</li><li>I tested this change and the result looks good on my side.</li><li>Let us align on the expected output to avoid rework.</li></ul>
-        <blockquote class="callout">Analogi: gladi resik sebelum hari H.</blockquote>
+// Penulisan ulang yang lebih baik
+"fix(auth): resolve issue where refresh token expires prematurely"
+
+// Commit message awal
+"add new button"
+
+// Penulisan ulang yang lebih baik
+"feat(ui): add 'Export to CSV' button on the report page"</code></pre>
+          <blockquote class="callout">Analogi: Menulis commit message itu seperti menulis judul berita. Harus singkat, padat, informatif, dan langsung menarik perhatian pada inti perubahan.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="N.3">
+          <h3>N.3 Writing Bug Reports Practice</h2>
+          <p>Melatih kemampuan menulis laporan bug yang baik akan sangat dihargai oleh tim lo. Ini adalah skill praktis yang bisa langsung diterapkan.</p>
+          <p><strong>Latihan:</strong></p>
+          <ul>
+            <li>Bayangkan sebuah bug yang pernah lo temui.</li>
+            <li>Tulis laporan bug lengkap menggunakan template dari Bab L.2.</li>
+            <li>Fokus pada kejelasan "Steps to Reproduce". Minta teman untuk mencoba mengikuti langkah-langkah tersebut untuk melihat apakah bug-nya bisa direproduksi.</li>
+          </ul>
+          <blockquote class="callout">Analogi: Ini seperti membuat laporan investigasi untuk detektif. Setiap detail kecil, bukti, dan kronologi kejadian harus dicatat dengan akurat agar detektif (developer) bisa memecahkan kasusnya.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="N.4">
+          <h3>N.4 Technical Conversation Practice</h2>
+          <p>Berbicara adalah skill motorik. Lo harus melatihnya secara aktif, bukan hanya pasif membaca. Role-playing adalah cara yang aman dan efektif untuk membangun refleks komunikasi.</p>
+          <p><strong>Latihan:</strong></p>
+          <ul>
+            <li>Ajak satu teman untuk latihan role-play selama 15 menit.</li>
+            <li>Satu orang berperan sebagai interviewer, yang lain sebagai engineer.</li>
+            <li>Diskusikan topik teknis sederhana. Fokus pada bagaimana menjelaskan konsep yang kompleks dengan bahasa yang mudah dimengerti.</li>
+          </ul>
+          <p><strong>Contoh Skenario:</strong></p>
+          <pre><code>**Interviewer:** "Why did you choose to use caching in this feature?"
+**Engineer:** "We chose caching for two main reasons: first, to reduce the load on our primary database, and second, to significantly decrease latency for our end-users, improving their experience."</code></pre>
+          <blockquote class="callout">Analogi: Ini seperti sparring partner dalam tinju. Lo berlatih pukulan dan tangkisan dalam lingkungan yang terkendali, sehingga saat pertandingan sesungguhnya, gerakan lo sudah menjadi refleks.</blockquote>
+        </section>
+
+        <section class="subsection" data-code="N.5">
+          <h3>N.5 Mock Interview Practice</h2>
+          <p>Mock interview adalah latihan pamungkas yang menggabungkan semua skill komunikasi: perkenalan diri, penjelasan teknis, diskusi desain, dan tanya jawab. Merekam sesi ini sangat penting untuk evaluasi diri.</p>
+          <p><strong>Latihan:</strong></p>
+          <ul>
+            <li>Lakukan sesi mock interview (bisa dengan teman atau sendiri).</li>
+            <li>Rekam jawaban lo menggunakan video atau audio.</li>
+            <li>Tonton kembali rekaman tersebut dan evaluasi: Apakah jawaban lo terstruktur? Apakah lo terdengar percaya diri? Di bagian mana lo sering berhenti atau menggunakan "umm" dan "ahh"?</li>
+          </ul>
+          <blockquote class="callout">Analogi: Ini adalah gladi resik sebelum pementasan teater. Lo berlatih di panggung yang sama, dengan kostum yang sama, untuk memastikan semuanya berjalan mulus saat hari pertunjukan tiba.</blockquote>
+        </section>
       </section>
 
       <section class="node section">

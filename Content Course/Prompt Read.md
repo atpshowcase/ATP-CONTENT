@@ -1,123 +1,166 @@
-# Fundamental Public Speaking
+# Clean Code & Software Engineering Fundamentals
 
 ## Table of Contents
 
 ---
 
-# PART 1 — Introduction to Public Speaking
+# PART 1 — Introduction
 
-## 1. What is Public Speaking
-- Definisi public speaking  
-- Tujuan public speaking  
-- Jenis-jenis public speaking (informative, persuasive, entertaining)  
+## 1. What is Clean Code
+- Definisi clean code  
+- Kenapa clean code penting  
+- Dampak bad code (technical debt)  
 
-## 2. Overcoming Fear and Building Confidence
-- Penyebab gugup  
-- Teknik mengatasi nervous  
-- Mindset pembicara  
-
----
-
-# PART 2 — Audience and Message
-
-## 3. Understanding Your Audience
-- Analisis audiens  
-- Menyesuaikan pesan dengan audiens  
-- Empati dalam komunikasi  
-
-## 4. Crafting Your Message
-- Menentukan tujuan  
-- Struktur pesan  
-- Storytelling dasar  
+## 2. Software Engineering Principles Overview
+- Maintainability  
+- Scalability  
+- Readability  
+- Simplicity  
 
 ---
 
-# PART 3 — Speech Structure
+# PART 2 — Clean Code Fundamentals
 
-## 5. Opening (Introduction)
-- Hook (pembuka menarik)  
-- Perkenalan topik  
-- Menarik perhatian audiens  
+## 3. Naming Conventions
+- Meaningful names  
+- Intention-revealing names  
+- Avoid misleading names  
 
-## 6. Body (Isi)
-- Penyusunan ide utama  
-- Data dan contoh  
-- Transisi antar poin  
+## 4. Functions
+- Single Responsibility Principle (SRP)  
+- Small functions  
+- Clear inputs & outputs  
+- Avoid side effects  
 
-## 7. Closing (Penutup)
-- Ringkasan  
-- Call to action  
-- Ending yang kuat  
+## 5. Comments
+- Kapan perlu komentar  
+- Self-documenting code  
+- Bad vs good comments  
 
----
-
-# PART 4 — Delivery Skills
-
-## 8. Verbal Communication
-- Artikulasi  
-- Intonasi  
-- Kecepatan bicara  
-
-## 9. Non-Verbal Communication
-- Bahasa tubuh  
-- Eye contact  
-- Gesture dan ekspresi  
-
-## 10. Voice Control
-- Volume  
-- Pitch  
-- Pauses (jeda)  
+## 6. Formatting
+- Consistent style  
+- Proper indentation  
+- Code readability  
 
 ---
 
-# PART 5 — Presentation Techniques
+# PART 3 — Code Quality Principles
 
-## 11. Using Visual Aids
-- Slide presentasi  
-- Penggunaan gambar dan grafik  
-- Do’s and don’ts  
+## 7. DRY, KISS, YAGNI
+- DRY (Don’t Repeat Yourself)  
+- KISS (Keep It Simple, Stupid)  
+- YAGNI (You Aren’t Gonna Need It)  
 
-## 12. Engaging the Audience
-- Interaksi  
-- Bertanya ke audiens  
-- Humor dalam presentasi  
-
----
-
-# PART 6 — Practice and Improvement
-
-## 13. Rehearsal Techniques
-- Latihan mandiri  
-- Simulasi presentasi  
-- Feedback  
-
-## 14. Handling Questions
-- Teknik menjawab pertanyaan  
-- Menghadapi pertanyaan sulit  
-
-## 15. Continuous Improvement
-- Evaluasi diri  
-- Belajar dari pengalaman  
-- Meningkatkan skill secara konsisten  
+## 8. SOLID Principles
+- Single Responsibility Principle  
+- Open/Closed Principle  
+- Liskov Substitution Principle  
+- Interface Segregation Principle  
+- Dependency Inversion Principle  
 
 ---
 
-# PART 7 — Advanced Basics
+# PART 4 — Error Handling & Testing
 
-## 16. Persuasive Speaking
-- Teknik persuasi  
-- Logika dan emosi  
+## 9. Error Handling
+- Exception handling  
+- Fail fast principle  
+- Avoid silent failures  
 
-## 17. Impromptu Speaking
-- Berbicara spontan  
-- Struktur cepat (PREP method: Point, Reason, Example, Point)  
-
-## 18. Professional Speaking
-- Presentasi bisnis  
-- Pitching  
-- Speaking dalam meeting  
+## 10. Testing Fundamentals
+- Unit testing  
+- Integration testing  
+- Testable code  
+- Test coverage  
 
 ---
+
+# PART 5 — Code Structure & Design
+
+## 11. Separation of Concerns
+- Layered architecture  
+- Modularization  
+- Decoupling  
+
+## 12. Coupling & Cohesion
+- Low coupling  
+- High cohesion  
+
+## 13. Design Patterns (Basic)
+- Creational patterns  
+- Structural patterns  
+- Behavioral patterns  
+
+---
+
+# PART 6 — Refactoring
+
+## 14. Refactoring Fundamentals
+- Code smells  
+- When to refactor  
+- Safe refactoring  
+
+## 15. Common Refactoring Techniques
+- Extract function  
+- Rename variable  
+- Remove duplication  
+- Simplify conditionals  
+
+---
+
+# PART 7 — Software Design Fundamentals
+
+## 16. System Design Basics
+- High-level vs low-level design  
+- Components & interactions  
+- Trade-offs  
+
+## 17. Architecture Patterns
+- MVC  
+- Layered architecture  
+- Microservices vs monolith  
+
+## 18. API Design Principles
+- RESTful design  
+- Consistency  
+- Versioning  
+
+---
+
+# PART 8 — Advanced Engineering Practices
+
+## 19. Code Review
+- Best practices  
+- Giving & receiving feedback  
+
+## 20. Documentation
+- Code documentation  
+- System documentation  
+
+## 21. Performance & Optimization
+- Performance basics  
+- Trade-offs readability vs performance  
+
+## 22. Scalability & Reliability
+- Horizontal vs vertical scaling  
+- Fault tolerance  
+- Resilience  
+
+---
+
+# PART 9 — Engineering Mindset
+
+## 23. Problem Solving in Engineering
+- Analytical thinking  
+- Breaking down problems  
+
+## 24. Writing Maintainable Code
+- Long-term thinking  
+- Clean architecture mindset  
+
+## 25. Continuous Improvement
+- Learning from mistakes  
+- Iterative development  
 
 # 🚀 Tips
 

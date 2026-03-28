@@ -209,71 +209,71 @@
     </div>
 
     <article class="doc">
-      <p class="meta">Tiptap Style Notes - A sampai F .NET Learning Path</p>
-      <h1>Fundamental .NET Sampai Praktik Aplikasi</h1>
-      <p class="subtitle">Bahas santai tapi runut, mulai dari pondasi .NET, lanjut struktur project, Web API, sampai best practice dunia nyata.</p>
+      <p class="meta">Tiptap Style Notes - A to F .NET Learning Path</p>
+      <h1>Fundamental .NET Up to Real Application Practice</h1>
+      <p class="subtitle">Explained casually but structured, starting from .NET foundations, then project structure, Web API, up to real-world best practices.</p>
 
       <section class="node section">
         <h2>A. Fundamental .NET</h2>
 
-        <h2>A.1 Pengenalan Platform .NET</h2>
-        <p><strong>.NET itu platform pengembangan aplikasi dari Microsoft</strong> yang bisa dipakai buat bikin web, desktop, mobile, cloud service, sampai background worker. Jadi bukan cuma bahasa C#, tapi satu ekosistem lengkap: runtime, library, tooling, dan CLI.</p>
+        <h2>A.1 Introduction to the .NET Platform</h2>
+        <p><strong>.NET is Microsoft’s application development platform</strong> that you can use to build web, desktop, mobile, cloud services, and even background workers. So it’s not just the C# language, but a complete ecosystem: runtime, libraries, tooling, and CLI.</p>
         <ul>
-          <li>Runtime: mesin yang ngejalanin aplikasi lo.</li>
-          <li>Base Class Library (BCL): kumpulan fungsi bawaan biar gak coding dari nol.</li>
-          <li>SDK dan CLI: alat buat build, run, test, publish.</li>
-          <li>Bahasa utama: C#, F#, dan Visual Basic.</li>
+          <li>Runtime: the engine that runs your app.</li>
+          <li>Base Class Library (BCL): built-in functions so you don’t have to code from scratch.</li>
+          <li>SDK and CLI: tools to build, run, test, and publish.</li>
+          <li>Main languages: C#, F#, and Visual Basic.</li>
         </ul>
-        <pre><code>// cek SDK .NET yang terpasang
+        <pre><code>// check installed .NET SDK
 // dotnet --info
 
-// bikin project console baru
-// dotnet new console -n BelajarDotNet
+// create a new console project
+// dotnet new console -n LearnDotNet
 
-// jalanin project
+// run the project
 // dotnet run</code></pre>
-        <blockquote class="callout">Analogi: .NET itu kayak satu komplek olahraga lengkap. Lo bisa main futsal, basket, gym di area yang sama karena fasilitasnya udah disatuin.</blockquote>
+        <blockquote class="callout">Analogy: .NET is like a complete sports complex. You can play futsal, basketball, or hit the gym in the same area because all the facilities are integrated.</blockquote>
 
-        <h2>A.2 Arsitektur Dasar .NET</h2>
-        <p>Arsitektur dasar .NET bisa lo lihat sebagai alur berlapis: kode C# lo di-compile jadi IL, lalu dieksekusi CLR. CLR ini yang ngurus memory management, garbage collection, type safety, dan keamanan runtime.</p>
+        <h2>A.2 Basic .NET Architecture</h2>
+        <p>You can see .NET’s basic architecture as a layered flow: your C# code is compiled to IL, then executed by the CLR. The CLR handles memory management, garbage collection, type safety, and runtime security.</p>
         <ol>
-          <li>Source Code (C#): kode yang lo tulis.</li>
-          <li>Compiler (Roslyn): ngubah kode jadi Intermediate Language (IL).</li>
-          <li>CLR (Common Language Runtime): ngejalanin IL, optimasi via JIT, ngelola memori.</li>
-          <li>BCL/NuGet Libraries: fungsi tambahan untuk networking, file, JSON, database, dan lain-lain.</li>
+          <li>Source Code (C#): the code you write.</li>
+          <li>Compiler (Roslyn): turns code into Intermediate Language (IL).</li>
+          <li>CLR (Common Language Runtime): runs IL, optimizes via JIT, manages memory.</li>
+          <li>BCL/NuGet Libraries: extra functions for networking, files, JSON, database, and more.</li>
         </ol>
-        <pre><code>// Alur sederhananya:
+        <pre><code>// Simple flow:
 // C# code -> IL -> CLR/JIT -> Machine Code
 
-string nama = "Platform .NET";
-Console.WriteLine($"Belajar {nama} dari arsitektur dasarnya");</code></pre>
-        <blockquote class="callout">Analogi: ini kayak dapur restoran. Lo (developer) nulis pesanan, chef (compiler + CLR) yang olah jadi makanan siap saji buat mesin.</blockquote>
+string name = "The .NET Platform";
+Console.WriteLine($"Learning {name} from its basic architecture");</code></pre>
+        <blockquote class="callout">Analogy: it’s like a restaurant kitchen. You (the developer) write the order, the chef (compiler + CLR) processes it into ready-to-serve food for the machine.</blockquote>
 
-        <h2>A.3 Perbedaan .NET Framework, .NET Core, dan .NET Modern</h2>
-        <p>Biar gampang, anggap evolusi .NET itu ada tiga fase utama. Sekarang yang direkomendasikan buat project baru adalah .NET Modern (versi 6/7/8 ke atas).</p>
+        <h2>A.3 Differences: .NET Framework, .NET Core, and .NET Modern</h2>
+        <p>To make it simple, think of .NET’s evolution as three main phases. Now, the recommended choice for new projects is .NET Modern (version 6/7/8 and up).</p>
         <ul>
-          <li><strong>.NET Framework</strong>: generasi lama, dominan Windows, cocok untuk legacy enterprise lama.</li>
-          <li><strong>.NET Core</strong>: generasi transisi yang cross-platform (Windows, Linux, macOS), performa lebih ringan.</li>
-          <li><strong>.NET Modern</strong> (nama produknya balik jadi <strong>.NET</strong>): penerus resmi .NET Core dengan LTS/STS, tooling makin matang, ekosistem paling aktif.</li>
+          <li><strong>.NET Framework</strong>: old generation, Windows-dominant, good for legacy enterprise apps.</li>
+          <li><strong>.NET Core</strong>: transition generation, cross-platform (Windows, Linux, macOS), lighter performance.</li>
+          <li><strong>.NET Modern</strong> (the product name is back to <strong>.NET</strong>): the official successor to .NET Core with LTS/STS, more mature tooling, and the most active ecosystem.</li>
         </ul>
-        <pre><code>// target framework di file .csproj
-&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
-  &lt;PropertyGroup&gt;
-    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
-    &lt;TargetFramework&gt;net8.0&lt;/TargetFramework&gt;
-  &lt;/PropertyGroup&gt;
-&lt;/Project&gt;</code></pre>
-        <blockquote class="callout">Analogi: .NET Framework itu motor lama yang masih bisa jalan, .NET Core itu versi upgrade awal, dan .NET Modern itu model terbaru yang paling irit, kenceng, dan paling banyak support bengkelnya.</blockquote>
+        <pre><code>// target framework in .csproj file
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+</Project></code></pre>
+        <blockquote class="callout">Analogy: .NET Framework is like an old motorcycle that still runs, .NET Core is the early upgrade version, and .NET Modern is the latest model—most efficient, fastest, and with the most repair shop support.</blockquote>
 
-        <h2>A.4 Sejarah .NET</h2>
-        <p>Sejarah .NET dimulai awal 2000-an waktu Microsoft ngenalin .NET Framework (2002) buat nyatuin cara bikin aplikasi Windows dan web. Setelah itu, ekosistemnya berkembang cepat sampai akhirnya lahir .NET Core (2016) yang cross-platform dan jadi fondasi .NET modern.</p>
+        <h2>A.4 The History of .NET</h2>
+        <p>The history of .NET started in the early 2000s when Microsoft introduced .NET Framework (2002) to unify how to build Windows and web apps. After that, the ecosystem grew fast until .NET Core (2016) was born—cross-platform and the foundation of modern .NET.</p>
         <ul>
-          <li>2002: .NET Framework 1.0 resmi rilis.</li>
-          <li>2016: .NET Core 1.0 rilis, mulai era cross-platform.</li>
-          <li>2020: .NET 5 nyatuin branding jadi satu jalur.</li>
-          <li>2021-sekarang: .NET 6/7/8 fokus performa, cloud, dan produktivitas.</li>
+          <li>2002: .NET Framework 1.0 officially released.</li>
+          <li>2016: .NET Core 1.0 released, starting the cross-platform era.</li>
+          <li>2020: .NET 5 unified the branding into one track.</li>
+          <li>2021-now: .NET 6/7/8 focus on performance, cloud, and productivity.</li>
         </ul>
-        <pre><code>// Timeline versi utama
+        <pre><code>// Main version timeline
 string[] timeline =
 {
     "2002 - .NET Framework 1.0",
@@ -288,56 +288,56 @@ foreach (var item in timeline)
 {
     Console.WriteLine(item);
 }</code></pre>
-        <blockquote class="callout">Analogi: perjalanan .NET itu kayak evolusi kendaraan operasional dari model lama ke model hybrid modern, mesinnya makin efisien tapi tujuan tetap sama: nganter kerjaan lo sampai tujuan.</blockquote>
+        <blockquote class="callout">Analogy: the journey of .NET is like the evolution of work vehicles from old models to modern hybrids—the engine gets more efficient but the goal stays the same: getting your job done.</blockquote>
       </section>
 
       <section class="node section">
-        <h2>B. Framework Web pada .NET</h2>
+        <h2>B. Web Frameworks in .NET</h2>
 
-        <h2>B.1 Pengenalan ASP.NET</h2>
-        <p><strong>ASP.NET adalah framework web di ekosistem .NET</strong> buat bikin aplikasi web dinamis, API, dan real-time app. Intinya, kalau lo mau bangun backend web di .NET, titik masuk paling umum ya ASP.NET.</p>
+        <h2>B.1 Introduction to ASP.NET</h2>
+        <p><strong>ASP.NET is the web framework in the .NET ecosystem</strong> for building dynamic web apps, APIs, and real-time apps. Basically, if you want to build a web backend in .NET, ASP.NET is the most common entry point.</p>
         <ul>
-          <li>Dukungan routing HTTP (GET, POST, PUT, DELETE).</li>
+          <li>HTTP routing support (GET, POST, PUT, DELETE).</li>
           <li>Built-in middleware pipeline.</li>
-          <li>Integrasi kuat sama authentication, logging, dan DI.</li>
-          <li>Cocok untuk monolith maupun microservices.</li>
+          <li>Strong integration with authentication, logging, and DI.</li>
+          <li>Works for both monoliths and microservices.</li>
         </ul>
         <pre><code>// Minimal API (ASP.NET Core)
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/", () =&gt; "Halo dari ASP.NET!");
+app.MapGet("/", () => "Hello from ASP.NET!");
 
 app.Run();</code></pre>
-        <blockquote class="callout">Analogi: ASP.NET itu kayak dapur utama restoran online, semua order web masuk lewat sini lalu diproses rapi.</blockquote>
+        <blockquote class="callout">Analogy: ASP.NET is like the main kitchen of an online restaurant—every web order comes through here and gets processed neatly.</blockquote>
 
         <h2>B.2 ASP.NET MVC</h2>
-        <p>ASP.NET MVC pakai pola <strong>Model-View-Controller</strong> biar code terpisah per tanggung jawab: data, tampilan, dan alur request. Pola ini enak banget buat aplikasi web yang server-rendered dan butuh struktur tim yang jelas.</p>
+        <p>ASP.NET MVC uses the <strong>Model-View-Controller</strong> pattern so code is separated by responsibility: data, view, and request flow. This pattern is great for server-rendered web apps and teams that need clear structure.</p>
         <ol>
-          <li>Model: representasi data dan aturan bisnis.</li>
-          <li>View: tampilan HTML yang dilihat user.</li>
-          <li>Controller: jembatan request user ke logic aplikasi.</li>
+          <li>Model: represents data and business rules.</li>
+          <li>View: the HTML the user sees.</li>
+          <li>Controller: bridges user requests to app logic.</li>
         </ol>
-        <pre><code>// Controller sederhana di ASP.NET MVC
+        <pre><code>// Simple controller in ASP.NET MVC
 public class HomeController : Controller
 {
     public IActionResult Index()
     {
-        ViewData["Message"] = "Selamat datang di ASP.NET MVC";
+        ViewData["Message"] = "Welcome to ASP.NET MVC";
         return View();
     }
 }</code></pre>
-        <blockquote class="callout">Analogi: MVC itu kayak tim produksi konten: penulis (Model), editor layout (View), sama produser yang ngatur alur kerja (Controller).</blockquote>
+        <blockquote class="callout">Analogy: MVC is like a content production team: the writer (Model), the layout editor (View), and the producer who manages the workflow (Controller).</blockquote>
 
         <h2>B.3 ASP.NET Core</h2>
-        <p>ASP.NET Core adalah versi modern yang lebih ringan, cepat, dan cross-platform. Ini framework web utama yang dipakai sekarang untuk project baru karena performa tinggi dan deployment fleksibel ke Linux, Windows, container, sampai cloud.</p>
+        <p>ASP.NET Core is the modern version—lighter, faster, and cross-platform. This is the main web framework used for new projects now because of its high performance and flexible deployment to Linux, Windows, containers, and the cloud.</p>
         <ul>
-          <li>Cross-platform: jalan di Windows, Linux, macOS.</li>
-          <li>Performa tinggi dan memory footprint lebih efisien.</li>
+          <li>Cross-platform: runs on Windows, Linux, macOS.</li>
+          <li>High performance and more efficient memory footprint.</li>
           <li>Built-in dependency injection.</li>
-          <li>Mendukung MVC, Razor Pages, Web API, SignalR, Minimal API.</li>
+          <li>Supports MVC, Razor Pages, Web API, SignalR, Minimal API.</li>
         </ul>
-        <pre><code>// Registrasi service + endpoint di ASP.NET Core
+        <pre><code>// Register services + endpoints in ASP.NET Core
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -345,136 +345,136 @@ builder.Services.AddControllers();
 var app = builder.Build();
 app.MapControllers();
 app.Run();</code></pre>
-        <blockquote class="callout">Analogi: ASP.NET Core itu kayak kendaraan operasional terbaru: lebih irit, lebih cepat, dan bisa dipakai di lebih banyak medan.</blockquote>
+        <blockquote class="callout">Analogy: ASP.NET Core is like the latest operational vehicle: more efficient, faster, and can be used in more terrains.</blockquote>
       </section>
 
       <section class="node section">
-        <h2>C. Struktur Project dan Komponen</h2>
+        <h2>C. Project Structure and Components</h2>
 
-        <h2>Struktur Project .NET</h2>
-        <p><strong>Project .NET itu biasanya udah punya pola folder</strong>, jadi tim lo gampang baca alur code walau orangnya beda-beda.</p>
+        <h2>.NET Project Structure</h2>
+        <p><strong>.NET projects usually already have a folder pattern</strong>, so your team can easily follow the code flow even if the people change.</p>
         <ul>
-          <li>Controllers: pintu masuk request user.</li>
-          <li>Models: representasi data atau entitas.</li>
-          <li>Views: tampilan yang diliat user (kalau project MVC).</li>
-          <li>File konfigurasi: ngatur environment, dependency, dan behavior app.</li>
+          <li>Controllers: entry point for user requests.</li>
+          <li>Models: data or entity representations.</li>
+          <li>Views: what the user sees (for MVC projects).</li>
+          <li>Config files: set up environment, dependencies, and app behavior.</li>
         </ul>
 
-        <h2>Konsep Layer Architecture</h2>
-        <p>Layer architecture itu teknik biar tanggung jawab code gak campur aduk.</p>
+        <h2>Layer Architecture Concept</h2>
+        <p>Layer architecture is a technique to keep code responsibilities from getting mixed up.</p>
         <ol>
-          <li>Controller Layer: nerima request dan ngarahin proses.</li>
-          <li>Service Layer: isi business logic utama.</li>
-          <li>Repository Layer: urusan akses data/database.</li>
-          <li>Domain Model: bentuk data inti sesuai kebutuhan bisnis.</li>
+          <li>Controller Layer: receives requests and directs the process.</li>
+          <li>Service Layer: contains the main business logic.</li>
+          <li>Repository Layer: handles data/database access.</li>
+          <li>Domain Model: core data shape according to business needs.</li>
         </ol>
 
-        <h2>Dependency dan Package Management</h2>
-        <p><strong>Di .NET, urusan package biasanya lewat NuGet</strong>. Mirip package manager di ekosistem lain, tapi khusus dunia .NET.</p>
+        <h2>Dependency and Package Management</h2>
+        <p><strong>In .NET, package management is usually done via NuGet</strong>. It’s like a package manager in other ecosystems, but specific to the .NET world.</p>
         <ul>
-          <li>NuGet dipakai buat install library pihak ketiga.</li>
-          <li>Versi package perlu dijaga biar gak bentrok dependency.</li>
-          <li>Penambahan package bisa via CLI atau Visual Studio.</li>
+          <li>NuGet is used to install third-party libraries.</li>
+          <li>Package versions need to be managed to avoid dependency conflicts.</li>
+          <li>You can add packages via CLI or Visual Studio.</li>
         </ul>
       </section>
 
       <section class="node section">
-        <h2>D. Dasar Pengembangan Web API</h2>
+        <h2>D. Web API Development Basics</h2>
 
-        <h2>Konsep Web API</h2>
-        <p>API itu jembatan komunikasi antar aplikasi. Frontend minta data, backend ngasih response.</p>
+        <h2>Web API Concept</h2>
+        <p>An API is a communication bridge between applications. The frontend requests data, the backend gives a response.</p>
         <ul>
-          <li>REST API di .NET biasanya pakai endpoint berbasis HTTP method (GET, POST, PUT, DELETE).</li>
-          <li>Format data paling umum: JSON.</li>
-          <li>API harus konsisten biar gampang dipakai tim frontend/mobile.</li>
+          <li>REST APIs in .NET usually use endpoints based on HTTP methods (GET, POST, PUT, DELETE).</li>
+          <li>The most common data format: JSON.</li>
+          <li>APIs must be consistent so the frontend/mobile team can use them easily.</li>
         </ul>
 
-        <h2>Membuat API Sederhana</h2>
-        <p>Start simple dulu biar alur kebaca.</p>
+        <h2>Creating a Simple API</h2>
+        <p>Start simple so the flow is easy to follow.</p>
         <ol>
-          <li>Bikin controller API.</li>
-          <li>Set routing dasar endpoint.</li>
-          <li>Balikin response JSON dari action method.</li>
+          <li>Create an API controller.</li>
+          <li>Set up basic endpoint routing.</li>
+          <li>Return a JSON response from the action method.</li>
         </ol>
-        <blockquote class="callout">Tips tongkrongan: jangan keburu mikir kompleks. API sederhana yang rapi lebih berguna daripada API canggih tapi bikin tim bingung.</blockquote>
+        <blockquote class="callout">Hangout tip: don’t overthink complexity. A simple, tidy API is more useful than a fancy API that confuses the team.</blockquote>
       </section>
 
       <section class="node section">
-        <h2>E. Praktik Pengembangan Aplikasi</h2>
+        <h2>E. Application Development Practice</h2>
 
-        <h2>Membuat Aplikasi Web Sederhana</h2>
-        <p><strong>Di tahap praktik, fokusnya bukan keren-kerenan fitur</strong>, tapi ngebentuk alur kerja yang bener.</p>
+        <h2>Building a Simple Web App</h2>
+        <p><strong>At the practice stage, the focus isn’t on fancy features</strong>, but on building the right workflow.</p>
         <ul>
-          <li>Bikin project baru sesuai template yang cocok.</li>
-          <li>Tambah controller buat nangani request.</li>
-          <li>Tampilkan data ke view biar alur end-to-end keliatan.</li>
+          <li>Create a new project using the right template.</li>
+          <li>Add a controller to handle requests.</li>
+          <li>Show data in the view so the end-to-end flow is clear.</li>
         </ul>
 
-        <h2>Menghubungkan Database</h2>
-        <p>Kalau aplikasi lo cuma nyimpen data di variabel, begitu di-restart ya ilang. Biar data bener-bener nyata dan persistent, lo harus nyambungin ke database. Di sini kita masuk ke topik yang krusial banget.</p>
+        <h2>Connecting to a Database</h2>
+        <p>If your app only stores data in variables, it’ll disappear when restarted. To make data truly persistent, you have to connect to a database. This is a super crucial topic.</p>
 
-        <h2>Konsep ORM</h2>
-        <p>ORM itu singkatan dari <strong>Object-Relational Mapping</strong>. Intinya: lo nulis kode pakai object (kayak class <code>Product</code>, <code>User</code>, dll), terus si ORM yang ngurusin gimana data itu disimpen dan dibaca dari tabel database. Lo gak perlu nulis SQL raw buat tiap operasi.</p>
-        <p>Bayangin lo punya class kayak gini:</p>
+        <h2>ORM Concept</h2>
+        <p>ORM stands for <strong>Object-Relational Mapping</strong>. The point: you write code using objects (like a <code>Product</code> or <code>User</code> class), and the ORM handles how that data is stored and read from database tables. You don’t have to write raw SQL for every operation.</p>
+        <p>Imagine you have a class like this:</p>
         <pre><code>public class Product
 {
     public int Id { get; set; }
     public string Name { get; set; }
 }</code></pre>
-        <p>Dengan ORM, class ini otomatis ke-map ke tabel <strong>Products</strong> di database. Field <code>Id</code> jadi kolom <em>Id</em>, <code>Name</code> jadi kolom <em>Name</em>. Lo gak perlu nulis SQL sama sekali.</p>
-        <p>Keuntungannya? Lo nulis kode dalam bahasa C#, bukan SQL. Lebih readable, lebih type-safe, dan lebih gampang di-maintain.</p>
+        <p>With ORM, this class is automatically mapped to a <strong>Products</strong> table in the database. The <code>Id</code> field becomes the <em>Id</em> column, <code>Name</code> becomes the <em>Name</em> column. You don’t have to write any SQL at all.</p>
+        <p>The benefit? You write code in C#, not SQL. More readable, more type-safe, and easier to maintain.</p>
 
-        <h2>Pengenalan Entity Framework</h2>
-        <p><strong>Entity Framework (EF)</strong> adalah ORM bawaan Microsoft buat .NET. Ini yang paling umum dipake di dunia .NET, dan lo pasti bakal ketemu ini di hampir semua project.</p>
-        <p>Ada dua pendekatan utama di EF:</p>
+        <h2>Introduction to Entity Framework</h2>
+        <p><strong>Entity Framework (EF)</strong> is Microsoft’s built-in ORM for .NET. It’s the most commonly used in the .NET world, and you’ll find it in almost every project.</p>
+        <p>There are two main approaches in EF:</p>
         <ul>
-          <li><strong>Code First</strong> — lo bikin class C# dulu, terus EF generate tabel databasenya. Cocok buat project baru.</li>
-          <li><strong>Database First</strong> — lo udah punya database, terus EF generate class C#-nya dari tabel yang ada. Cocok buat project lama.</li>
+          <li><strong>Code First</strong> — you create the C# class first, then EF generates the database tables. Great for new projects.</li>
+          <li><strong>Database First</strong> — you already have a database, then EF generates the C# classes from the existing tables. Great for legacy projects.</li>
         </ul>
-        <p>Yang paling sering dipake sekarang itu <strong>Code First</strong>. Lo bikin model, bikin <code>DbContext</code> (ini semacam "pintu masuk" ke database lo), terus jalanin <strong>migration</strong> buat generate tabelnya.</p>
+        <p>The most common now is <strong>Code First</strong>. You make a model, create a <code>DbContext</code> (this is like the “main entrance” to your database), then run <strong>migration</strong> to generate the tables.</p>
         <blockquote class="callout">
-          Flow-nya simpel: <strong>Bikin Model → Bikin DbContext → Tambah DbSet → Jalanin Migration → Tabel terbentuk.</strong> Selesai. Database lo udah siap dipake.
+          The flow is simple: <strong>Create Model → Create DbContext → Add DbSet → Run Migration → Tables created.</strong> Done. Your database is ready to use.
         </blockquote>
 
-        <h2>CRUD Dasar</h2>
-        <p>CRUD itu empat operasi paling basic yang lo lakuin ke database: <strong>Create, Read, Update, Delete</strong>. Hampir semua fitur aplikasi berputar di empat hal ini.</p>
-        <pre><code>// CREATE — tambahin data baru
+        <h2>Basic CRUD</h2>
+        <p>CRUD is the four most basic operations you do to a database: <strong>Create, Read, Update, Delete</strong>. Almost every app feature revolves around these four things.</p>
+        <pre><code>// CREATE — add new data
 var product = new Product { Name = "Laptop" };
 db.Products.Add(product);
 db.SaveChanges();
 
-// READ — ambil semua data, atau cari satu berdasarkan ID
-var semua = db.Products.ToList();
-var satu  = db.Products.Find(1);
+// READ — get all data, or find one by ID
+var all = db.Products.ToList();
+var one = db.Products.Find(1);
 
-// UPDATE — ambil dulu, ubah, terus save
+// UPDATE — get first, modify, then save
 var p = db.Products.Find(1);
 p.Name = "Laptop Pro";
 db.SaveChanges();
 
-// DELETE — ambil dulu, hapus, terus save
+// DELETE — get first, remove, then save
 var p = db.Products.Find(1);
 db.Products.Remove(p);
 db.SaveChanges();</code></pre>
-        <p>Lo bakal notice satu pattern yang sama terus: <strong>ambil dari context → modifikasi → save</strong>. Itu inti dari cara kerja EF.</p>
+        <p>You’ll notice the same pattern over and over: <strong>get from context → modify → save</strong>. That’s the core of how EF works.</p>
         <blockquote class="callout">
-          <strong>Tips:</strong> Jangan skip latihan CRUD manual dulu. Banyak yang langsung lompat ke scaffold auto-generate, tapi kalau lo gak ngerti gimana EF kerja di baliknya, lo bakal bingung waktu ada bug atau mau optimasi query.
+          <strong>Tip:</strong> Don’t skip manual CRUD practice first. Many people jump straight to auto-generated scaffolding, but if you don’t understand how EF works behind the scenes, you’ll get confused when there’s a bug or you want to optimize a query.
         </blockquote>
       </section>
 
       <section class="node section">
-        <h2>F. Penutup</h2>
+        <h2>F. Closing</h2>
 
-        <h2>Best Practice Pengembangan .NET</h2>
-        <p>Pas project makin gede, best practice itu bukan opsional lagi, tapi wajib.</p>
+        <h2>.NET Development Best Practices</h2>
+        <p>As your project grows, best practices aren’t optional anymore—they’re a must.</p>
         <ul>
-          <li>Jaga struktur project biar tim gampang maintain.</li>
-          <li>Tulis clean code biar logic gampang dibaca dan dites.</li>
-          <li>Pakai modular architecture supaya scaling lebih enak.</li>
+          <li>Keep your project structure tidy so the team can maintain it easily.</li>
+          <li>Write clean code so logic is easy to read and test.</li>
+          <li>Use modular architecture to make scaling easier.</li>
         </ul>
 
         <div class="summary">
-          <strong>Ringkasnya:</strong> kuatin fondasi dulu, baru ngebut ke fitur. Di .NET, arsitektur rapi dari awal itu ngasih dampak gede buat jangka panjang.
+          <strong>In short:</strong> strengthen your foundation first, then speed up to features. In .NET, having a neat architecture from the start gives a huge long-term impact.
         </div>
       </section>
     </article>

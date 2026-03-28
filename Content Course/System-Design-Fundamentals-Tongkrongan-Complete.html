@@ -213,21 +213,21 @@
 
     <article class="doc">
       <p class="meta">Tiptap Style Notes - System Design Learning Path</p>
-      <h1>System Design Fundamentals Dari Dasar Sampai Praktik</h1>
-      <p class="subtitle">Materi lengkap System Design dengan gaya santai, analogi tongkrongan, dan diagram alur yang langsung applicable di real-world interview maupun project.</p>
+      <h1>System Design Fundamentals From Basics to Practice</h1>
+      <p class="subtitle">Complete System Design material with a chill style, hangout analogies, and flow diagrams that are directly applicable for real-world interviews and projects.</p>
 
       <div class="summary">
-        <strong>Map Cepat Section:</strong>
-        <p>BAB A Introduction, BAB B Requirements, BAB C High-Level Design, BAB D API Design, BAB E Data Design, BAB F Scalability, BAB G Caching, BAB H Asynchronous Systems, BAB I Reliability, BAB J Performance, BAB K Security, BAB L Monitoring, BAB M Deployment, BAB N Trade-offs, BAB O Real Examples, BAB P Summary.</p>
-        <p>Sub-bab pakai format A.1, A.2, B.1, B.2, dan seterusnya.</p>
+        <strong>Quick Section Map:</strong>
+        <p>CHAPTER A Introduction, CHAPTER B Requirements, CHAPTER C High-Level Design, CHAPTER D API Design, CHAPTER E Data Design, CHAPTER F Scalability, CHAPTER G Caching, CHAPTER H Asynchronous Systems, CHAPTER I Reliability, CHAPTER J Performance, CHAPTER K Security, CHAPTER L Monitoring, CHAPTER M Deployment, CHAPTER N Trade-offs, CHAPTER O Real Examples, CHAPTER P Summary.</p>
+        <p>Sub-chapters use the format A.1, A.2, B.1, B.2, and so on.</p>
       </div>
 
-      <!-- ==================== BAB A ==================== -->
+      <!-- ==================== CHAPTER A ==================== -->
       <section class="node section">
-        <h2>BAB A. Introduction to System Design</h2>
+        <h2>CHAPTER A. Introduction to System Design</h2>
 
         <h3>A.1 What is System Design</h3>
-        <p>System design adalah proses merancang arsitektur sebuah sistem software agar bisa memenuhi kebutuhan fungsional maupun non-fungsional seperti skalabilitas, keandalan, dan performa. Ini bukan tentang menulis kode, tapi tentang memilih komponen yang tepat dan menyusun cara mereka berinteraksi.</p>
+        <p>System design is the process of designing the architecture of a software system so it can meet both functional and non-functional needs like scalability, reliability, and performance. It’s not about writing code, but about choosing the right components and arranging how they interact.</p>
         <pre><code>User Request
     |
     v
@@ -238,74 +238,74 @@
     |
     v
 [Database / Cache]</code></pre>
-        <blockquote class="callout">Analogi: system design itu kayak ngerancang denah kota — lo tentuin jalan raya, jalur distribusi, dan lokasi fasilitas sebelum mulai bangun gedung.</blockquote>
+        <blockquote class="callout">Analogy: system design is like planning a city map — you decide the highways, distribution routes, and facility locations before you start building anything.</blockquote>
 
         <h3>A.2 Why It Matters</h3>
-        <p>Sistem yang dirancang buruk akan sulit di-scale, sering down, dan mahal diperbaiki. Sebaliknya, desain yang baik membuat fitur baru lebih mudah ditambahkan, tim lebih mudah berkolaborasi, dan sistem lebih tahan terhadap lonjakan traffic.</p>
+        <p>A badly designed system will be hard to scale, often go down, and be expensive to fix. On the other hand, a good design makes it easier to add new features, helps the team collaborate, and makes the system more resilient to traffic spikes.</p>
         <ul>
-          <li>Menentukan batas kemampuan sistem sejak awal.</li>
-          <li>Memprediksi bottleneck sebelum terjadi di production.</li>
-          <li>Memberi tim common language untuk diskusi teknis.</li>
-          <li>Dasar untuk estimasi biaya infrastruktur.</li>
+          <li>Sets the system’s limits from the start.</li>
+          <li>Predicts bottlenecks before they happen in production.</li>
+          <li>Gives the team a common language for technical discussions.</li>
+          <li>Foundation for estimating infrastructure costs.</li>
         </ul>
-        <blockquote class="callout">Analogi: kayak bikin fondasi rumah yang kuat. Kalau fondasi salah, mau dicat ulang dan renovasi interior pun percuma.</blockquote>
+        <blockquote class="callout">Analogy: like building a strong house foundation. If the foundation is wrong, repainting and renovating the interior is pointless.</blockquote>
 
         <h3>A.3 History and Evolution</h3>
-        <p>System design berkembang dari arsitektur monolitik sederhana di era 1990-an menuju microservices, distributed systems, dan cloud-native architecture yang kita kenal sekarang. Tiap era memunculkan tantangan baru: dari scalability, lalu ke consistency, lalu ke observability.</p>
-        <pre><code>1990s  : Monolith — satu server, satu database
-2000s  : N-tier — pisah frontend, backend, database
-2010s  : SOA / Microservices — pecah per domain
+        <p>System design evolved from simple monolithic architectures in the 1990s to microservices, distributed systems, and the cloud-native architecture we know today. Each era brought new challenges: from scalability, to consistency, to observability.</p>
+        <pre><code>1990s  : Monolith — one server, one database
+2000s  : N-tier — separate frontend, backend, database
+2010s  : SOA / Microservices — split by domain
 2020s  : Cloud-native — serverless, container-based, event-driven</code></pre>
-        <blockquote class="callout">Analogi: evolusi warung jadi franchise — dari dapur satu ke sistem supply chain terdistribusi.</blockquote>
+        <blockquote class="callout">Analogy: like a food stall evolving into a franchise — from a single kitchen to a distributed supply chain system.</blockquote>
       </section>
 
-      <!-- ==================== BAB B ==================== -->
+      <!-- ==================== CHAPTER B ==================== -->
       <section class="node section">
-        <h2>BAB B. Requirements</h2>
+        <h2>CHAPTER B. Requirements</h2>
 
         <h3>B.1 Functional Requirements</h3>
-        <p>Functional requirement adalah apa yang harus bisa dilakukan sistem: fitur, aksi, dan behavior yang terlihat oleh pengguna. Ini biasanya datang dari product team dan menjadi dasar dari semua keputusan desain.</p>
+        <p>Functional requirements are what the system must be able to do: features, actions, and behaviors visible to users. These usually come from the product team and become the basis for all design decisions.</p>
         <ul>
-          <li>User bisa register, login, dan logout.</li>
-          <li>User bisa upload dan lihat foto.</li>
-          <li>User bisa kirim dan terima pesan real-time.</li>
-          <li>Admin bisa suspend akun user.</li>
+          <li>Users can register, log in, and log out.</li>
+          <li>Users can upload and view photos.</li>
+          <li>Users can send and receive real-time messages.</li>
+          <li>Admins can suspend user accounts.</li>
         </ul>
-        <blockquote class="callout">Analogi: ini daftar menu di warung — apa saja yang bisa dipesan pelanggan.</blockquote>
+        <blockquote class="callout">Analogy: this is the menu list at a food stall — what customers can order.</blockquote>
 
         <h3>B.2 Non-Functional Requirements</h3>
-        <p>Non-functional requirement adalah kualitas sistem: seberapa cepat, seberapa andal, seberapa aman. Ini yang sering jadi penentu arsitektur yang dipilih. Dua sistem dengan functional requirement yang sama bisa punya desain yang sangat berbeda jika NFR-nya berbeda.</p>
+        <p>Non-functional requirements are about system quality: how fast, how reliable, how secure. These often determine the architecture chosen. Two systems with the same functional requirements can have very different designs if their NFRs are different.</p>
         <ul>
-          <li><strong>Availability:</strong> sistem harus up 99.9% dari waktu.</li>
-          <li><strong>Latency:</strong> response dalam 200ms untuk 95% request.</li>
-          <li><strong>Throughput:</strong> handle 10.000 request per detik.</li>
-          <li><strong>Durability:</strong> data tidak boleh hilang meski server crash.</li>
-          <li><strong>Consistency:</strong> semua user melihat data yang sama.</li>
+          <li><strong>Availability:</strong> system must be up 99.9% of the time.</li>
+          <li><strong>Latency:</strong> responses within 200ms for 95% of requests.</li>
+          <li><strong>Throughput:</strong> handle 10,000 requests per second.</li>
+          <li><strong>Durability:</strong> data must not be lost even if the server crashes.</li>
+          <li><strong>Consistency:</strong> all users see the same data.</li>
         </ul>
-        <blockquote class="callout">Analogi: ini SLA (Service Level Agreement) warung — pesanan harus sampai dalam 10 menit, makanan harus panas, dan tidak boleh salah order.</blockquote>
+        <blockquote class="callout">Analogy: this is the food stall’s SLA (Service Level Agreement) — orders must arrive within 10 minutes, food must be hot, and no wrong orders allowed.</blockquote>
 
         <h3>B.3 Estimating Scale</h3>
-        <p>Estimasi scale adalah latihan back-of-the-envelope untuk memperkirakan volume data, traffic, dan storage yang dibutuhkan sistem. Ini penting untuk memilih ukuran infrastructure yang tepat sejak awal.</p>
-        <pre><code>// Contoh estimasi: sistem foto sharing
-DAU (Daily Active Users)   : 10 juta
-Upload per user per hari   : 2 foto
-Ukuran rata-rata per foto   : 2 MB
+        <p>Estimating scale is a back-of-the-envelope exercise to predict the volume of data, traffic, and storage the system will need. This is important for choosing the right infrastructure size from the start.</p>
+        <pre><code>// Example estimate: photo sharing system
+DAU (Daily Active Users)   : 10 million
+Uploads per user per day   : 2 photos
+Average size per photo     : 2 MB
 
-Foto per hari              : 10M x 2 = 20 juta foto
-Storage per hari           : 20M x 2MB = 40 TB
-Storage per tahun          : 40TB x 365 = ~14.6 PB
+Photos per day             : 10M x 2 = 20 million photos
+Storage per day            : 20M x 2MB = 40 TB
+Storage per year           : 40TB x 365 = ~14.6 PB
 
-Read/Write ratio           : 100:1 (lebih banyak lihat foto)
-Reads per detik            : 10M x 10 view / 86400s = ~1.157 RPS</code></pre>
-        <blockquote class="callout">Analogi: sebelum buka restoran, hitung dulu meja, dapur, dan stok bahan per hari — baru pilih lokasi dan ukuran bangunan.</blockquote>
+Read/Write ratio           : 100:1 (more viewing than uploading)
+Reads per second           : 10M x 10 views / 86400s = ~1,157 RPS</code></pre>
+        <blockquote class="callout">Analogy: before opening a restaurant, first count the tables, kitchen, and daily stock — then choose the location and building size.</blockquote>
       </section>
 
-      <!-- ==================== BAB C ==================== -->
+      <!-- ==================== CHAPTER C ==================== -->
       <section class="node section">
-        <h2>BAB C. High-Level Design</h2>
+        <h2>CHAPTER C. High-Level Design</h2>
 
         <h3>C.1 System Overview</h3>
-        <p>High-level design adalah gambar besar sistem: komponen utama apa saja yang ada dan bagaimana mereka terhubung. Ini belum masuk ke detail database schema atau pilihan library — fokusnya pada blok-blok besar.</p>
+        <p>High-level design is the big picture of the system: what the main components are and how they’re connected. This doesn’t go into database schema or library choices yet — the focus is on the big blocks.</p>
         <pre><code>[Client (Web/Mobile)]
          |
     [CDN / Edge]
@@ -319,78 +319,78 @@ Reads per detik            : 10M x 10 view / 86400s = ~1.157 RPS</code></pre>
              +-----+-----+
              |           |
          [Cache]      [Database]</code></pre>
-        <blockquote class="callout">Analogi: ini blueprint gedung — kamu tahu di mana pintu masuk, ruang utama, dan jalur evakuasi, sebelum memutuskan detail finishing.</blockquote>
+        <blockquote class="callout">Analogy: this is the building blueprint — you know where the entrance, main room, and emergency exits are before deciding on the finishing details.</blockquote>
 
         <h3>C.2 Components and Data Flow</h3>
-        <p>Setelah komponen utama jelas, langkah berikutnya adalah mendefinisikan bagaimana data mengalir antar komponen. Request dari client mengikuti path tertentu, dan penting untuk memahami siapa yang baca, siapa yang tulis, dan di mana bottleneck bisa terjadi.</p>
+        <p>Once the main components are clear, the next step is to define how data flows between them. Requests from the client follow a certain path, and it’s important to understand who reads, who writes, and where bottlenecks can happen.</p>
         <ul>
-          <li><strong>Client</strong> — mengirim request, menerima response.</li>
+          <li><strong>Client</strong> — sends requests, receives responses.</li>
           <li><strong>API Gateway</strong> — routing, auth check, rate limiting.</li>
-          <li><strong>Service</strong> — business logic dan orchestration.</li>
-          <li><strong>Cache</strong> — menyimpan data yang sering dibaca.</li>
-          <li><strong>Database</strong> — persistensi data utama.</li>
-          <li><strong>Message Queue</strong> — komunikasi async antar service.</li>
+          <li><strong>Service</strong> — business logic and orchestration.</li>
+          <li><strong>Cache</strong> — stores frequently read data.</li>
+          <li><strong>Database</strong> — main data persistence.</li>
+          <li><strong>Message Queue</strong> — async communication between services.</li>
         </ul>
-        <blockquote class="callout">Analogi: seperti alur barang di gudang — barang masuk lewat pintu terima, dicek quality, disimpan di rak, lalu dikirim ke pelanggan.</blockquote>
+        <blockquote class="callout">Analogy: like the flow of goods in a warehouse — goods come in through the receiving door, get quality checked, stored on shelves, then shipped to customers.</blockquote>
 
         <h3>C.3 Tech Stack Basics</h3>
-        <p>Pilihan tech stack mempengaruhi performa, cost, dan kemampuan tim. Tidak ada stack yang selalu terbaik — yang terbaik adalah yang paling sesuai dengan skala, budget, dan keahlian tim.</p>
-        <pre><code>// Contoh stack untuk startup e-commerce
+        <p>Your tech stack choices affect performance, cost, and team capability. There’s no stack that’s always the best — the best is what fits your scale, budget, and team skills.</p>
+        <pre><code>// Example stack for an e-commerce startup
 Frontend  : React / Next.js
-Backend   : Node.js + Express atau .NET Core
+Backend   : Node.js + Express or .NET Core
 Database  : PostgreSQL (primary), Redis (cache)
-Queue     : RabbitMQ atau Kafka
+Queue     : RabbitMQ or Kafka
 Storage   : AWS S3
 CDN       : Cloudflare
-Deploy    : Docker + Kubernetes di AWS</code></pre>
-        <blockquote class="callout">Analogi: pilih peralatan dapur sesuai menu yang mau dijual — warung nasi goreng tidak perlu oven pizza profesional.</blockquote>
+Deploy    : Docker + Kubernetes on AWS</code></pre>
+        <blockquote class="callout">Analogy: pick kitchen equipment based on the menu you want to sell — a fried rice stall doesn’t need a professional pizza oven.</blockquote>
       </section>
 
-      <!-- ==================== BAB D ==================== -->
-      <section class="node section">
-        <h2>BAB D. API Design</h2>
+            <!-- ==================== CHAPTER D ==================== -->
+            <section class="node section">
+        <h2>CHAPTER D. API Design</h2>
 
         <h3>D.1 REST Basics</h3>
-        <p>REST (Representational State Transfer) adalah gaya arsitektur API yang paling umum dipakai. Prinsip utamanya: gunakan HTTP method yang tepat, resource diidentifikasi lewat URL, dan response harus stateless.</p>
-        <pre><code>GET    /users/{id}        // ambil user
-POST   /users             // buat user baru
-PUT    /users/{id}        // update full
-PATCH  /users/{id}        // update sebagian
-DELETE /users/{id}        // hapus user</code></pre>
-        <blockquote class="callout">Analogi: REST itu kayak tata cara pesan di restoran — ada menu yang jelas, cara pesan yang baku, dan respons yang bisa diprediksi.</blockquote>
+        <p>REST (Representational State Transfer) is the most common API architecture style. The main principles: use the right HTTP methods, resources are identified by URLs, and responses must be stateless.</p>
+        <pre><code>GET    /users/{id}        // get user
+      POST   /users             // create new user
+      PUT    /users/{id}        // full update
+      PATCH  /users/{id}        // partial update
+      DELETE /users/{id}        // delete user</code></pre>
+        <blockquote class="callout">Analogy: REST is like ordering at a restaurant — there’s a clear menu, a standard way to order, and predictable responses.</blockquote>
 
         <h3>D.2 Endpoints and Structure</h3>
-        <p>Desain endpoint yang baik menggunakan noun, bukan verb. URL harus mencerminkan resource, bukan aksi. Gunakan hierarki untuk menyatakan relasi antar resource.</p>
+        <p>Good endpoint design uses nouns, not verbs. URLs should reflect resources, not actions. Use hierarchy to show relationships between resources.</p>
         <ul>
-          <li>Gunakan noun: <code>/orders</code>, bukan <code>/getOrders</code>.</li>
-          <li>Gunakan plural: <code>/products</code>, bukan <code>/product</code>.</li>
+          <li>Use nouns: <code>/orders</code>, not <code>/getOrders</code>.</li>
+          <li>Use plural: <code>/products</code>, not <code>/product</code>.</li>
           <li>Nested resource: <code>/orders/{id}/items</code>.</li>
           <li>Filter via query string: <code>/products?category=shoes&amp;sort=price</code>.</li>
         </ul>
-        <pre><code>GET  /orders                  // semua order
-GET  /orders/{id}             // satu order
-GET  /orders/{id}/items       // item dari order tertentu
-POST /orders/{id}/cancel      // aksi spesifik boleh pakai sub-resource</code></pre>
-        <blockquote class="callout">Analogi: URL itu alamat rumah — harus spesifik dan bisa dibaca orang lain tanpa harus dijelaskan panjang lebar.</blockquote>
+        <pre><code>GET  /orders                  // all orders
+      GET  /orders/{id}             // single order
+      GET  /orders/{id}/items       // items from a specific order
+      POST /orders/{id}/cancel      // specific actions can use sub-resources</code></pre>
+        <blockquote class="callout">Analogy: a URL is like a home address — it should be specific and readable by others without a long explanation.</blockquote>
 
         <h3>D.3 Versioning and Rate Limiting</h3>
-        <p>Versioning penting agar klien lama tidak rusak saat API diupdate. Rate limiting melindungi sistem dari penyalahgunaan dan lonjakan traffic yang tidak terduga.</p>
-        <pre><code>// Versioning via URL path (paling umum)
-GET /v1/products
-GET /v2/products
+        <p>Versioning is important so old clients don’t break when the API is updated. Rate limiting protects the system from abuse and unexpected traffic spikes.</p>
+        <pre><code>// Versioning via URL path (most common)
+      GET /v1/products
+      GET /v2/products
 
-// Versioning via header
-Accept: application/vnd.myapp.v2+json
+      // Versioning via header
+      Accept: application/vnd.myapp.v2+json
 
-// Rate limiting response headers
-X-RateLimit-Limit: 1000
-X-RateLimit-Remaining: 942
-X-RateLimit-Reset: 1710644400
+      // Rate limiting response headers
+      X-RateLimit-Limit: 1000
+      X-RateLimit-Remaining: 942
+      X-RateLimit-Reset: 1710644400
 
-// HTTP status kalau kena limit
-HTTP 429 Too Many Requests</code></pre>
-        <blockquote class="callout">Analogi: versioning seperti edisi buku — edisi lama tetap beredar, edisi baru punya fitur tambahan. Rate limiting kayak giliran antrian — semua dilayani, tapi tidak boleh serabutan.</blockquote>
-      </section>
+      // HTTP status if rate limited
+      HTTP 429 Too Many Requests</code></pre>
+        <blockquote class="callout">Analogy: versioning is like book editions — old editions still circulate, new ones have extra features. Rate limiting is like taking turns in a queue — everyone gets served, but not all at once.</blockquote>
+            </section>
 
       <!-- ==================== BAB E ==================== -->
       <section class="node section">
