@@ -244,24 +244,43 @@
         <h2>BAB A. System Design Fundamentals</h2>
 
         <h3>A.1 Introduction to System Design</h3>
-        <p>System Design is the process of designing system architecture so it can handle millions of users without "exploding." It's not about writing code; it's about choosing the right "Lego bricks" like databases, servers, load balancers, and caches to work together seamlessly.</p>
-        <blockquote class="callout">Analogy: System Design is like planning a city map. You have to think about where to put highways (load balancers), where to place supermarkets (databases), and how the logistics flow so everything doesn't jam up during rush hour (traffic spike).</blockquote>
+        <p>System Design is the process of designing system architecture so it can handle millions of users without "exploding." It's not about writing code; it's about choosing the right <strong>"Lego bricks"</strong> like databases, servers, load balancers, and caches to work together seamlessly in a high-performance environment.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Planning a City Map.</strong> 
+          Imagine you're an urban planner. You don't just build one massive house; you have to think about the entire infrastructure. 
+          <br><br>
+          You have to think about where to put <strong>Highways</strong> (Load Balancers) to manage traffic, where to place <strong>Supermarkets</strong> (Databases) so residents can access food (data), and how the <strong>Logistics Flow</strong> works so everything doesn't jam up during rush hour (Traffic Spikes). If you build a skyscraper without a water system, it fails. System Design is that blueprint.
+        </blockquote>
+
         <ul>
-          <li>Focus on high-level architecture (HLD).</li>
-          <li>Learn to choose trade-offs: there is no perfect design, only the right design for the requirement.</li>
-          <li>Crucial for senior engineer interviews and designing robust real-world applications.</li>
+          <li><strong>High-Level Design (HLD):</strong> Focus on the big picture architecture—how components connect and communicate, rather than internal implementation.</li>
+          <li><strong>Trade-offs:</strong> In System Design, there is no "perfect" solution. Every choice (e.g., speed vs. accuracy) is a trade-off. Your job is to choose the <em>right</em> poison for the requirement.</li>
+          <li><strong>Career Impact:</strong> This is the "Final Boss" of senior engineer interviews at Big Tech (MAANG). It shows you can build scalable, robust systems that survive real-world growth.</li>
         </ul>
 
         <h3>A.2 System Design Template</h3>
-        <p>To avoid getting overwhelmed, you need a framework. Don't start drawing diagrams right away. Start with the basics so your design doesn't have holes.</p>
-        <blockquote class="callout">Analogy: Like ordering food at a stall. You need to know how hungry you are (requirements), what your budget is (capacity), what you want to eat (API design), and only then does the vendor sort your plate (HLD).</blockquote>
+        <p>To avoid getting overwhelmed during a design session or an interview, you need a <strong>Framework</strong>. Without a template, you'll likely start drawing diagrams too early and leave massive "holes" in your architecture. Follow this step-by-step mental model to stay organized.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Ordering Food at a Street Stall.</strong> 
+          You don't just walk up and say "Give me food." The vendor needs a process: 
+          <br><br>
+          1. <strong>How hungry are you?</strong> (Requirements calculation). 
+          2. <strong>What's your budget?</strong> (Capacity estimation). 
+          3. <strong>What exactly do you want to eat?</strong> (API Design endpoints). 
+          4. <strong>The vendor sorts your plate</strong> (HLD Architecture). 
+          <br><br>
+          If you skip a step, you might end up with a meal you can't afford or one that doesn't actually fill you up.
+        </blockquote>
+
         <ol>
-          <li><strong>Functional Requirements:</strong> What are the main features? (e.g., can upload photos).</li>
-          <li><strong>Non-functional Requirements:</strong> How fast? How secure? High availability? (Latency, Availability, Consistency).</li>
-          <li><strong>Capacity Estimation:</strong> Back-of-the-envelope calculations for traffic and storage.</li>
-          <li><strong>API Design:</strong> Define the communication endpoints between components.</li>
-          <li><strong>High-level Design:</strong> Draw the big boxes and data flows.</li>
-          <li><strong>Deep Dive:</strong> Dissect the most crucial parts (e.g., how to keep the feed fast).</li>
+          <li><strong>Functional Requirements:</strong> What are the core features? (e.g., "Users can post photos" or "Search for friends"). Focus on the top 2-3 most important features.</li>
+          <li><strong>Non-functional Requirements:</strong> The "ilities." How fast (Latency)? How secure? How many 9s of availability (99.99%)? Do we prioritize consistency over availability (CAP Theorem)?</li>
+          <li><strong>Capacity Estimation:</strong> Back-of-the-envelope math. Calculate Daily Active Users (DAU), read/write ratios, and total storage needed for the next 5 years.</li>
+          <li><strong>API Design:</strong> Define the "Contract." What endpoints (e.g., <code>POST /v1/tweet</code>) will the client use to talk to your services?</li>
+          <li><strong>High-level Design (HLD):</strong> Draw the "Big Boxes." Client -> Load Balancer -> Web Server -> DB -> Cache. This is the skeleton of your city.</li>
+          <li><strong>Deep Dive:</strong> Dissect the "Bottlenecks." How do we handle global scale (CDNs)? How do we prevent DB crashes (Replication)? How do we search fast (Indexing)?</li>
         </ol>
       </section>
 
@@ -270,36 +289,96 @@
         <h2>BAB B. Core Concepts (Building Blocks)</h2>
 
         <h3>B.1 Requirements & Estimation</h3>
-        <p>Before jumping straight into coding, you must know how big your system will be. Without calculations, you're just guessing.</p>
-        <p>Distinguish between features (Functional) and qualities (Non-functional). Calculate "Daily Active Users" (DAU), throughput (RPS), and future storage needs.</p>
-        <blockquote class="callout">Analogy: Like planning a wedding. You need to know who's invited (Functional), the food must be delicious and warm (Non-functional), and how many portions to prepare (Estimation).</blockquote>
-        <pre><code>// Example Rough Capacity Estimation
-DAU: 10 Million Users
-Write per day (1 post/user): 10 Million
-Storage per post: 500 KB
-Total Storage/Day: 10M * 500KB = 5 TB
-Total Storage/Year: 5TB * 365 = ~1.8 PB</code></pre>
+        <p>Before you draw a single box or write a single line of code, you must know <strong>how big</strong> your system needs to be. Without calculations, you're just guessing—and in System Design, guessing leads to architecture that "explodes" under real traffic. We start by distinguishing between features and qualities.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Planning a Massive Wedding.</strong> 
+          Imagine you're the event organizer. 
+          <br><br>
+          1. <strong>Functional:</strong> You need to know <strong>who is invited</strong> (e.g., "The bride can dance," "Guests can eat cake"). 
+          2. <strong>Non-functional:</strong> The food must be <strong>delicious and warm</strong> (Latency/Quality), and the venue shouldn't collapse if everyone dances at once (Availability). 
+          3. <strong>Estimation:</strong> You calculate <strong>how many portions</strong> to prepare. If you prep for 100 people but 10,000 show up, you’re finished.
+        </blockquote>
 
-        <h3>B.2 API Design</h3>
-        <p>APIs are how your components talk. REST or gRPC? What matters is consistency, readability, and security. Don't let your endpoints get messy like a tangled cable box.</p>
-        <blockquote class="callout">Analogy: An API is like a menu at a cafe. If you want to order coffee, there's a name, price, and options (cold/hot). The server (waiter) understands the request because the menu is clear.</blockquote>
         <ul>
-          <li><strong>REST API:</strong> Uses HTTP methods like GET, POST, PUT, DELETE.</li>
-          <li><strong>Idempotency:</strong> Ensure that if a user double-taps "Pay" due to lag, they aren't charged twice.</li>
-          <li><strong>Query Params:</strong> Use for filtering and pagination to keep responses lightweight.</li>
+          <li><strong>Functional:</strong> The core features (e.g., Post a message, follow a user).</li>
+          <li><strong>Non-functional:</strong> The "System Qualities"—High Availability, Low Latency, Scalability, and Security.</li>
+          <li><strong>Capacity Estimation:</strong> Back-of-the-envelope math. Convert Daily Active Users (DAU) into Requests Per Second (RPS) and calculate storage growth over five years.</li>
         </ul>
 
-        <h3>B.3 High-Level Design (HLD)</h3>
-        <p>In this stage, you draw the "Big Picture." Don't worry about specific libraries yet. Think about how the Client connects to the Load Balancer, then the API Gateway, Service, and finally the Database.</p>
-        <blockquote class="callout">Analogy: HLD is like an MRT map. You only see which station connects where. You don't care about the color of the train's bolts; you care that the path is clear.</blockquote>
-        <pre><code>[Client] -> [Load Balancer] -> [API Gateway] -> [Microservices] -> [Database/Cache]</code></pre>
+<pre><code>// Rough Capacity Estimation for a Social App
+DAU: 10 Million Users
+Average Write: 1 post per user per day (10 Million writes/day)
+Average Read: 10 posts per user per day (100 Million reads/day)
 
-        <h3>B.4 Data & Storage</h3>
-        <p>Choose the right "warehouse" for your data. Not everything belongs in SQL. Sometimes NoSQL makes more sense for unconventional data or extreme performance needs.</p>
-        <blockquote class="callout">Analogy: SQL is like a tidy bookshelf (categorized); NoSQL is like a laundry basket (input anything fast, retrieval is flexible).</blockquote>
+RPS (Write): 10M / 86400 seconds ≈ 115 requests/sec
+RPS (Read): 100M / 86400 seconds ≈ 1,150 requests/sec
+
+Storage per post: 500 KB (Text + Image metadata)
+Total Storage/Day: 10M * 500KB = 5 Terabytes
+Total Storage/Year: 5TB * 365 = ~1.8 Petabytes</code></pre>
+
+        <h3>B.2 API Design</h3>
+        <p>APIs (Application Programming Interfaces) are the language your components use to speak to each other. Whether you use <strong>REST</strong> (standard/easy) or <strong>gRPC</strong> (high performance), what matters most is consistency and security. Don't let your endpoints get messy like a tangled cable box.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: A Menu at a Modern Cafe.</strong> 
+          An API is like the menu card. If you want to order a coffee, there's a clear name, a price, and options (e.g., hot or cold). 
+          <br><br>
+          The <strong>Server (Waiter)</strong> understands your request immediately because the menu is standardized. If you try to order "that brown liquid thingy" (a messy endpoint), the waiter won't know what to do. A good menu makes the coordination between the customer (Client) and the kitchen (Server) perfectly smooth.
+        </blockquote>
+
         <ul>
-          <li><strong>SQL (PostgreSQL, MySQL):</strong> Best for strong relations and secure transactions (e.g., bank balance).</li>
-          <li><strong>NoSQL (MongoDB, Cassandra):</strong> Best for massive scale and flexible schemas.</li>
+          <li><strong>RESTful Principles:</strong> Use standard HTTP methods (GET, POST, PUT, DELETE) to manage resources correctly.</li>
+          <li><strong>Idempotency:</strong> Critical for payments. If a user double-clicks the "Pay" button during a lag spike, the system should recognize it's the <em>same</em> request and only charge them once.</li>
+          <li><strong>Pagination:</strong> If a user has 50,000 followers, don't send them all in one massive response. Send them in "pages" (e.g., 50 at a time) to keep the app fast and low-latency.</li>
+        </ul>
+
+<pre><code>// Example Secure & Clean API 
+POST /v1/user/follow
+{ "target_user_id": "123", "current_user_id": "456" }
+
+GET /v1/feed?page=1&limit=20
+// Returns the most recent 20 posts with high performance</code></pre>
+
+        <h3>B.3 High-Level Design (HLD)</h3>
+        <p>This is where you draw the <strong>"Big Picture."</strong> At this stage, you don't worry about specific libraries or deep code logic. You think about the "Data Flow"—how a request travels from the user's phone all the way to the database and back.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: The MRT Transit Map.</strong> 
+          HLD is exactly like an MRT or Subway map. You only care about which station connects to where and how the passengers travel from Point A to Point B. 
+          <br><br>
+          You don't care about the color of the train's bolts, the name of the driver, or how the engine works (that's Deep Dive). You care that the <strong>Path</strong> is clear, efficient, and that there are enough tracks to handle the crowd.
+        </blockquote>
+
+        <p>A typical HLD flow looks like this:</p>
+<pre><code>[Client Device] 
+     ↓
+[DNS Layer] -> Map URL to IP
+     ↓
+[Load Balancer] -> Distribute traffic to healthy servers
+     ↓
+[API Gateway] -> Auth, Rate Limiting, Routing
+     ↓
+[Microservices] -> The logic (Feed, Login, Search)
+     ↓
+[Caching/DB] -> Fast retrieval or permanent storage</code></pre>
+
+        <h3>B.4 Data & Storage (SQL vs. NoSQL)</h3>
+        <p>Choosing the right "warehouse" for your data is one of the most critical decisions in System Design. Not everything belongs in a traditional table. You must choose between the strict structure of <strong>SQL</strong> and the massive scale of <strong>NoSQL</strong> depending on your specific needs.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Tidy Bookshelf vs. Massive Laundry Basket.</strong> 
+          <br><br>
+          <strong>SQL</strong> is like a <strong>Tidy Bookshelf</strong>. Everything is categorized by Author, Genre, and Title. It's great for when you need <strong>Strong Relations</strong> and security (e.g., a banking balance). But if you have millions of books, the shelf becomes hard to reorganize. 
+          <br><br>
+          <strong>NoSQL</strong> is like a <strong>Massive Laundry Basket</strong>. You can throw anything in fast (flexible schema), and for certain tasks, retrieval is extremely flexible and scales horizontally across multiple baskets. Use it when performance and scale matter more than complex relationships.
+        </blockquote>
+
+        <ul>
+          <li><strong>SQL (PostgreSQL, MySQL):</strong> Relational, ACID-compliant, best for complex queries and highly structured data.</li>
+          <li><strong>NoSQL (MongoDB, Cassandra, Redis):</strong> High throughput, distributed, and scalable. Best for large-scale feeds, real-time analytics, or simple key-value lookups.</li>
+          <li><strong>Polyglot Persistence:</strong> Using <em>both</em> SQL for core data (User profile) and NoSQL for heavy data (Feed, notifications) in the same system.</li>
         </ul>
       </section>
 
@@ -307,70 +386,132 @@ Total Storage/Year: 5TB * 365 = ~1.8 PB</code></pre>
       <section class="node section">
         <h2>BAB C. Real World System Design Cases</h2>
 
-        <h3>C.1 Social Media System (Instagram / Newsfeed)</h3>
-        <p>The biggest challenge in building a feed is the "Fan-out." If a popular user posts, how does it instantly reach millions of follower screens?</p>
-        <blockquote class="callout">Analogy: A feed is like a morning newspaper. There's a printing team (Service), delivery agents (Message Queue), and the porch where it's dropped (Cache/Feed Store).</blockquote>
+        <h3>C.1 Social Media System (Instagram / Newsfeeds)</h3>
+        <p>The single biggest challenge in building a Newsfeed is the <strong>"Fan-out"</strong> problem. When a popular user with 10 million followers posts a photo, how do you instantly deliver that photo to all 10 million screens without melting your server?</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: The Morning Newspaper.</strong> 
+          Imagine a newsfeed is like a morning newspaper. 
+          <br><br>
+          There’s a <strong>Printing Team</strong> (the Social Graph Service) that gathers stories, <strong>Delivery Agents</strong> (the Message Queue/Fan-out) that distribute the papers, and the <strong>Porch</strong> (the Redis Cache) where the paper is dropped so the user can grab it instantly when they wake up. Without pre-printing (Push Model), the user would have to wait for the journalist to write the story the moment they open the gate—way too slow!
+        </blockquote>
+
         <ul>
-          <li><strong>Feed Generation:</strong> Can be "Pull" (on-request) or "Push" (pre-computed).</li>
-          <li><strong>Media Storage:</strong> Use S3 for files and a CDN for global speed.</li>
-          <li><strong>Optimization:</strong> Use Redis for the most recent feeds to avoid heavy database queries.</li>
+          <li><strong>Push vs. Pull:</strong> For regular users, we "push" posts to their followers' caches (Fan-out on Write). For celebrities, we let followers "pull" the post directly to avoid overworking the system (Fan-out on Read).</li>
+          <li><strong>Media Storage:</strong> Use S3 for raw files and a global <strong>CDN</strong> to ensure a user in Jakarta and a user in London both see the photo in under 100ms.</li>
+          <li><strong>Optimization:</strong> Use <strong>Redis</strong> to store the most recent 1,000 posts for every user. Nobody cares about a tweet from three years ago—keep the "hot" data in memory.</li>
         </ul>
 
         <h3>C.2 Video Streaming System (YouTube / Netflix)</h3>
-        <p>Video is extremely heavy. You must slice it into small chunks with multiple resolutions so it streams smoothly from old phones up to 4K TVs.</p>
-        <blockquote class="callout">Analogy: Like selling meatballs. If the meatball is the size of a basketball (raw video), people can't eat it. It must be sliced (transcoding/chunking) for easy consumption (streaming).</blockquote>
+        <p>Video data is massive and "unfriendly" to the web. Your system must handle millions of simultaneous streams, different internet speeds, and dozens of device types. You can't just send one big file; you must master the <strong>Transcoding Pipeline</strong>.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Selling Meatballs at Scale.</strong> 
+          Imagine the raw video is a <strong>Meatball the size of a Basketball</strong>. Nobody can eat that. 
+          <br><br>
+          You have to send it to the <strong>Kitchen</strong> (Transcoding) to be sliced into tiny, bite-sized pieces (Chunking). You also need to prepare different sizes for kids (Low Res) and adults (High Res). Then you place these bowls all over the city (CDN) so people can grab a bite instantly.
+        </blockquote>
+
         <ul>
-          <li><strong>Video Pipeline:</strong> Upload -> Transcoding -> Storage -> CDN.</li>
-          <li><strong>Adaptive Bitrate Streaming:</strong> Automatically downsizes quality if the user's signal is weak.</li>
+          <li><strong>The Pipeline:</strong> 1. Upload (S3) -> 2. Transcoding (different formats like MP4/WebM) -> 3. Slicing (chunks of 2-5 seconds) -> 4. Edge delivery (CDN).</li>
+          <li><strong>Adaptive Bitrate Streaming (ABS):</strong> The player automatically switches from 4K to 360p if your signal drops, so the video never stops.</li>
+          <li><strong>Data Storage:</strong> Metadata (likes, comments) goes in SQL; video chunks live in globally distributed Blob Storage.</li>
         </ul>
 
         <h3>C.3 URL Shortener (TinyURL)</h3>
-        <p>This is a mapping problem. How do you convert a 1000-character URL into just 6-8 unique characters?</p>
-        <blockquote class="callout">Analogy: Like a queue number at a clinic. The short number "A-01" represents your long full name and medical data.</blockquote>
+        <p>This is fundamentally a <strong>Mapping Problem</strong>. How do you reliably convert a 2,000-character URL into just 7 unique characters? You need a distributed way to generate unique IDs and encode them to satisfy millions of requests per day.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: The Clinic Queue Number.</strong> 
+          A short URL is like the "A-01" ticket you get at a busy clinic. 
+          <br><br>
+          That tiny code represents your <strong>Long Name, Medical History, and Insurance Data</strong> stored in the system. When the nurse calls "A-01" (the Redirect), the system looks up the "Large Profile" (the Long URL) and takes you to the right room.
+        </blockquote>
+
         <ul>
-          <li><strong>Encoding:</strong> Use Base62 (0-9, a-z, A-Z) to get massive combinations with few characters.</li>
-          <li><strong>Hashing vs Counter:</strong> Use MD5 prefixes or an encoded auto-increment DB ID.</li>
+          <li><strong>Encoding:</strong> Use <strong>Base62</strong> (0-9, a-z, A-Z). With 7 characters, you get 3.5 <em>trillion</em> unique combinations—more than enough for the entire internet.</li>
+          <li><strong>Unique IDs:</strong> Use a distributed ID generator (like <em>Snowflake</em> or a dedicated Token Service) so multiple servers don't accidentally generate the same short code.</li>
+          <li><strong>Caching:</strong> Since URLs rarely change, cache the mapping in <strong>Redis</strong> to make the redirection lightning-fast.</li>
         </ul>
 
         <h3>C.4 Messaging System (WhatsApp)</h3>
-        <p>Chat revolves around real-time speed and correct ordering. Messages must arrive fast and in the exact sequence they were sent.</p>
-        <blockquote class="callout">Analogy: Like talkies. You stay tuned to the frequency (WebSocket) to hear the other person the moment they speak.</blockquote>
+        <p>Chat systems aren't about "reading files"; they’re about <strong>Real-Time Presence</strong>. Messages must arrive in milliseconds, and they <em>must</em> be in the correct order. You need a persistent connection between the client and the server.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Walkie-Talkies on a Private Channel.</strong> 
+          A chat system is like staying tuned to a specific frequency. 
+          <br><br>
+          As long as your <strong>Walkie-Talkie</strong> (the WebSocket) is on, you hear the other person the moment they press the button. If you turn it off (Go offline), the <strong>Base Station</strong> (the Message Service) stores the message in a box (the DB) and gives it to you the moment you turn the device back on.
+        </blockquote>
+
         <ul>
-          <li><strong>WebSocket:</strong> Allows the server to "whisper" messages to the user's phone instantly (Push).</li>
-          <li><strong>Online/Offline Status:</strong> Measured using a system "heartbeat."</li>
-          <li><strong>Consistency:</strong> Use sequence IDs to keep messages orderly.</li>
+          <li><strong>WebSockets:</strong> Unlike regular HTTP, WebSockets allow the server to "push" messages to you instantly. No more refreshing the page.</li>
+          <li><strong>Heartbeats:</strong> How does WhatsApp know you're online? Your phone sends a tiny "tick" (Heartbeat) every few seconds. If the tick stops, you’re "Offline."</li>
+          <li><strong>Sequence IDs:</strong> Use Lamport Timestamps or sequence numbers so that if Message B arrives before Message A, the app knows how to sort them correctly.</li>
         </ul>
 
-        <h3>C.5 Search System</h3>
-        <p>Finding data across millions of rows is impossible with `LIKE %keyword%`. You need intelligent indexing.</p>
-        <blockquote class="callout">Analogy: Like looking for a word in a textbook. Don't read from page one; check the "Index" at the back.</blockquote>
+        <h3>C.5 Search System (Elasticsearch Theory)</h3>
+        <p>Searching through 100 million rows of text using <code>LIKE %keyword%</code> is an architectural suicide. For professional search, you need an <strong>Inverted Index</strong> that prepares the data before the user even types a word.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: The Index at the Back of a Textbook.</strong> 
+          If you want to find the word "Photosynthesis" in a 1,000-page book, you don't read from page one. 
+          <br><br>
+          You go to the <strong>Index</strong> (Inverted Index), find the word "P," and it tells you exactly which pages (Document IDs) contain that word. Searching becomes a simple lookup instead of a massive scan.
+        </blockquote>
+
         <ul>
-          <li><strong>Inverted Index:</strong> Maps words to the documents that contain them.</li>
-          <li><strong>Ranking:</strong> Decides what is most relevant to show at the top.</li>
+          <li><strong>Tokenization:</strong> Breaking a sentence into individual words (e.g., "I love code" -> ["I", "love", "code"]).</li>
+          <li><strong>Inverted Index:</strong> A mapping where every "Word" points to a list of "Documents" it appeared in.</li>
+          <li><strong>Ranking:</strong> Use algorithms like <strong>TF-IDF</strong> or <strong>BM25</strong> to decide which document is the "most relevant" to show at the top of the results.</li>
         </ul>
 
-        <h3>C.6 Booking System (Airbnb)</h3>
-        <p>The nightmare scenario: "Double Booking." Two people paying for the same room at the exact same second.</p>
-        <blockquote class="callout">Analogy: Like the last seat on a bus. Without a strict conductor (locking mechanism), two people would try to sit in one chair.</blockquote>
+        <h3>C.6 Booking System (Airbnb/Hotels)</h3>
+        <p>The "Final Boss" of booking systems is <strong>High Concurrency</strong>. How do you prevent two users from paying for the last available room at the exact same microsecond? This requires mastery of <strong>Database Locking</strong> and <strong>Geospatial Search</strong>.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: The Last Seat on the Commuter Train.</strong> 
+          A booking system is like a crowded train. 
+          <br><br>
+          Without a <strong>Strict Conductor</strong> (locking mechanism), two people would try to sit in the same seat at once. The conductor makes sure that the first person who "touches" the seat gets it, and anyone else is told "Reserved."
+        </blockquote>
+
         <ul>
-          <li><strong>Concurrency Control:</strong> Use Pessimistic or Optimistic Locking.</li>
-          <li><strong>Search:</strong> Use Geospatial Indexing for location-based radius searches.</li>
+          <li><strong>Optimistic Locking:</strong> Assume most things will be fine. Use a "version number"—if the number changes while you're paying, the booking fails and we retry. Low overhead.</li>
+          <li><strong>Pessimistic Locking:</strong> Literally "lock" the row so nobody else can even look at it until you’re done. High safety, but can be slow.</li>
+          <li><strong>Geospatial Indexing:</strong> Use <strong>Quadtrees</strong> or <strong>Google's S2 library</strong> to find "rooms within a 5km radius" of the user's map coordinates instantly.</li>
         </ul>
 
-        <h3>C.7 Notification System</h3>
-        <p>Must deliver millions of notifications via push, email, and SMS without slowing down the main server.</p>
-        <blockquote class="callout">Analogy: Like mall announcements. The PA system (Notification Service) is separate from the cashier (Checkout) so the cashier can focus on the money.</blockquote>
+        <h3>C.7 Notification System (Push, Email, SMS)</h3>
+        <p>Notifications are the "Spam Generators" of the web, and they must be handled asynchronously. Sending 1 million emails shouldn't stop your users from checking out their shopping carts. You need to <strong>Decouple</strong> the notification from the core logic.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Mall Announcements.</strong> 
+          Imagine a shopping mall. The <strong>Announcement System</strong> (Notification Service) is completely separate from the <strong>Cashiers</strong> (Main Service). 
+          <br><br>
+          The cashier is busy taking money. When they finish a sale, they just send a note to the guard room. The guard room then makes the announcement whenever the PA system is free. This way, the line at the cashier never stops for an announcement.
+        </blockquote>
+
         <ul>
-          <li><strong>Decoupling:</strong> Use RabbitMQ/Kafka so sending notifs doesn't block main processes.</li>
-          <li><strong>Rate Limiting:</strong> Prevents "attacking" users with 100 notifications a minute.</li>
+          <li><strong>Message Queues:</strong> Use <strong>RabbitMQ</strong> or <strong>Kafka</strong>. The main service throws a "Notification Task" into the queue and forgets about it. The notification workers process the queue whenever they can.</li>
+          <li><strong>Rate Limiting:</strong> Don't kill your users' engagement. If a system bug triggers 100 notifications in a minute, the Rate Limiter should block them.</li>
+          <li><strong>Retry Logic:</strong> If an SMS fails to send, the system should automatically retry in 5 minutes without affecting the rest of the app.</li>
         </ul>
 
-        <h3>C.8 Logging System (Distributed Logging)</h3>
-        <p>If your app is on 100 servers, you can't check them one-by-one for errors. Collect them centrally.</p>
-        <blockquote class="callout">Analogy: Like complex security cams. Records are gathered in one guard room (Centralized Storage) so if a thief (bug) shows up, the guard can see all angles at once.</blockquote>
+        <h3>C.8 Logging System (Distributed Observability)</h3>
+        <p>When your app runs on 500 different servers, looking for errors manually is impossible. You need a data pipeline that collects, aggregates, and indexes millions of log lines per second into a <strong>Single Searchable Window</strong>.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: The Security Guard's Command Center.</strong> 
+          Imagine a massive skyscraper with 1,000 rooms. You can't hire 1,000 guards to stand in every room. 
+          <br><br>
+          Instead, you put a <strong>Camera</strong> (Log Forwarder) in every room that sends video to a <strong>Single Command Center</strong> (Centralized Logging). If a "Thief" (a Bug) is spotted, the guard can see exactly which room he’s in and even "rewind time" to see how he got there.
+        </blockquote>
+
         <ul>
-          <li><strong>Log Aggregator:</strong> Asynchronously collects logs from various servers.</li>
-          <li><strong>Searchable:</strong> Use the ELK Stack (Elasticsearch, Logstash, Kibana) for easy debugging.</li>
+          <li><strong>The Stack (ELK):</strong> 1. <strong>Elasticsearch</strong> (the search brain) -> 2. <strong>Logstash</strong> (the pipeline/filter) -> 3. <strong>Kibana</strong> (the dashboard/visuals).</li>
+          <li><strong>Aggregation:</strong> Use agents like <strong>Filebeat</strong> or <strong>Fluentd</strong> to "tail" log files and ship them to the central brain in real-time.</li>
+          <li><strong>Alerting:</strong> Set up triggers. If the count of "500 Internal Server Error" spikes above 10 per minute, wake up the developer—something is broken.</li>
         </ul>
       </section>
 
@@ -400,16 +541,50 @@ Total Storage/Year: 5TB * 365 = ~1.8 PB</code></pre>
         <h2>BAB E. Deep Dive Engineering Decisions</h2>
 
         <h3>E.1 Database & Data Modeling</h3>
-        <p>Choose the right schema for retrieval. Clean normalization or fast denormalization?</p>
-        <blockquote class="callout">Analogy: Organizing a closet. Normalization involves separating everything: shirts in one drawer, pants in another. Tidy, but putting on an outfit requires opening many drawers (Join). Denormalization is hanging "complete sets" together. Messy if you only want a shirt, but fast when you want a whole outfit.</blockquote>
+        <p>Choosing a database schema isn't just about "what's cool"; it's about how the data will be <strong>read</strong> and <strong>written</strong>. You must choose between structural cleanliness (Normalization) and data access speed (Denormalization).</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Organizing a closet.</strong> 
+          Normalization is like separating all your clothes: shirts in one drawer, pants in another. It's super tidy, but when you want to put on a complete outfit (Join), you have to open and close multiple drawers. 
+          <br><br>
+          Denormalization is like hanging "complete outfit sets" together. It's a bit messy if you only need an undershirt, but it's lightning fast when you want to head out in a full outfit instantly.
+        </blockquote>
+
+        <ul>
+          <li><strong>Normalization (3NF):</strong> Focuses on data integrity. No duplicate data (redundancy). Perfect for banking systems or admin internals where accuracy is number one.</li>
+          <li><strong>Denormalization:</strong> Focuses on Read Performance. Data is duplicated in a single document or table so you don't need expensive <code>JOIN</code> operations in large-scale databases.</li>
+          <li><strong>Trade-off:</strong> The more normalized the system, the slower the queries but the more storage-efficient it is. The more denormalized, the more storage-heavy and harder to update, but the queries are blazingly fast.</li>
+        </ul>
 
         <h3>E.2 Media Handling & Processing</h3>
-        <p>Massive video upload? Don't use the app server directly. Use a Pre-signed URL so the client uploads directly to cloud storage.</p>
-        <blockquote class="callout">Analogy: Like dropping a package at a courier booth (Pre-signed URL) instead of traveling to the central mailing hub. They handle the rest (Pipeline).</blockquote>
+        <p>Handling massive files like 4K video or high-res photos is a "sin" if done directly on the main app server. The strategy must be smart: <strong>Avoid the bottleneck</strong> by shifting the load to storage infrastructure.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Dropping a package at a courier booth.</strong> 
+          Using <strong>Pre-signed URLs</strong> is like dropping off a package directly at a courier booth (Direct Upload to Cloud Storage) instead of traveling all the way to the super busy central mailing hub. 
+          <br><br>
+          The courier (Cloud Storage) handles the delivery and further processing (Pipeline), while our central office just waits for the report.
+        </blockquote>
+
+        <ul>
+          <li><strong>Pre-signed URLs:</strong> The app server gives a "temporary access token" to the Client. The Client then uploads the file directly to AWS S3 or Google Cloud Storage without passing through our server's bandwidth.</li>
+          <li><strong>Asynchronous Processing:</strong> Once the upload is done, Cloud Storage sends a <em>Webhook</em>. Our worker wakes up and starts <em>Transcoding</em> or <em>Compression</em> in the background without bothering the user.</li>
+          <li><strong>CDN Strategy:</strong> Use <em>CloudFront</em> or <em>Cloudflare</em> to store media files at Edge Locations (the locations closest to the user) so that loading images/videos feels instant.</li>
+        </ul>
 
         <h3>E.3 Concurrency & Consistency</h3>
-        <p>How do you keep data accurate when thousands update the same item? This is the "final boss" of system design.</p>
-        <blockquote class="callout">Analogy: Fighting for the TV remote. There must be rules on who holds it (Locking), otherwise the channels change so fast the TV hangs.</blockquote>
+        <p>Keeping data accurate when thousands of people try to update the same item at once is the <strong>"Final Boss"</strong> of System Design. One small design flaw, and user balances could get messy or a single cinema seat could be double-booked.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Fighting for the TV remote.</strong> 
+          There must be clear rules on who holds the remote (Locking). If everyone tries to press buttons at the same time without rules, the channels will flip randomly until the TV hangs or errors out.
+        </blockquote>
+
+        <ul>
+          <li><strong>Optimistic Locking:</strong> Uses a <code>version</code> column. During an update, the system checks: "Is the version still the same as the one I read earlier?". If it has changed, the update fails. Best for systems with low contention (rare collisions).</li>
+          <li><strong>Pessimistic Locking:</strong> Literally "locks" the database row (<code>SELECT FOR UPDATE</code>). Others cannot read or write until the transaction is finished. Extremely safe, but can create a massive bottleneck if many users are queuing up.</li>
+          <li><strong>Distributed Locking:</strong> If the system runs across many servers, use tools like <strong>Redis (Redlock)</strong> or <strong>Zookeeper</strong> to ensure there is only one "winner" across the entire server cluster.</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB F ==================== -->
@@ -417,16 +592,52 @@ Total Storage/Year: 5TB * 365 = ~1.8 PB</code></pre>
         <h2>BAB F. System Design Interview Preparation</h2>
 
         <h3>F.1 System Design Thinking Framework</h3>
-        <p>Design interviews aren't about right/wrong answers; they're about how you think. Follow the sequence.</p>
-        <blockquote class="callout">Analogy: Like being asked "How do you organize a massive concert?". You don't discuss stage lights first; you ask about attendance, location, and permits before speakers.</blockquote>
+        <p>System Design interviews aren't about finding the "one true answer"—there isn't one. They're about how you **navigate ambiguity** and make structured decisions. If you jump straight to drawing boxes, you've already lost. You must follow a disciplined sequence.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Organizing a massive concert.</strong> 
+          You don't walk into the venue and start discussing stage lights (Drawing Servers) first. 
+          <br><br>
+          You first ask: <strong>"How many people are coming?"</strong> (Scale), <strong>"Do we have permits?"</strong> (Compliance/Requirements), and <strong>"What's the budget?"</strong> (Capacity). Speakers and lights only happen after the infrastructure is clear.
+        </blockquote>
+
+        <ul>
+          <li><strong>Step 1: Clarify Requirements.</strong> Ask questions. Is this for 1,000 users or 100 million? Do we need "Real-time" or is "Eventually Consistent" okay?</li>
+          <li><strong>Step 2: Back-of-the-envelope Math.</strong> Estimate the Requests Per Second (RPS) and storage. This tells you if you need one server or a global cluster.</li>
+          <li><strong>Step 3: High-Level Design (HLD).</strong> Sketch the flow. Client -> Load Balancer -> Service -> DB. Don't go deep yet; keep it at the city-map level.</li>
+          <li><strong>Step 4: Deep Dive.</strong> Pick the most critical parts (e.g., "How do we handle the celebrity feed?") and dissect them with technical granularity.</li>
+        </ul>
 
         <h3>F.2 Common Interview Problems</h3>
-        <p>Spot the patterns. Almost every problem is a variation of Messaging, Feed, Search, or Booking. Master a pattern, and you can answer many questions.</p>
-        <blockquote class="callout">Analogy: Like cooking techniques. If you know how to sauté (Pattern), you can cook greens, veggies, or meat using that same technique.</blockquote>
+        <p>Don't try to memorize a thousand different systems. Instead, **spot the patterns**. Most Big Tech interview questions are just variations of a few core architectural "archetypes."</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Mastering cooking techniques.</strong> 
+          If you know how to <strong>Sauté</strong> (The Pattern), you can cook greens, steak, or mushrooms. You don't learn a "steak recipe" and a "mushroom recipe" from scratch; you master the technique and Swap the Ingredients.
+        </blockquote>
+
+        <ul>
+          <li><strong>The Messaging Pattern:</strong> Used for WhatsApp, Discord, or Uber chat. Master WebSockets, Pub/Sub, and Presence.</li>
+          <li><strong>The Feed Pattern:</strong> Used for Instagram, Twitter (X), or LinkedIn. Focus on Fan-out, "Push vs. Pull" models, and heavy Redis caching.</li>
+          <li><strong>The Search Pattern:</strong> Used for Google, Amazon Product Search, or Airbnb listings. Understand Inverted Indexes and Ranking algorithms.</li>
+          <li><strong>The Booking Pattern:</strong> Used for Airbnb, Ticketmaster, or Uber rides. Master Concurrency, Locking mechanisms, and Data Consistency.</li>
+        </ul>
 
         <h3>F.3 Communication & Explanation</h3>
-        <p>Explain your trade-offs. Don't just say "use Kafka because it's cool." Say "use Kafka for high throughput and data persistence."</p>
-        <blockquote class="callout">Analogy: Explaining choices to a partner. Don't just say "I bought this phone because it's good." Say "I bought this for the battery life and the camera quality for our calls." Clearer, right?</blockquote>
+        <p>In System Design, **there is no perfect solution.** Every choice has a downside. Your job isn't to be "right"; it's to explain the **Trade-offs** of your decisions. Showing you understand the costs makes you a Senior Engineer.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Explaining choices to a partner.</strong> 
+          Don't just say "I bought this phone because it's good." 
+          <br><br>
+          Say "I bought this specific phone because it has the <strong>best battery life</strong> for our long flights, even though the <strong>camera isn't as good</strong> as the other one." It shows you weighed the options for your specific needs.
+        </blockquote>
+
+        <ul>
+          <li><strong>Avoid Tool-Naming:</strong> Don't say "I'll use Kafka" just because it's trendy. Say "I'll use a Message Queue for high throughput and to decouple our services."</li>
+          <li><strong>The "Why":</strong> For every component, explain why you chose it. "I'm choosing PostgreSQL because we need strong ACID guarantees for the transaction data."</li>
+          <li><strong>Identify Bottlenecks:</strong> Proactively call out where your design might break. "This cache might run out of memory during a spike; here is how we would handle it."</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB G ==================== -->
@@ -434,11 +645,38 @@ Total Storage/Year: 5TB * 365 = ~1.8 PB</code></pre>
         <h2>BAB G. Engineering Mindset</h2>
 
         <h3>G.1 Trade-offs in System Design</h3>
-        <p>There's no "best system." There's only "choosing your poison." Fast but delayed data (AP), or accurate data with potential errors (CP).</p>
-        <blockquote class="callout">Analogy: Choosing a home. Near the office but loud/expensive, or far away but quiet/cheap? You can't have it all at once.</blockquote>
+        <p>This is the most "Senior" mindset you can have: Realizing there is no **"Best System,"** only systems that are **"Right for the Job."** Every architectural decision you make has a cost. If you don't know the cost, you don't know the system.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Choosing a home.</strong> 
+          Do you want to live near the office (Fast access/Low Latency) but have it be loud and expensive (High Cost/Low Consistency)? Or do you live far away where it's quiet and cheap (Storage-efficient) but you're late for everything? 
+          <br><br>
+          You can't have it all at once; you have to choose your poison based on your current lifestyle (Business Requirements).
+        </blockquote>
+
+        <ul>
+          <li><strong>The CAP Theorem:</strong> In a distributed system, when the network breaks, you must choose between **Consistency** (Perfectly accurate data) or **Availability** (The system stays online).</li>
+          <li><strong>AP (Availability & Partition Tolerance):</strong> The system stays up, even if users see slightly older data. Essential for social media feeds or streaming apps.</li>
+          <li><strong>CP (Consistency & Partition Tolerance):</strong> The system prioritizes accuracy above all else. If it can't guarantee the data is correct, it will return an error. Essential for payments and financial ledgers.</li>
+          <li><strong>Eventual Consistency:</strong> The middle ground. The data might be slightly "off" for a few seconds, but it will eventually be correct everywhere. This is how 90% of the internet works.</li>
+        </ul>
 
         <h3>G.2 Continuous Learning</h3>
-        <p>Tech changes constantly. System Design is a muscle. Train it daily by reading tech blogs from massive companies or tinkering with architectures.</p>
+        <p>System Design is not a "certification" you get and then forget. It's a **Muscle**. If you don't train it, your architectural thinking will become stiff and outdated. Tech moves fast, and you must move with it.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Learning the guitar.</strong> 
+          You can read every book on music theory, but if you don't actually pick up the guitar and <strong>Play</strong> (Whiteboard/Tinker), your fingers won't know where to go when the lights are on. 
+          <br><br>
+          Consistency is everything. Playing for 10 minutes every day is better than playing for 10 hours once a month.
+        </blockquote>
+
+        <ul>
+          <li><strong>Read Engineering Blogs:</strong> Companies like Netflix, Uber, and Meta publish their architectures for free. Read them and understand why they failed before they succeeded.</li>
+          <li><strong>Whiteboard Randomly:</strong> Pick a problem (e.g., "How would I build a global car-sharing app?") and try to map out the data flow. Don't look up the answer until you've tried.</li>
+          <li><strong>Keep Up with Trends:</strong> Understand the shift from Microservices to Serverless, or the rise of Vector Databases for AI. You don't need to be an expert in everything, but you need to know what's in the toolbox.</li>
+          <li><strong>Build Small, Think Big:</strong> Even when you're building a tiny side project, ask yourself: "How would this work if I had 10 million users tomorrow?" That curiosity is the foundation of a great Architect.</li>
+        </ul>
         <blockquote class="callout">Analogy: Learning System Design is like learning guitar. You can't just read about it; you have to play (practice) so your fingers get used to the notes.</blockquote>
 
       <section class="node">
