@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prompt Engineering Bootcamp Complete Guide - Tiptap Style</title>
+  <style>
+    :root {
+      --page-bg: #f2efe8;
+      --editor-bg: #fcfbf8;
+      --toolbar-bg: #f5f2ea;
+      --text: #1f1f1b;
+      --muted: #666154;
+      --line: #d9d2c7;
+      --chip: #ece6da;
+      --chip-active: #d9cfbf;
+      --maxw: 920px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #f7f4ed, var(--page-bg));
+      color: var(--text);
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      line-height: 1.75;
+      padding: 28px 14px;
+    }
+
+    .editor-shell {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      background: var(--editor-bg);
+      box-shadow: 0 16px 48px rgba(65, 47, 22, 0.12);
+    }
+
+    .toolbar {
+      border-bottom: 1px solid var(--line);
+      background: var(--toolbar-bg);
+      padding: 10px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .actions {
+      border-bottom: 1px solid var(--line);
+      background: #f8f5ee;
+      padding: 10px 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .chip {
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 0.78rem;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--muted);
+      user-select: none;
+    }
+
+    .chip.active {
+      background: var(--chip-active);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .copy-btn {
+      border: 1px solid var(--line);
+      background: #efe8dc;
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .copy-btn:hover {
+      background: #e5dec5;
+    }
+
+    .section-copy-btn {
+      margin: 0.25rem 0 0.55rem;
+    }
+
+    .copy-actions-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0.25rem 0 0.55rem;
+    }
+
+    .copy-note {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .doc {
+      padding: 30px 24px 46px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    h1 {
+      margin: 10px 0 8px;
+      line-height: 1.25;
+      font-size: clamp(1.6rem, 2.6vw, 2.15rem);
+    }
+
+    .subtitle {
+      margin-top: 0;
+      color: #4b463d;
+      font-size: 1rem;
+    }
+
+    h2 {
+      margin-top: 1.8rem;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+      font-size: 1.35rem;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e5dec5;
+    }
+
+    h3 {
+      margin-top: 1.4rem;
+      margin-bottom: 0.3rem;
+      font-size: 1.1rem;
+      color: #2e2a22;
+    }
+
+    p {
+      margin: 0.6rem 0;
+    }
+
+    ul, ol {
+      margin: 0.6rem 0 1rem 1.4rem;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+    }
+
+    .node {
+      margin-top: 24px;
+    }
+
+    .summary {
+      border: 1px solid #dfd6c5;
+      background: #f7f2e8;
+      padding: 14px 16px;
+      margin: 16px 0;
+    }
+
+    .summary strong {
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    blockquote.callout {
+      border-left: 3px solid #9b8f7b;
+      margin: 1rem 0;
+      padding: 0.4rem 1rem;
+      color: #433d33;
+      background: #f8f4ec;
+      font-style: italic;
+    }
+
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border: 1px solid #2e2e2e;
+      border-left: 3px solid #9b8f7b;
+      padding: 14px 16px;
+      overflow-x: auto;
+      line-height: 1.6;
+      margin: 1rem 0;
+    }
+
+    code {
+      font-family: "Cascadia Code", Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.9rem;
+    }
+
+    strong {
+      color: #111;
+    }
+
+    @media print {
+      .toolbar, .actions, .copy-btn, .copy-actions-inline { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="editor-shell">
+    <div class="toolbar">
+      <span class="chip active">Paragraph</span>
+      <span class="chip">Heading</span>
+      <span class="chip">Bullet List</span>
+      <span class="chip">Ordered List</span>
+      <span class="chip">Code Block</span>
+      <span class="chip">Blockquote</span>
+    </div>
+
+    <div class="actions">
+      <button class="copy-btn" id="copyRichHtmlBtn" type="button">Copy Rich HTML for Tiptap</button>
+      <button class="copy-btn" id="copyTiptapSafeBtn" type="button">Copy Tiptap-Safe HTML</button>
+      <span class="copy-note" id="copyStatus">Copy this, then paste it into Tiptap.</span>
+    </div>
+
+    <article class="doc">
+      <p class="meta">AI Literacy & Prompt Engineering</p>
+      <h1>Prompt Engineering for AI Bootcamp (2026)</h1>
+      <p class="subtitle">A practical, project-based course teaching how to design, optimize, and deploy prompts for modern AI systems like GPT, Midjourney, and more.</p>
+
+      <div class="summary">
+        <strong>Map Cepat Section:</strong>
+        <p>BAB A Fundamentals, BAB B Core Techniques, BAB C Advanced Prompting, BAB D AI Tools & Ecosystem, BAB E AI Engineering & Coding, BAB F Real-World Projects, BAB G AI Agents, BAB H Career Readiness.</p>
+        <p>Sub-chapters use hierarchical numbering: A.1, A.2, B.1, B.2, and so on.</p>
+      </div>
+
+      <!-- ==================== BAB A ==================== -->
+      <section class="node section">
+        <h2>BAB A. Fundamentals of Prompt Engineering</h2>
+
+        <h3>A.1 What is Prompt Engineering?</h3>
+        <p>Basically, prompt engineering is the art of talking to AI models. It's not just "typing stuff," it's about structuring your input so the AI actually understands what you want. Think of it as learning the "language" of AI brains.</p>
+        <blockquote class="callout">Analogy: Prompting is like giving directions to a Grab driver. If you just say "East," they'll be confused and might end up anywhere. If you say "Go to the red building near the mall, then turn left at the coffee shop," you get exactly where you need to be without any drama.</blockquote>
+        <ul>
+          <li>Definition: The intentional design of inputs to get specific, high-quality outputs.</li>
+          <li>Why it matters: Better prompts = better results, less hallucination, and less wasted time.</li>
+          <li>AI Interpretation: Models don't "think" like us; they predict the next piece of text based on patterns.</li>
+        </ul>
+
+        <h3>A.2 Understanding AI Models</h3>
+        <p>Not all AI is built for the same job. ChatGPT is different from Midjourney, and GPT-5 is way more capable than older versions. You need to know the "personality" of your tools before you start yelling at them.</p>
+        <blockquote class="callout">Analogy: AI models are like different types of specialized friends. Your ChatGPT friend is the "Know-it-all" bookworm who can write essays, Midjourney is the "Eccentric Artist" who daydreamed in class but paints masterpieces, and GitHub Copilot is the "Master Mechanic" who only cares about fixing the engine. You wouldn't ask the artist to fix your car, right?</blockquote>
+        <ul>
+          <li>Strengths vs Limitations: Know where a model shines and where it's likely to trip up.</li>
+          <li>Hallucinations: Why AI sometimes makes things up with absolute confidence.</li>
+          <li>Model Ecosystem: GPT for text, Midjourney/Veo for visuals, Copilot for code.</li>
+        </ul>
+
+        <h3>A.3 Prompting Basics</h3>
+        <p>The foundation of a good prompt relies on clarity and context. If your instruction is vague, your result will be trash. You also need to learn how to tell the AI *who* it should be.</p>
+        <blockquote class="callout">Analogy: Role prompting is like telling a friend "Hey, pretend you're a HR Manager for a second." Suddenly, their whole tone, knowledge set, and focus shifts to that specific world. It's like giving the AI a pair of glasses to see through a specific lens.</blockquote>
+        <ul>
+          <li>Clear Instructions: Stop being vague; give the AI a clear mission.</li>
+          <li>Role Prompting: Assigning roles like "Senior Developer," "Copywriter," or "History Teacher."</li>
+          <li>Format Control: Telling the AI to output in Markdown, JSON, or a bulleted list.</li>
+        </ul>
+      </section>
+
+      <!-- ==================== BAB B ==================== -->
+      <section class="node section">
+        <h2>BAB B. Core Prompting Techniques</h2>
+
+        <h3>B.1 The Five Principles of Prompting</h3>
+        <p>To be a pro, you need to follow the five golden rules: Clarity, Context, Constraints, Iteration, and Evaluation. These are your guardrails to ensure the AI doesn't go off the rails.</p>
+        <blockquote class="callout">Analogy: These principles are like the "Rules of a Board Game." Without them, it's just chaos. With them, every move (prompt) is calculated, fair, and leads to a winner (perfect output).</blockquote>
+        <ul>
+          <li>Clarity: Be direct and unambiguous.</li>
+          <li>Context: Give the AI the "background story."</li>
+          <li>Constraints: Set boundaries (e.g., "don't use more than 100 words").</li>
+          <li>Iteration: Refine the prompt until it's perfect.</li>
+        </ul>
+
+        <h3>B.2 Prompt Structures</h3>
+        <p>There are different ways to "frame" your prompt. Sometimes you just give an instruction, other times you show examples (Few-Shot), or you ask the AI to think step-by-step.</p>
+        <blockquote class="callout">Analogy: Prompt structures are like "Templates for a Professional Email." Depending on whether you're asking for a job, complaining about service, or inviting someone to a party, the structure changes, even if the core message is similar.</blockquote>
+        <ul>
+          <li>Instruction-based: "Write a blog post about X."</li>
+          <li>Few-shot: Giving the AI 3 examples of what you want first.</li>
+          <li>Step-by-step: Asking the AI to "think through this logically."</li>
+        </ul>
+
+        <h3>B.3 Common Use Cases</h3>
+        <p>Prompting isn't just for fun; it's for getting work done. From summarizing massive reports to extracting data from messy emails, these are the bread-and-butter skills.</p>
+        <blockquote class="callout">Analogy: Use cases are like the "Multi-tool" on a Swiss Army knife. You use the scissors for paper, the knife for bread, and the screwdriver for screws. Each tool is specialized for a real-world task.</blockquote>
+        <ul>
+          <li>Summarization: Turning a 20-page PDF into 3 bullet points.</li>
+          <li>Data Extraction: Pulling names and prices from a wall of text.</li>
+          <li>Creative Generation: Writing emails that don't sound like robots wrote them.</li>
+        </ul>
+      </section>
+
+      <!-- ==================== BAB C ==================== -->
+      <section class="node section">
+        <h2>BAB C. Advanced Prompt Engineering</h2>
+
+        <h3>C.1 Chain-of-Thought & Reasoning</h3>
+        <p>Standard prompts often fail at complex math or logic. Chain-of-Thought prompts force the AI to explain its logic *before* giving the answer, which dramatically increases accuracy.</p>
+        <blockquote class="callout">Analogy: Chain-of-Thought is like "Showing your work" in a math test. If you just write "42," the teacher doesn't know how you got there (and you might have guessed). If you write the steps, you're less likely to make a dumb mistake halfway through.</blockquote>
+        <ul>
+          <li>Step-by-Step Reasoning: "Let's think about this step by step."</li>
+          <li>Improving Logic: Why explaining the "Why" leads to a better "What."</li>
+          <li>Handling Complex Tasks: Breaking down big problems into tiny ones.</li>
+        </ul>
+
+        <h3>C.2 Advanced Techniques</h3>
+        <p>Beyond simple steps, we have techniques like ReAct (Reason + Act) and Self-Consistency. This is where we start treating AI like a real reasoning engine.</p>
+        <blockquote class="callout">Analogy: ReAct is like a "Detective" who doesn't just sit and think; they look at the evidence, go out and interview people (search the web), and then update their theory based on the new facts.</blockquote>
+        <ul>
+          <li>Self-Consistency: Running the prompt 3 times and picking the most common answer.</li>
+          <li>ReAct (Reason + Act): Teaching the AI to use tools and search the web.</li>
+          <li>Personas of Thought: Asking the AI to debate a topic from two different viewpoints.</li>
+        </ul>
+
+        <h3>C.3 Meta Prompting</h3>
+        <p>The peak of prompt engineering is "Meta Prompting"—writing prompts that *generate other prompts*. This is how you build systems that optimize themselves.</p>
+        <blockquote class="callout">Analogy: Meta Prompting is like "Training the Trainer." You're not the one teaching the students anymore; you're the one writing the handbook that tells the teachers how to teach.</blockquote>
+        <ul>
+          <li>Prompt Generators: "Write a prompt that will generate a viral TikTok script."</li>
+          <li>Token Optimization: Getting the best results with the least amount of words (saving money!).</li>
+          <li>System Design: Building a pipeline of prompts that talk to each other.</li>
+        </ul>
+      </section>
+
+      <!-- ==================== BAB D ==================== -->
+      <section class="node section">
+        <h2>BAB D. Working with AI Tools & Ecosystem</h2>
+
+        <h3>D.1 AI Tools Overview</h3>
+        <p>The AI world moves fast. You need to know your way around ChatGPT, Midjourney, GitHub Copilot, and the various APIs that power them.</p>
+        <blockquote class="callout">Analogy: The AI Ecosystem is like a "Shopping Mall." ChatGPT is the massive department store, Midjourney is the art gallery, and Copilot is the hardware shop. You need to know which floor to go to for what you need.</blockquote>
+
+        <h3>D.2 Practical Tool Usage</h3>
+        <p>It's time to get your hands dirty. We'll look at how to use AI for image manipulation (inpainting), coding faster, and building automated workflows.</p>
+        <blockquote class="callout">Analogy: Practical tool usage is like "Learning to Drive." You know the theory (the manual), but now you're actually behind the wheel, feeling the clutch and watching the mirrors.</blockquote>
+
+        <h3>D.3 Limitations & Best Practices</h3>
+        <p>AI isn't magic. It has biases, ethical issues, and it can be expensive if you use it wrong. We'll talk about how to be a responsible and efficient user.</p>
+        <blockquote class="callout">Analogy: Best practices are like "Wearing a Helmet." AI is a powerful motorbike that can take you places fast, but if you don't wear a helmet (safety checks/biases), a small crash can be a disaster.</blockquote>
+      </section>
+
+      <!-- ==================== BAB E ==================== -->
+      <section class="node section">
+        <h2>BAB E. AI Engineering & Coding</h2>
+
+        <h3>E.1 Python for AI Workflows</h3>
+        <p>If you want to scale, you can't just copy-paste into a chat window. You need to learn how to use Python to talk to AI APIs and automate the process.</p>
+        <blockquote class="callout">Analogy: Python for AI is like "Upgrading from a Bicycle to a Bullet Train." Instead of manual pedaling (typing prompts), you're building a massive machine that does it for you automatically while you sleep.</blockquote>
+        <pre><code>import openai
+
+def get_pro_response(prompt):
+    response = openai.chat.completions.create(
+        model="gpt-5",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return response.choices[0].message.content</code></pre>
+
+        <h3>E.2 AI Engineering Tools</h3>
+        <p>Tools like LangChain and DSPy help you manage complex prompt pipelines. They make your AI apps robust and easier to maintain.</p>
+        <blockquote class="callout">Analogy: LangChain is like "Lego for AI." It gives you the blocks (connectors, memory, tools) so you can build huge, complex castles without having to glue every single piece yourself.</blockquote>
+
+        <h3>E.3 Scaling AI Systems</h3>
+        <p>When you have 10,000 users, your prompts need to be reliable and fast. We'll talk about monitoring, versioning prompts, and reducing latency.</p>
+        <blockquote class="callout">Analogy: Scaling is like "Opening a Chain of Coffee Shops." One shop is easy to manage. Managing 100 shops with the same quality and speed requires a serious system (monitoring and pipelines).</blockquote>
+      </section>
+
+      <!-- ==================== BAB F ==================== -->
+      <section class="node section">
+        <h2>BAB F. Real-World Projects</h2>
+
+        <h3>F.1 Text-Based Projects</h3>
+        <p>We'll build content machines: SEO blog generators, automated customer support bots, and personalized email marketers.</p>
+
+        <h3>F.2 Image-Based Projects</h3>
+        <p>Learn to create consistent characters for a brand, generate high-end stock photos, and design UI mockups with pure text.</p>
+
+        <h3>F.3 Business Use Cases</h3>
+        <p>Automate the boring stuff. We'll build a system that analyzes spreadsheets, summarizes daily meetings, and suggests business strategies.</p>
+        <blockquote class="callout">Analogy: Real-world projects are like the "Final Exam" in a cooking class. You've learned all the ingredients and techniques, now you're actually cooking a 3-course meal for real hungry customers.</blockquote>
+      </section>
+
+      <!-- ==================== BAB G ==================== -->
+      <section class="node section">
+        <h2>BAB G. AI Agents & Advanced Systems</h2>
+
+        <h3>G.1 Building AI Agents</h3>
+        <p>Agents are AIs that can "do things" autonomously. They can plan a trip, book a flight, or even code a whole website by themselves. This is the future of work.</p>
+        <blockquote class="callout">Analogy: An AI Agent is like a "Personal Assistant." You don't tell them exactly how to move their fingers to type; you just say "Organize a meeting for Friday," and they handle the emails, scheduling, and invites for you.</blockquote>
+
+        <h3>G.2 Retrieval & Knowledge Systems (RAG)</h3>
+        <p>Teach the AI about your own data. RAG (Retrieval-Augmented Generation) allows an AI to look at your internal company documents before answering a question.</p>
+        <blockquote class="callout">Analogy: RAG is like giving the AI an "Open Book Exam." Instead of relying on its memory from years ago, it can look at the latest textbooks (your data) right there on the desk to give the most accurate answer.</blockquote>
+
+        <h3>G.3 Optimization Patterns</h3>
+        <p>Learn how to build "Evaluator–Optimizer" loops where one AI generates a result and another AI critiques it to make it better. It's like having a writer and an editor in one box.</p>
+        <blockquote class="callout">Analogy: Optimization loops are like a "Quality Control Line" in a factory. The machine makes the product, but a sensor checks if it's perfect, and if not, it sends it back for fixing instantly.</blockquote>
+      </section>
+
+      <!-- ==================== BAB H ==================== -->
+      <section class="node section">
+        <h2>BAB H. Career & Industry Readiness</h2>
+
+        <h3>H.1 Becoming a Prompt Engineer</h3>
+        <p>It's not just about prompts; it's about being a bridge between tech and humans. We'll cover how to build a portfolio that actually gets you hired.</p>
+
+        <h3>H.2 AI Career Paths</h3>
+        <p>The market is splitting into Prompt Engineers, AI Engineers, and AI Product Builders. Figure out where you fit and how to get there.</p>
+
+        <h3>H.3 Industry Trends</h3>
+        <p>The AI world changes every week. We'll talk about how to stay relevant, which skills are "future-proof," and how to ride the wave instead of being drowned by it.</p>
+        <blockquote class="callout">Analogy: Career readiness is like "Surfing." You can't control the ocean (the AI trends), but if you have a good board and know how to read the waves, you'll have the ride of your life while others are struggling to stay afloat.</blockquote>
+      </section>
+
+      <section class="node">
+        <h2>⚠️ Real Talk</h2>
+        <ul>
+          <li><strong>What this course is GOOD at:</strong> Structured interview preparation, covering technical and non-technical aspects, and giving real-world strategies.</li>
+          <li><strong>What it does NOT cover:</strong> Deep production-level system implementation, advanced niche topics (compiler/distributed internals), or specific company question banks.</li>
+          <li><strong>Who it is suitable for:</strong> Beginner to Mid-level engineers, job seekers, and developers targeting high-tier tech companies.</li>
+        </ul>
+      </section>
+
+      <section class="node">
+        <h2>🔥 Positioning</h2>
+        <p><strong>Skill Area — Role</strong></p>
+        <ul>
+          <li>Data Structures — Coding Interview Foundation</li>
+          <li>Algorithms — Problem Solving Core</li>
+          <li>System Design — Senior-Level Thinking</li>
+          <li>Behavioral Skills — Communication & Culture Fit</li>
+          <li>Career Strategy — Job Offer Conversion</li>
+        </ul>
+      </section>
+
+      <section class="node">
+        <h2>🚀 Best Learning Strategy</h2>
+        <ol>
+          <li>Start with BAB A to understand the landscape.</li>
+          <li>Spend most time on BAB B & C (daily practice).</li>
+          <li>Parallel learn BAB D (AI Tools) after the basics.</li>
+          <li>Practice behavioral answers from BAB E weekly.</li>
+          <li>Simulate work and interviews using BAB F.</li>
+          <li>Apply for jobs while learning the advanced stuff in BAB G.</li>
+        </ol>
+        <blockquote class="callout">Key rule: Practice > Watching. If you don't type it, you don't know it.</blockquote>
+      </section>
+
+      <section class="node">
+        <h2>🔥 Ultimate Insight</h2>
+        <pre><code>Preparation → Structured Practice → Confident Execution → Job Offer</code></pre>
+        <p>Apply your knowledge to real projects for maximum results.</p>
+      </section>
+
+      <section class="node">
+        <h1>Tips</h1>
+        <ul>
+          <li>Don’t trust your first thought</li>
+          <li>Always ask: “Is this true?”</li>
+          <li>Slow down your thinking when making decisions</li>
+          <li>Focus on clarity, not being right</li>
+        </ul>
+      </section>
+    </article>
+  </main>
+
+  <script>
+    const copyBtn = document.getElementById("copyRichHtmlBtn");
+    const copySafeBtn = document.getElementById("copyTiptapSafeBtn");
+    const copyStatus = document.getElementById("copyStatus");
+    const docNode = document.querySelector(".doc");
+    const COPY_BUTTON_SELECTOR = ".section-copy-btn, .bab-copy-btn, .sub-copy-btn, .copy-actions-inline";
+
+    function unwrapElement(el) {
+      const parent = el.parentNode;
+      if (!parent) return;
+      while (el.firstChild) {
+        parent.insertBefore(el.firstChild, el);
+      }
+      parent.removeChild(el);
+    }
+
+    function buildTiptapSafeHtml() {
+      const clone = docNode.cloneNode(true);
+      clone.querySelectorAll(COPY_BUTTON_SELECTOR).forEach((el) => el.remove());
+      clone.querySelectorAll(".meta, h1, .subtitle").forEach((el) => el.remove());
+      
+      clone.querySelectorAll(".summary").forEach((el) => {
+        const p = document.createElement("p");
+        p.innerHTML = el.innerHTML;
+        el.replaceWith(p);
+      });
+
+      clone.querySelectorAll("section, .node, div").forEach((el) => unwrapElement(el));
+
+      const allowed = new Set(["H2", "H3", "P", "UL", "OL", "LI", "STRONG", "EM", "BR", "BLOCKQUOTE", "PRE", "CODE"]);
+      const walker = document.createTreeWalker(clone, NodeFilter.SHOW_ELEMENT, null);
+      const toRemove = [];
+      while (walker.nextNode()) {
+        const el = walker.currentNode;
+        if (!allowed.has(el.tagName)) {
+          toRemove.push(el);
+        }
+      }
+      toRemove.forEach((el) => unwrapElement(el));
+
+      clone.querySelectorAll("*").forEach((el) => {
+        Array.from(el.attributes).forEach((attr) => el.removeAttribute(attr.name));
+      });
+
+      return clone.innerHTML.trim();
+    }
+
+    function buildCleanHtmlFromNode(node) {
+      const clone = node.cloneNode(true);
+      clone.querySelectorAll(COPY_BUTTON_SELECTOR).forEach((el) => el.remove());
+      return clone.innerHTML.trim();
+    }
+
+    function buildSubBabTextHtml(h3) {
+      const wrapper = document.createElement("div");
+      let current = h3.nextElementSibling;
+      while (current) {
+        if (current.tagName === "H3" || current.tagName === "H2") break;
+        if (!current.matches(COPY_BUTTON_SELECTOR)) {
+          wrapper.appendChild(current.cloneNode(true));
+        }
+        current = current.nextElementSibling;
+      }
+      return wrapper.innerHTML.trim();
+    }
+
+    function getSubCode(h3Text) {
+       const match = h3Text.match(/^([A-Z]\.[0-9]+)/);
+       return match ? match[1] : h3Text.split('.')[0] || h3Text;
+    }
+
+    function injectCopyButtons() {
+      docNode.querySelectorAll("section.node").forEach((section) => {
+        const h2 = section.querySelector("h2");
+        if (!h2) return;
+
+        const h2Text = h2.textContent.trim();
+        const prefixMatch = h2Text.match(/BAB\s+([A-Z])/);
+        const prefix = prefixMatch ? "BAB " + prefixMatch[1] : "BAB";
+        
+        const babButton = document.createElement("button");
+        babButton.type = "button";
+        babButton.className = "copy-btn section-copy-btn bab-copy-btn";
+        babButton.textContent = "Copy " + prefix;
+        babButton.addEventListener("click", () => {
+          copyHtml(buildCleanHtmlFromNode(section), h2Text);
+        });
+        h2.insertAdjacentElement("afterend", babButton);
+
+        const h3List = section.querySelectorAll("h3");
+        h3List.forEach((h3) => {
+          const fullTitle = h3.textContent.trim();
+          const shortCode = getSubCode(fullTitle);
+
+          const row = document.createElement("div");
+          row.className = "copy-actions-inline sub-copy-btn";
+
+          const btnSub = document.createElement("button");
+          btnSub.type = "button";
+          btnSub.className = "copy-btn";
+          btnSub.textContent = shortCode;
+          btnSub.addEventListener("click", async () => {
+            try {
+              await navigator.clipboard.writeText(shortCode);
+              copyStatus.textContent = shortCode + " copied.";
+            } catch (err) {
+              copyStatus.textContent = "Failed to copy " + shortCode;
+            }
+          });
+
+          const btnJudul = document.createElement("button");
+          btnJudul.type = "button";
+          btnJudul.className = "copy-btn";
+          btnJudul.textContent = "Title " + shortCode;
+          btnJudul.addEventListener("click", () => {
+             const titleOnly = fullTitle.replace(/^[A-Z]\.[0-9]+\s*/, "");
+            copyHtml("<h3>" + titleOnly + "</h3>", "Title " + shortCode);
+          });
+
+          const btnIsi = document.createElement("button");
+          btnIsi.type = "button";
+          btnIsi.className = "copy-btn";
+          btnIsi.textContent = "Content " + shortCode;
+          btnIsi.addEventListener("click", () => {
+            const isiHtml = buildSubBabTextHtml(h3);
+            if (!isiHtml) {
+              copyStatus.textContent = shortCode + " has no content.";
+              return;
+            }
+            copyHtml(isiHtml, "Content " + shortCode);
+          });
+
+          row.appendChild(btnSub);
+          row.appendChild(btnJudul);
+          row.appendChild(btnIsi);
+          h3.insertAdjacentElement("afterend", row);
+        });
+      });
+    }
+
+    async function copyHtml(content, label) {
+      try {
+        const plain = content
+          .replace(/<\/?[^>]+(>|$)/g, "")
+          .replace(/\n{3,}/g, "\n\n")
+          .trim();
+
+        if (window.ClipboardItem) {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              "text/html": new Blob([content], { type: "text/html" }),
+              "text/plain": new Blob([plain], { type: "text/plain" })
+            })
+          ]);
+        } else {
+          await navigator.clipboard.writeText(content);
+        }
+        copyStatus.textContent = label + " copied. Ready to paste.";
+      } catch (err) {
+        copyStatus.textContent = "Auto-copy failed.";
+        console.error(err);
+      }
+    }
+
+    copyBtn.addEventListener("click", () => {
+      const clone = docNode.cloneNode(true);
+      clone.querySelectorAll(COPY_BUTTON_SELECTOR).forEach((el) => el.remove());
+      copyHtml(clone.innerHTML.trim(), "Rich HTML");
+    });
+
+    copySafeBtn.addEventListener("click", () => {
+      copyHtml(buildTiptapSafeHtml(), "Tiptap-Safe HTML");
+    });
+
+    injectCopyButtons();
+  </script>
+</body>
+</html>

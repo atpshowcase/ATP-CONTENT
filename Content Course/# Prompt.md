@@ -1,162 +1,172 @@
-## 🎯 Software Engineer Interview Masterclass (5 Courses in 1)
-Short description: A comprehensive, interview-focused roadmap covering coding, system design, behavioral interviews, and real-world hiring strategies.
+## 🎯 The Complete Prompt Engineering for AI Bootcamp (2026)
+Short description: A practical, project-based course teaching how to design, optimize, and deploy prompts for modern AI systems like GPT, Midjourney, and more.
 
 ---
 
-# BAB A — Fundamentals (Interview Foundations)
+# BAB A — Fundamentals of Prompt Engineering
 
-## A.1 Understanding the Hiring Process
-- Resume screening vs technical interview vs HR round  
-- What companies actually evaluate (skills vs signals)  
-- Common interview formats (DSA, system design, behavioral)
+## A.1 What is Prompt Engineering?
+- Definition and importance of prompting  
+- How AI models interpret inputs  
+- Why prompt quality affects output quality  
 
-## A.2 Resume & Profile Optimization
-- Writing impact-driven bullet points  
-- Highlighting projects and measurable results  
-- Optimizing LinkedIn & portfolio presence  
+## A.2 Understanding AI Models
+- ChatGPT, GPT-5, Midjourney, Veo3 overview  
+- Strengths vs limitations of AI models  
+- Hallucinations and reliability issues  
 
-👉 This section builds awareness: interviews are not just about coding, but positioning yourself correctly.
+## A.3 Prompting Basics
+- Clear instructions vs vague prompts  
+- Role prompting (assigning AI roles)  
+- Output formatting techniques  
 
----
-
-# BAB B — Data Structures & Algorithms (Core Coding Skills)
-
-## B.1 Core Data Structures
-- Arrays, Strings, Linked Lists  
-- Stacks, Queues  
-- HashMaps, Sets  
-- Trees, Graphs, Heaps  
-
-## B.2 Algorithm Fundamentals
-- Sorting & Searching techniques  
-- Recursion & Backtracking  
-- Greedy Algorithms  
-- Divide & Conquer  
-
-## B.3 Problem Solving Patterns
-- Sliding Window  
-- Two Pointers  
-- Fast & Slow Pointer  
-- Merge Intervals  
-- Dynamic Programming basics  
-
-👉 This section is the backbone of coding interviews.
+👉 Prompt engineering is essentially learning how to “communicate with AI effectively.”
 
 ---
 
-# BAB C — Advanced Problem Solving
+# BAB B — Core Prompting Techniques
 
-## C.1 Dynamic Programming Deep Dive
-- Memoization vs Tabulation  
-- Classic problems (Knapsack, LIS, etc.)  
-- State transition thinking  
+## B.1 The Five Principles of Prompting
+- Clarity  
+- Context  
+- Constraints  
+- Iteration  
+- Evaluation  
 
-## C.2 Graph Algorithms
-- BFS & DFS  
-- Shortest path (Dijkstra)  
-- Topological sort  
-- Cycle detection  
+## B.2 Prompt Structures
+- Instruction-based prompts  
+- Few-shot prompting (examples)  
+- Step-by-step prompting  
 
-## C.3 Complexity Analysis
-- Time & Space Complexity (Big-O)  
-- Trade-offs in solutions  
-- Writing optimal code under constraints  
+## B.3 Common Use Cases
+- Text generation (blogs, emails)  
+- Summarization  
+- Data extraction  
+- Translation  
 
-👉 Focus is on thinking, not memorizing.
-
----
-
-# BAB D — System Design (Scalable Architecture)
-
-## D.1 System Design Basics
-- Scalability concepts  
-- Latency vs throughput  
-- Load balancing  
-
-## D.2 Core Components
-- Databases (SQL vs NoSQL)  
-- Caching strategies (Redis)  
-- Message queues  
-
-## D.3 Designing Real Systems
-- URL Shortener  
-- Chat System  
-- News Feed / Social Media  
-- Rate Limiter  
-
-👉 This is what differentiates mid-level vs senior engineers.
+👉 These techniques are the foundation for consistent AI output. :contentReference[oaicite:0]{index=0}
 
 ---
 
-# BAB E — Behavioral & Soft Skills
+# BAB C — Advanced Prompt Engineering
 
-## E.1 Behavioral Interview Framework
-- STAR method (Situation, Task, Action, Result)  
-- Structuring answers clearly  
+## C.1 Chain-of-Thought & Reasoning
+- Step-by-step reasoning prompts  
+- Improving complex problem solving  
 
-## E.2 Common Questions
-- Tell me about yourself  
-- Conflict resolution  
-- Leadership & ownership  
+## C.2 Advanced Techniques
+- Self-consistency sampling  
+- ReAct (Reason + Act)  
+- Personas of thought  
 
-## E.3 Communication Skills
-- Explaining technical ideas simply  
-- Thinking out loud during coding  
+## C.3 Meta Prompting
+- Prompting prompts (prompt generators)  
+- Optimizing prompt quality automatically  
+- Handling token limits  
 
-👉 Many candidates fail here despite strong technical skills.
-
----
-
-# BAB F — Practical Mock Interviews
-
-## F.1 Live Coding Practice
-- Solving problems under time pressure  
-- Writing clean, bug-free code  
-
-## F.2 Mock Interviews
-- Simulated real interview scenarios  
-- Feedback and improvement loops  
-
-## F.3 Common Mistakes
-- Overcomplicating solutions  
-- Poor communication  
-- Lack of structure  
-
-👉 Practice transforms knowledge into performance.
+👉 Focus shifts from “writing prompts” → “designing systems of prompts.” :contentReference[oaicite:1]{index=1}
 
 ---
 
-# BAB G — Career Strategy & Job Hunting
+# BAB D — Working with AI Tools & Ecosystem
 
-## G.1 Job Search Strategy
-- Applying effectively  
-- Referrals vs cold applications  
+## D.1 AI Tools Overview
+- ChatGPT & GPT APIs  
+- Midjourney (image generation)  
+- GitHub Copilot  
 
-## G.2 Salary Negotiation
-- Understanding market value  
-- Negotiation techniques  
+## D.2 Practical Tool Usage
+- Generating images (inpainting, outpainting)  
+- Using AI for coding assistance  
+- Building workflows with AI tools  
 
-## G.3 Offer Evaluation
-- Salary vs growth vs culture  
-- Long-term career planning  
+## D.3 Limitations & Best Practices
+- Bias and ethical concerns  
+- Controlling outputs  
+- Reliability strategies  
 
-👉 This section ensures you convert interviews into offers.
+👉 You learn not just prompting, but tool orchestration.
 
 ---
 
-# 💡 Key Insights
+# BAB E — AI Engineering & Coding (Optional Technical Track)
 
-### 1. Big Picture
-This course teaches how to pass software engineering interviews end-to-end — from preparation to offer negotiation.
+## E.1 Python for AI Workflows
+- Using APIs  
+- Automating prompts  
+- Handling responses programmatically  
 
-### 2. Core Skills
-- Problem solving (DSA)  
-- System design thinking  
-- Communication & storytelling  
-- Interview strategy  
+## E.2 AI Engineering Tools
+- LangChain  
+- DSPy  
+- Prompt pipelines  
 
-### 3. Unique Value
-Combines 5 critical interview domains into one structured roadmap instead of learning them separately.
+## E.3 Scaling AI Systems
+- Production considerations  
+- Reliability & monitoring  
+- Prompt optimization pipelines  
+
+👉 This section transitions from user → AI engineer. :contentReference[oaicite:2]{index=2}
+
+---
+
+# BAB F — Real-World Projects
+
+## F.1 Text-Based Projects
+- SEO blog generation  
+- Content automation  
+- Chatbot creation  
+
+## F.2 Image-Based Projects
+- AI-generated stock images  
+- Creative design workflows  
+
+## F.3 Business Use Cases
+- Productivity automation  
+- Data analysis workflows  
+- Marketing content generation  
+
+👉 Includes 20+ real-world projects for hands-on experience. :contentReference[oaicite:3]{index=3}
+
+---
+
+# BAB G — AI Agents & Advanced Systems
+
+## G.1 Building AI Agents
+- Agent architectures  
+- Memory & task scheduling  
+- Autonomous workflows  
+
+## G.2 Retrieval & Knowledge Systems
+- Embeddings  
+- Retrieval-Augmented Generation (RAG)  
+- Context injection  
+
+## G.3 Optimization Patterns
+- Evaluator–optimizer loops  
+- Feedback-driven improvement  
+
+👉 This is cutting-edge AI system design.
+
+---
+
+# BAB H — Career & Industry Readiness
+
+## H.1 Becoming a Prompt Engineer
+- Required skills (technical + communication)  
+- Portfolio building  
+
+## H.2 AI Career Paths
+- Prompt Engineer  
+- AI Engineer  
+- AI Product Builder  
+
+## H.3 Industry Trends
+- Rapid evolution of AI tools  
+- Future of prompting skills  
+- AI-driven workflows  
+
+👉 The course aims to prepare you for real AI jobs.
 
 ---
 

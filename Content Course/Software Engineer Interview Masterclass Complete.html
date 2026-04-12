@@ -300,29 +300,134 @@
         <h2>BAB C. Advanced Problem Solving</h2>
 
         <h3>C.1 Dynamic Programming Deep Dive</h3>
-        <p>DP is often the most feared topic. It's simply about breaking a problem into sub-problems and storing the results so you don't calculate them twice.</p>
-        <blockquote class="callout">Analogy: DP is like "Writing Things Down." If I ask you what 1+1+1+1 is, you count 4. If I add another "1", you don't start from zero; you just look at your previous answer (3+1) and say 4 + 1 = 5. That's memoization.</blockquote>
+        <p>DP is often the most feared topic, but honestly? It’s just recursion with a "notebook." It’s about being smart enough to not solve the same puzzle twice. If you hear "maximize," "minimize," or "how many ways," your DP alarm should go off.</p>
+        <blockquote class="callout">Analogy: DP is like "Writing Things Down." If I ask you what 1+1+1+1 is, you count 4. If I add another "1," you don't start from zero; you just look at your previous answer (4) and say 4 + 1 = 5. That's memoization—remembering what you already did.</blockquote>
         <ul>
-          <li>Memoization (Top-down) vs Tabulation (Bottom-up).</li>
-          <li>Classic problems: Knapsack, Longest Increasing Subsequence.</li>
-          <li>Identifying state transitions: The core of DP.</li>
+          <li><strong>Identify the State:</strong> What variables define your current progress? (e.g., <code>i</code>-th item, <code>j</code> remaining capacity).</li>
+          <li><strong>The State Transition:</strong> The "Rule of the Game." How do you get from <code>dp[i-1]</code> to <code>dp[i]</code>? This is where the core logic lives.</li>
+          <li><strong>Top-Down (Memoization):</strong> You start from the big goal and dive down, caching results as you go. It's more intuitive to write but uses extra stack space.</li>
+          <li><strong>Bottom-Up (Tabulation):</strong> You start from the smallest base cases and fill a table. It's usually faster and avoids the "Recursion Depth" limit.</li>
+          <li><strong>Classic Drills:</strong> Climbing Stairs (Fibonacci), Coin Change (Minimization), and the 0/1 Knapsack (Optimal Selection).</li>
         </ul>
+
+        <blockquote class="callout">
+          <strong>Why, Where, & For What?</strong><br>
+          • <strong>The Reason:</strong> Computing power is expensive. Without DP, a simple "Recursive" solution for 50 steps would take years to finish. DP turns "years" into "milliseconds" by sacrificing a little memory for massive speed.<br>
+          • <strong>Real Case - Logistics:</strong> Shipping giants (like FedEx/JNE) use DP to solve the "Bin Packing" problem—fitting the maximum value of goods into a limited container space.<br>
+          • <strong>Real Case - Finance:</strong> Algorithmic trading bots use DP-based models to calculate the optimal time to buy/sell assets to maximize returns over a time horizon.<br>
+          • <strong>Solve Problem for What:</strong> Use DP when you need the <strong>Absolute Best</strong> (Shortest path, Max Profit, Min cost) or need to <strong>Count All Possibilities</strong> where the same decisions keep repeating.
+        </blockquote>
+
+        <pre><code>// Example: Climbing Stairs (C#)
+// Top-Down (Memoization)
+public int SolveMemo(int n, int[] memo) {
+    if (n <= 2) return n;
+    if (memo[n] != 0) return memo[n]; // Read from "notebook"
+    
+    memo[n] = SolveMemo(n - 1, memo) + SolveMemo(n - 2, memo);
+    return memo[n]; // Store in "notebook"
+}
+
+// Bottom-Up (Tabulation)
+public int SolveTab(int n) {
+    if (n <= 2) return n;
+    int[] dp = new int[n + 1];
+    dp[1] = 1; dp[2] = 2; // Base cases
+    
+    for (int i = 3; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2]; // Build table sequentially
+    }
+    return dp[n];
+}</code></pre>
 
         <h3>C.2 Graph Algorithms</h3>
-        <p>Graphs represent maps, social networks, and dependencies. BFS and DFS are your primary navigation tools, while Dijkstra helps you find the "cheapest" path.</p>
-        <blockquote class="callout">Analogy: Graph algorithms are like "Google Maps." Whether you're finding the shortest drive home (Shortest Path) or exploring every street in a neighborhood (BFS/DFS), graph theory is what's under the hood.</blockquote>
+        <p>Graphs represent maps, social networks, and dependencies. Mastering graphs means you can navigate complex relationships. Whether it’s finding a friend on LinkedIn or the fastest route on Waze, everything is a graph.</p>
+        <blockquote class="callout">Analogy: Graph algorithms are like "Google Maps." Whether you're finding the shortest drive home (Shortest Path) or exploring every single street in a neighborhood (BFS/DFS), graph theory is the engine under the hood.</blockquote>
         <ul>
-          <li>BFS: Level-order traversal (finding shortest path in unweighted graphs).</li>
-          <li>DFS: Deep exploration (visiting every corner).</li>
-          <li>Topological Sort: Handling task dependencies.</li>
+          <li><strong>BFS (Breadth-First Search):</strong> Think "Exploration in Layers." Check neighbors first, then neighbors-of-neighbors. It's the king of finding the shortest path in unweighted networks.</li>
+          <li><strong>DFS (Depth-First Search):</strong> Think "The Tunnel Explorer." Go as deep as possible before backtracking. Perfect for finding if a path exists, detecting cycles, or solving puzzles like Sudoku.</li>
+          <li><strong>Dijkstra’s Algorithm:</strong> The "Greedy Navigator." It finds the cheapest path in weighted graphs by always exploring the next closest "node."</li>
+          <li><strong>Topological Sort:</strong> Perfect for handling task dependencies. You can't put on your shoes (Task B) until you've already put on your socks (Task A).</li>
         </ul>
 
+        <blockquote class="callout">
+          <strong>Why, Where, & For What?</strong><br>
+          • <strong>The Reason:</strong> Real-world data is rarely linear. It’s a mess of connections. Graphs allow us to model these relationships—whether they are road intersections, friendship links, or software package dependencies.<br>
+          • <strong>Real Case - Social Media:</strong> LinkedIn uses BFS to find your "2nd" and "3rd" degree connections. Finding who you know through who is a classic graph traversal problem.<br>
+          • <strong>Real Case - DevOps:</strong> Build tools (like Docker or NuGet) use Topological Sort to determine the correct order to compile projects based on which one depends on the other.<br>
+          • <strong>Solve Problem for What:</strong> Use Graph algorithms for <strong>Connectivity</strong> (Can I reach X?), <strong>Shortest Path</strong> (Minimizing fuel, time, or latency), and <strong>Cycle Detection</strong> (Preventing deadlocks in systems).
+        </blockquote>
+
+        <pre><code>// Example: Breadth-First Search (C#)
+public void BFS(int startNode, Dictionary<int, List<int>> graph) {
+    Queue<int> queue = new Queue<int>();
+    HashSet<int> visited = new HashSet<int>();
+
+    queue.Enqueue(startNode);
+    visited.Add(startNode);
+
+    while (queue.Count > 0) {
+        int current = queue.Dequeue();
+        // Process current node
+        
+        foreach (int neighbor in graph[current]) {
+            if (!visited.Contains(neighbor)) {
+                visited.Add(neighbor);
+                queue.Enqueue(neighbor);
+            }
+        }
+    }
+}</code></pre>
+
         <h3>C.3 Complexity Analysis</h3>
-        <p>Big-O notation is how we talk about efficiency. It’s not just about getting the right answer; it’s about how many "steps" it takes as the input grows to millions.</p>
-        <blockquote class="callout">Analogy: Complexity analysis is like "Fuel Efficiency" for a car. Your code might get to the finish line, but we need to know if it uses a gallon of gas (O(1)) or a whole tanker truck (O(n^2)) to get there.</blockquote>
-        <pre><code>// O(n) example
-for(let i = 0; i < n; i++) {
-  console.log(i);
+        <p>Big-O notation is the "Fuel Efficiency" of your code. It’s not just about getting the right answer; it’s about how many "steps" it takes as your input grows from 10 users to 10 million.</p>
+        <blockquote class="callout">Analogy: Complexity analysis is like "Gas Mileage." Your code might get to the finish line, but we need to know if it uses a gallon of gas (O(1)) or an entire tanker truck (O(n²)) to get there. In production, inefficient code burns money and crashes servers.</blockquote>
+        <ul>
+          <li><strong>O(1) - Constant:</strong> The speed doesn't change regardless of data size (e.g., getting the first item of a list).</li>
+          <li><strong>O(log n) - Logarithmic:</strong> The "Binary Search" gold standard. Every step cuts the remaining work in half. Extremely fast for huge datasets.</li>
+          <li><strong>O(n) - Linear:</strong> You touch every item exactly once. Standard for a single loop through an array.</li>
+          <li><strong>O(n log n):</strong> The "Sorting" sweet spot. Most efficient general-purpose sorting algorithms (like Merge Sort or Quick Sort) live here.</li>
+          <li><strong>O(n²) - Quadratic:</strong> Nested loops. Fine for $n=100$, but starts lagging hard once $n$ hits 10,000+. Always look for ways to optimize these to O(n log n) or O(n).</li>
+          <li><strong>Space Complexity:</strong> Don't forget the memory. Storing a 2D table for a DP solution? That's O(n²) space. Sometimes we trade memory for speed, and that's a valid architectural decision.</li>
+        </ul>
+
+        <div class="summary">
+          <strong>Big-O Hierarchy: From Best to Worst</strong>
+          <ol>
+            <li>🔥 <strong>O(1) - The Dream:</strong> Instant. (Array lookup, Hashmap get).</li>
+            <li>🚀 <strong>O(log n) - The Hero:</strong> Scales beautifully. (Binary Search).</li>
+            <li>✅ <strong>O(n) - The Standard:</strong> Fair and predictable. (Single loop).</li>
+            <li>⚖️ <strong>O(n log n) - The Sweet Spot:</strong> Best for sorting large data. (Merge Sort).</li>
+            <li>⚠️ <strong>O(n²) - The Danger Zone:</strong> Laggy at scale. (Nested loops).</li>
+            <li>💀 <strong>O(2ⁿ) - The Disaster:</strong> Server killer. (Brute-force recursion).</li>
+          </ol>
+        </div>
+
+        <blockquote class="callout">
+          <strong>Why, Where, & For What?</strong><br>
+          • <strong>The Reason:</strong> Scale is the ultimate test. Code that works for 10 items might bring down a production server when it hits 10 million items. Big-O helps us predict when code will break before the crash happens.<br>
+          • <strong>Real Case - DB Indexing:</strong> This is the ultimate battle of O(log n) vs O(n). A database index turns a slow full table scan ($O(n)$) into a super-fast B-Tree search ($O(\log n)$), keeping queries instant even with billions of rows.<br>
+          • <strong>Real Case - Cloud Costs:</strong> More steps = More CPU usage = Higher cloud bills (AWS/Azure). Efficiency isn't just a technical goal; it’s a financial one for the company.<br>
+          • <strong>Solve Problem for What:</strong> Use Complexity Analysis for <strong>Scalability Audits</strong>, <strong>Performance Bottleneck Identification</strong>, and <strong>Cost Estimation</strong> for infrastructure.
+        </blockquote>
+
+        <pre><code>// O(n) - Linear Time (C#)
+public void PrintAll(int[] items) {
+    foreach (var item in items) {
+        Console.WriteLine(item); // Runs exactly 'n' times
+    }
+}
+
+// O(log n) - Logarithmic Time (Binary Search)
+public int BinarySearch(int[] sortedItems, int target) {
+    int low = 0, high = sortedItems.Length - 1;
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        if (sortedItems[mid] == target) return mid;
+        if (sortedItems[mid] < target) low = mid + 1;
+        else high = mid - 1; // Cuts remaining search space by half
+    }
+    return -1;
 }</code></pre>
       </section>
 
@@ -331,26 +436,44 @@ for(let i = 0; i < n; i++) {
         <h2>BAB D. System Design (Scalable Architecture)</h2>
 
         <h3>D.1 System Design Basics</h3>
-        <p>System design asks: "How do we build Twitter for 100 million users?" You need to understand Scaling, Load Balancers, and the trade-off between Latency and Throughput.</p>
-        <blockquote class="callout">Analogy: System design is like "Managing a Famous Restaurant." You need a Host (Load Balancer) to manage the hungry crowd so the Kitchen (Servers) doesn't get overwhelmed and crash.</blockquote>
+        <p>System design is where we stop thinking like coders and start thinking like architects. We’re not just writing a function; we’re designing a city. The goal is to build systems that are Reliable, Scalable, and Maintainable—even when millions of users hit 'refresh' at the same time.</p>
+        <blockquote class="callout">Analogy: System design is like "Managing a Famous Restaurant." You need a Host (Load Balancer) to manage the hungry crowd, multiple specialized Kitchens (Servers) so one chef quitting doesn't close the shop, and a fast Stock Room (Database/Cache) so you don't run out of ingredients.</blockquote>
         <ul>
-          <li>Scalability: Vertical (bigger server) vs Horizontal (more servers).</li>
-          <li>Load Balancing: Distributing the work evenly.</li>
-          <li>High Availability: Making sure the system never goes down.</li>
+          <li><strong>Vertical vs Horizontal Scaling:</strong> Vertical is buying a faster PC (limited and expensive). Horizontal is adding more PCs (infinite growth). In the modern cloud era, Horizontal is the absolute king.</li>
+          <li><strong>Load Balancing:</strong> The "Traffic Cop." It ensures no single server gets crushed by distributing requests fairly using algorithms like Round Robin or Least Connections.</li>
+          <li><strong>Availability vs Consistency (CAP Theorem):</strong> The ultimate trade-off. Do you want your data to be 100% correct everywhere immediately (Consistency), or do you want the app to stay online even if some data is slightly old (Availability)?</li>
+          <li><strong>Latency vs Throughput:</strong> Latency is "how fast is one request?" Throughput is "how many requests can we handle per second?" Senior engineers know how to optimize for both.</li>
         </ul>
+
+        <blockquote class="callout">
+          <strong>Why, Where, & For What?</strong><br>
+          • <strong>The Reason:</strong> Single points of failure are the enemy. If your app lives on one server and that server catches fire, your business is dead. System design is about survival through redundancy.<br>
+          • <strong>Real Case - Netflix:</strong> Uses thousands of microservices and global CDNs (Content Delivery Networks) so that even if an entire AWS region goes dark, you can still watch your favorite show.<br>
+          • <strong>Real Case - WhatsApp:</strong> Handles billions of messages by prioritizing "Eventual Consistency"—making sure the message gets there eventually, even if not every single server knows about it in the same microsecond.<br>
+          • <strong>Solve Problem for What:</strong> Use System Design for <strong>Scaling</strong> (Handling growth), <strong>Fault Tolerance</strong> (Recovering from hardware errors), and <strong>Disaster Recovery</strong>.
+        </blockquote>
 
         <h3>D.2 Core Components</h3>
-        <p>Every system uses familiar building blocks: Databases for storage, Caches for speed, and Message Queues for communication between services.</p>
-        <blockquote class="callout">Analogy: Core components are like a "Modern Warehouse." Databases are the heavy shelves, Caching is the "Fast-Track Counter" for popular items, and Message Queues are the conveyor belts moving items between rooms.</blockquote>
+        <p>Every modern system is built from a few trusted "Lego Bricks." Knowing which brick to use for which job is the hallmark of a Senior Engineer. We focus on storage, speed, and asynchronous processing.</p>
+        <blockquote class="callout">Analogy: Core components are like a "Modern Warehouse." Databases are the heavy shelves, Caching is the "Fast-Track Counter" for popular items, and Message Queues are the conveyor belts moving items between rooms without blocking the workers.</blockquote>
         <ul>
-          <li>Databases: SQL for structured data, NoSQL for flexibility.</li>
-          <li>Caching: Using Redis to serve data in milliseconds.</li>
-          <li>Message Queues: Decoupling services so they don't wait on each other.</li>
+          <li><strong>Databases (SQL vs NoSQL):</strong> SQL (like PostgreSQL) is for structured data where ACID transactions matter. NoSQL (like MongoDB or Cassandra) is for massive scale, flexibility, and lightning-fast writes.</li>
+          <li><strong>Caching (Redis/Memcached):</strong> The "Short-term Memory." Why hit the slow database for the same profile data 1,000 times? Store it in RAM and serve it in less than 1ms.</li>
+          <li><strong>Message Queues (Kafka/RabbitMQ):</strong> The "Post Office." It allows Service A to send a task to Service B without waiting for a response. This "Decoupling" is the secret to building high-performance, non-blocking systems.</li>
+          <li><strong>CDNs (Cloudflare/Akamai):</strong> Moving the "Front Door" closer to the user. Why fetch an image from a server in US-West if the user is in Jakarta? Cache it at the "Edge" for instant loading.</li>
         </ul>
 
-        <h3>D.3 Designing Real Systems</h3>
-        <p>We'll walk through classic interview prompts like designing a URL Shortener, a Chat System, or a Social Media News Feed.</p>
-        <blockquote class="callout">Analogy: Designing real systems is like "Urban Planning." You have to decide where the roads (API), the water pipes (Data Flow), and power lines (Networking) go before the people (Users) arrive.</blockquote>
+        <h3>D.3 Designing Real Systems (The Interview Blueprint)</h3>
+        <p>During interviews, you'll be asked to design a "URL Shortener" or "Instagram." Don't jump into drawing boxes immediately. Follow a structured blueprint to show you understand the architectural big picture.</p>
+        <blockquote class="callout">Analogy: Designing real systems is like "Urban Planning." You have to decide where the roads (API), the water pipes (Data Flow), and power lines (Networking) go before the people (Users) arrive. If the roads are too narrow, the whole city (app) will gridlock.</blockquote>
+        <ul>
+          <li><strong>Step 1: Requirements Gathering:</strong> Clarify Functional (What it does) and Non-Functional (How fast/reliable) requirements. Ask: "Is it Read heavy or Write heavy?"</li>
+          <li><strong>Step 2: Capacity Estimation:</strong> How much storage do we need? What is our DAU (Daily Active Users)? How much bandwidth is required?</li>
+          <li><strong>Step 3: High-Level Design:</strong> Sketch the core flow: Client -> Load Balancer -> Web Server -> Database.</li>
+          <li><strong>Step 4: Database Schema:</strong> Define the data model. SQL for relations? NoSQL for logs/feeds?</li>
+          <li><strong>Step 5: API Design:</strong> Define the interaction points (e.g., <code>POST /v1/user/follow</code>).</li>
+          <li><strong>Step 6: Scaling & Deep Dive:</strong> Address the bottlenecks. "What if we have 10x traffic? Let's add Sharding, Read Replicas, and a Cache layer here."</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB E ==================== -->
@@ -407,16 +530,39 @@ for(let i = 0; i < n; i++) {
         <h2>BAB F. Practical Mock Interviews</h2>
 
         <h3>F.1 Live Coding Practice</h3>
-        <p>Practicing in a quiet room is easy. Practicing with a timer and an interviewer watching your every typo is hard. You need to simulate the pressure.</p>
-        <blockquote class="callout">Analogy: Live coding is like "MasterChef." You have 30 minutes to make a 5-star meal while famous chefs watch you chop onions. You need to stay calm and keep your "kitchen" (code) clean.</blockquote>
+        <p>Practicing in a quiet room is easy. Practicing with a timer and an interviewer watching your every typo is hard. You need to simulate the high-pressure environment where your brain might freeze while trying to remember basic syntax.</p>
+        <blockquote class="callout">Analogy: Live coding is like "MasterChef." You have 30 minutes to make a 5-star meal while famous chefs watch you chop onions. You need to stay calm, keep your "kitchen" (code) clean, and explain every ingredient you're adding.</blockquote>
+        <ul>
+          <li><strong>The "Thinking Out Loud" Technique:</strong> Never be silent for more than 30 seconds. Your thought process is more valuable to the interviewer than your final code.</li>
+          <li><strong>Pseudo-code First:</strong> Before typing a single line of logic, write out the steps in plain English. This acts as your "recipe" so you don't get lost halfway through the implementation.</li>
+          <li><strong>Time Management:</strong> Aim for a balanced flow: 5 mins for requirements, 5 mins for the approach/pseudo-code, 20 mins for coding, and 5 mins for testing/edge cases.</li>
+        </ul>
+
+        <blockquote class="callout">
+          <strong>Why, Where, & For What?</strong><br>
+          • <strong>The Reason:</strong> Interviews are "Colleague Trials." They want to see how you handle frustration, how you communicate complex ideas, and if you're someone they'd actually want to pair-program with daily.<br>
+          • <strong>Real Case - The "Whiteboard Freeze":</strong> Many brilliant engineers fail because they can't handle the social pressure. Mocking simulates that "Stage Fright" until it becomes professional muscle memory.<br>
+          • <strong>Solve Problem for What:</strong> Fixes <strong>Communication Gaps</strong>, builds <strong>Stress Resilience</strong>, and eliminates the <strong>"Black Box" Problem</strong> where the interviewer has no idea how you reached your solution.
+        </blockquote>
 
         <h3>F.2 Mock Interviews</h3>
-        <p>Simulating the real thing with a friend or a mentor. Feedback is the only way to catch the "blind spots" in your communication and technical logic.</p>
-        <blockquote class="callout">Analogy: Mock interviews are like "Dress Rehearsals" for a play. You want to trip over your lines and forget your cues now, so that when the curtains open (the real interview), you're flawless.</blockquote>
+        <p>Simulating the real thing with a friend or a mentor. Feedback is the only way to catch the "blind spots" in your communication and technical logic that you wouldn't notice otherwise.</p>
+        <blockquote class="callout">Analogy: Mock interviews are like "Dress Rehearsals" for a play. You want to trip over your lines, drop your props, and forget your cues now, so that when the curtains actually open, your performance is flawless.</blockquote>
+        <ul>
+          <li><strong>Peer Mocking:</strong> Use platforms like Pramp or Interviewing.io to practice with strangers. It’s more intimidating—and therefore more realistic—than practicing with a friend.</li>
+          <li><strong>Recording Yourself:</strong> Record your session and watch it back. You'll notice your "filler words" (uhm, like, you know) and nervous body language that you never knew you had.</li>
+          <li><strong>Structured Feedback:</strong> Ask your mocker for specific feedback on: 1) Communication clarity, 2) Technical depth, 3) Code cleanliness, and 4) Overall culture fit.</li>
+        </ul>
 
-        <h3>F.3 Common Mistakes</h3>
-        <p>Overcomplicating the solution, jumping into code without clarifying requirements, or staying silent for 10 minutes while thinking.</p>
-        <blockquote class="callout">Analogy: Common mistakes are like "Talking too much on a First Date." Keep it relevant, keep it interactive, and don't make the situation more awkward than it needs to be.</blockquote>
+        <h3>F.3 Common Mistakes (Red Flags)</h3>
+        <p>Even if you solve the problem, certain behaviors can still lead to a "No-Hire" decision. Recognizing these "Red Flags" is half the battle in passing the technical round.</p>
+        <blockquote class="callout">Analogy: Common mistakes are like "Talking too much on a First Date." Keep it relevant, keep it interactive, and don't make the situation more awkward or one-sided than it needs to be.</blockquote>
+        <ul>
+          <li><strong>Mistake 1: The "Lone Wolf" Coder:</strong> Starting to code immediately without asking clarifying questions or explaining the approach. This signals you're difficult to collaborate with in a team.</li>
+          <li><strong>Mistake 2: Ignoring Edge Cases:</strong> Not considering empty inputs, extremely large numbers, or null values. This signals a lack of production-level foresight and defensive coding habits.</li>
+          <li><strong>Mistake 3: Getting Defensive:</strong> If the interviewer points out a bug, take it as an opportunity to collaborate, not a personal attack. Defensiveness is a major cultural red flag.</li>
+          <li><strong>Mistake 4: Overcomplicating:</strong> Using a complex algorithm when a simple one would work. Always start with a brute-force approach, explain its flaws, then optimize.</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB G ==================== -->
@@ -424,16 +570,38 @@ for(let i = 0; i < n; i++) {
         <h2>BAB G. Career Strategy & Job Hunting</h2>
 
         <h3>G.1 Job Search Strategy</h3>
-        <p>Applying to 100 jobs on LinkedIn is a low-percentage game. Referrals and targeted outreach are how high-performers land the best roles.</p>
+        <p>Applying to 100 jobs on LinkedIn is a low-percentage game with the "Easy Apply" black hole. High-performers land the best roles through referrals and targeted outreach into the "Hidden Job Market."</p>
         <blockquote class="callout">Analogy: Job searching is like "Finding a Hidden Gem Restaurant." You're way more likely to go there if a friend says "You have to try this place!" (a Referral) than if you just see a random ad on a bus.</blockquote>
+        <ul>
+          <li><strong>The 80/20 Rule:</strong> 80% of jobs are filled before they even hit a job board. Focus your energy on networking and "warm" introductions rather than mass cold-applying.</li>
+          <li><strong>Reverse Searching:</strong> Don't just look for "Jobs." Look for "Teams" you like. Find the Engineering Manager on LinkedIn, send a personalized note, and mention a specific technical problem they're solving.</li>
+          <li><strong>Building a "Proof of Work":</strong> Your GitHub and technical blog are your 24/7 recruiters. Show, don't just tell, that you can solve high-impact problems.</li>
+        </ul>
+
+        <blockquote class="callout">
+          <strong>Why, Where, & For What?</strong><br>
+          • <strong>The Reason:</strong> Recruiters are overwhelmed. A referral is a "Short-circuit" to the top of the pile because someone the company already trusts has vouched for you.<br>
+          • <strong>Real Case - The Internal Referral:</strong> Most tech giants (Google, Meta, Grab) have massive internal referral bonuses. Employees *want* to refer good talent. Use that to your advantage.<br>
+          • <strong>Solve Problem for What:</strong> Eliminates the <strong>"Resume Black Hole"</strong>, increases your <strong>Interview Conversion Rate</strong>, and helps you find <strong>High-Quality Cultures</strong> that don't need to advertise on every street corner.
+        </blockquote>
 
         <h3>G.2 Salary Negotiation</h3>
-        <p>The negotiation starts long before the offer. Know your market value and never accept the first number without a conversation.</p>
+        <p>The negotiation starts long before the final offer call. It’s about knowing your market value and understanding that the "First Number" is rarely the final number.</p>
         <blockquote class="callout">Analogy: Salary negotiation is like "Buying a Custom Car." You don't just pay the sticker price; you know what the car is worth, you've done your research, and you're ready to walk away if the deal isn't fair.</blockquote>
+        <ul>
+          <li><strong>Know Your Data:</strong> Use Levels.fyi or Glassdoor to find the specific pay bands for your level and location. Never go in blind.</li>
+          <li><strong>Anchor with Value, Not Need:</strong> Negotiate based on the $100k+ in processing time you'll save the company, not because your rent went up.</li>
+          <li><strong>The Power of Silence:</strong> When they give you a number, wait. A 5-second silence often forces the recruiter to fill the gap with a better offer or a "Let me check with the finance team."</li>
+        </ul>
 
-        <h3>G.3 Offer Evaluation</h3>
-        <p>It's not just the base salary. Look at the equity, the growth potential, the team culture, and the work-life balance.</p>
-        <blockquote class="callout">Analogy: Evaluating an offer is like "Choosing a New House." It's not just about the price; it's about the neighborhood, the commute, and whether you can actually see yourself living there for the next 5 years.</blockquote>
+        <h3>G.3 Offer Evaluation (The "Total Comp")</h3>
+        <p>It's not just the base salary. A lower base with high growth potential or great culture is often better than a high base in a toxic "Legacy Monolith" environment.</p>
+        <blockquote class="callout">Analogy: Evaluating an offer is like "Choosing a New House." It's not just about the price; it's about the neighborhood (Tech Stack), the commute (Work-life balance), and whether you can actually see yourself living there for the next 5 years.</blockquote>
+        <ul>
+          <li><strong>Equity & Bonuses:</strong> Understand the difference between RSUs and Options. A 10% bonus isn't guaranteed unless it's in the contract.</li>
+          <li><strong>Engineering Culture:</strong> Ask about the CI/CD pipeline, the frequency of deployments, and the mentorship structure. A "High Pay" job that uses SVN and has no code reviews will kill your career growth.</li>
+          <li><strong>Work-Life Harmony:</strong> Check for "On-Call" rotations and WFH flexibility. If you're "always on," that high salary is actually a low "hourly rate" for your life.</li>
+        </ul>
 
       <section class="node">
         <h1>Tips</h1>

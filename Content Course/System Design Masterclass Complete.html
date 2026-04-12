@@ -520,20 +520,54 @@ GET /v1/feed?page=1&limit=20
         <h2>BAB D. System Design Patterns & Concepts</h2>
 
         <h3>D.1 Rate Limiting</h3>
-        <p>Don't let bots or trolls bomb your server with junk requests. Set a cap!</p>
-        <blockquote class="callout">Analogy: Like a "buy 1 get 1" promo limited to 2 packs per person. Ensures everyone gets some and stock isn't wiped out by scalpers.</blockquote>
+        <p>Don't let bots or trolls bomb your server with junk requests. Set a cap! Without rate limiting, one bad actor or a buggy script could eat up all your database connections or API quota, making the system slow or completely unavailable for everyone else. It’s about **Resource Governance** and protecting your infrastructure from exhaustion.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: The "Buy 1 Get 1" Promo.</strong> 
+          Imagine a supermarket has a "Buy 1 Get 1" promo for cooking oil. If they don't set a limit, one "Scalper" (Bot) could buy the entire stock in 5 minutes to resell it. 
+          <br><br>
+          By setting a <strong>Limit of 2 packs per person</strong> (Rate Limit), the store ensures that even if 1,000 people come, the stock is distributed fairly and the "System" (The Store) doesn't run dry instantly. Everyone gets a chance, and the shelves stay organized.
+        </blockquote>
+
         <ul>
-          <li><strong>Token Bucket:</strong> User gets "coins" to access. If coins run out, they wait for refilling.</li>
-          <li><strong>Sliding Window:</strong> Checks the request count in the last X seconds with high precision.</li>
+          <li><strong>Token Bucket:</strong> Each user has a "bucket" that refills with tokens at a fixed rate. To make a request, you must "spend" a token. If the bucket is empty, your request is dropped or delayed. This is great because it allows for short "bursts" of traffic while maintaining a long-term average.</li>
+          <li><strong>Sliding Window Counter:</strong> A high-precision method that tracks the request count in the last X seconds. It solves the "boundary problem" of fixed windows (where a user could double their limit by attacking at the end of one minute and the start of the next).</li>
+          <li><strong>Leaky Bucket:</strong> Imagine a bucket with a small hole at the bottom. No matter how much water you pour in at once (Traffic Burst), it leaks out at a constant, steady rate. This "smoothes out" traffic to a predictable pace for your processing servers.</li>
         </ul>
 
         <h3>D.2 Real-Time Communication</h3>
-        <p>Today, a 5-second wait feels like 5 years. Your system must deliver data instantly.</p>
-        <blockquote class="callout">Analogy: Chatting must be like a phone call (WebSocket), not like sending mail (HTTP Polling) where you keep asking "Any mail for me?".</blockquote>
+        <p>Today, a 5-second wait feels like 5 years. If a user has to refresh the page to see a new message or a stock price update, your app is already "Legacy." Your system must deliver data the millisecond it’s created. We need to move away from "Asking" (Polling) and move towards "Pushing" (Streaming).</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: A Phone Call vs. Sending Mail.</strong> 
+          Traditional HTTP is like <strong>Sending Mail</strong>. You send a letter asking "Any news?" and wait days for the reply. Then you send <em>another</em> letter 5 minutes later asking again. That's <strong>HTTP Polling</strong>—wasteful, slow, and keeps the mail carrier (your network) unnecessarily busy. 
+          <br><br>
+          <strong>WebSockets</strong> are like a <strong>Phone Call</strong>. Once the line is open, both parties can talk whenever they want in real-time. No need to dial the number again or wait for a mail carrier to deliver a physical envelope. It’s a "stateful," always-on connection that stays open as long as the conversation lasts.
+        </blockquote>
+
+        <ul>
+          <li><strong>WebSockets:</strong> The gold standard for bi-directional communication. Used in chat apps (WhatsApp), multiplayer games, and collaborative tools (Google Docs). Once the initial "Handshake" is done, the data overhead is tiny because you don't send bulky HTTP headers with every message.</li>
+          <li><strong>SSE (Server-Sent Events):</strong> A lighter, one-way alternative where the server pushes updates to the client. Perfect for stock tickers, live news feeds, or dashboard charts where the user just needs to watch the data flow without "talking back" constantly.</li>
+          <li><strong>Long Polling:</strong> The "Plan B." The server "holds" a request open until new data arrives or a timeout occurs. It's better than regular polling but more resource-heavy than WebSockets because it still relies on the overhead of multiple HTTP requests.</li>
+        </ul>
 
         <h3>D.3 Scalability Concepts</h3>
-        <p>Horizontal Scaling is key. Instead of one expensive supercomputer, use 10 cheap ones working together.</p>
-        <blockquote class="callout">Analogy: Hauling 100 tons of rice. Instead of one giant truck (Vertical), use 10 smaller ones (Horizontal). If one breaks, 90 tons keep moving.</blockquote>
+        <p>Horizontal Scaling is the secret sauce of the modern web. Instead of praying that one expensive supercomputer doesn't crash, we build a **"Reliable System from Unreliable Parts."** It’s about being elastic and ready for the "Success Disaster" when your app goes viral overnight.</p>
+        
+        <blockquote class="callout">
+          <strong>Analogy: Hauling 100 Tons of Rice.</strong> 
+          Imagine you need to move 100 tons of rice across the country. 
+          <br><br>
+          <strong>Vertical Scaling</strong> is buying one <strong>Giant Monster Truck</strong>. It’s fast and powerful, but if a single tire pops or the engine overheats, the whole operation stops. Plus, there’s a physical limit to how big a truck can get before it's too heavy for the road. 
+          <br><br>
+          <strong>Horizontal Scaling</strong> (Scale Out) is using <strong>10 Smaller Trucks</strong>. If one breaks down, 90 tons of rice are still moving. If you suddenly need to move 200 tons, you just rent 10 more trucks. This is how giants like Netflix and Google stay alive—they treat servers like "Cattle" (replaceable) rather than "Pets" (unique/irreplaceable).
+        </blockquote>
+
+        <ul>
+          <li><strong>Vertical Scaling (Up):</strong> Adding more CPU, RAM, or SSD to a single server. It's the easiest way to scale (no code changes needed), but it has a hard ceiling and becomes exponentially expensive as you reach high-end hardware.</li>
+          <li><strong>Horizontal Scaling (Out):</strong> Adding more server units to your pool. It requires a <strong>Load Balancer</strong> to distribute traffic, but it offers near-infinite growth potential and high fault tolerance (if one server dies, the others take over).</li>
+          <li><strong>Load Balancing:</strong> The "Traffic Cop" of your system. It sits in front of your servers and directs incoming requests to the healthiest and least busy machine, ensuring no single truck is overloaded while others sit idle.</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB E ==================== -->
