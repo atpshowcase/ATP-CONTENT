@@ -244,26 +244,70 @@
         <h2>BAB A. Introduction to MCP & AI Systems</h2>
 
         <h3>A.1 Course Overview</h3>
-        <p>Welcome to the frontier of AI Engineering. In this bootcamp, we aren't just learning to prompt; we're learning to build the infrastructure that allows AI to *act* in the real world using the Model Context Protocol (MCP).</p>
-        <blockquote class="callout">Analogy: Learning MCP is like giving an AI "hands." Without it, the AI is just a brain in a jar that can only talk. With MCP, the AI can open drawers (Databases), use tools (APIs), and actually help you build things.</blockquote>
+        <p>Welcome to the frontier of AI Engineering. In this bootcamp, you’re not just learning to prompt; you’re learning to build the infrastructure that allows AI to <em>act</em> in the real world using the Model Context Protocol (MCP).</p>
+
+        <blockquote class="callout">Analogy: Learning MCP is like giving an AI “hands.” Without it, the AI is a brain in a jar that can only talk. With MCP, the AI can open drawers (databases), use tools (APIs), and actually help you build things.</blockquote>
+
+        <h4>Why this course exists</h4>
+        <p>Prompting alone hits a ceiling. The real power comes from connecting model reasoning to reliable actions in systems you care about: your codebase, internal docs, databases, and business workflows.</p>
         <ul>
-          <li>Goals: building standardized Tool-Calling systems.</li>
-          <li>Context: why LLMs need structured environment access.</li>
-          <li>Real-world AI context: moving from Chatbots to Agents.</li>
+          <li><strong>From chatbots to agents:</strong> moving from “answering questions” to “executing tasks.”</li>
+          <li><strong>From ad-hoc glue to standards:</strong> fewer one-off integrations that break under pressure.</li>
+          <li><strong>From demos to production:</strong> repeatable patterns, security boundaries, and observability.</li>
         </ul>
+
+        <h4>What you’ll be able to build</h4>
+        <ul>
+          <li><strong>Standardized tool-calling systems</strong> that work across AI clients.</li>
+          <li><strong>Tool servers</strong> that expose safe capabilities (search, CRUD, automation) with clear contracts.</li>
+          <li><strong>Agent workflows</strong> (multi-step plans, retries, fallbacks, validations) that don’t rely on fragile prompts.</li>
+        </ul>
+
+        <h4>The mindset shift</h4>
+        <p>Think of an LLM as a smart decision-maker that needs a structured environment. MCP is the “interface layer” that turns your environment into clean, model-friendly tools.</p>
 
         <h3>A.2 What is MCP (Model Context Protocol)</h3>
-        <p>MCP is an open standard developed to solve the "messy integration" problem. Instead of every AI company building their own tool connectors, MCP provides a universal language for AI models to talk to your local or remote data.</p>
-        <blockquote class="callout">Analogy: MCP is like "USB for AI." Before USB, every printer and mouse had a different weird cable. With MCP, you just plug in your tool server, and any AI client (Claude, Cursor) can use it instantly.</blockquote>
+        <p>MCP is an open standard designed to solve the “messy integration” problem. Instead of every AI vendor inventing their own connectors and schemas, MCP provides a universal way for AI clients to communicate with tool servers that expose data and actions.</p>
+
+        <blockquote class="callout">Analogy: MCP is like “USB for AI.” Before USB, every device needed a custom cable. With MCP, you plug in a tool server once, and multiple AI clients (Claude Desktop, Cursor, custom apps) can use it with minimal friction.</blockquote>
+
+        <h4>The core definition</h4>
         <ul>
-          <li>The Core Definition: A standardized protocol for AI tool integration.</li>
-          <li>The Architecture: Hosts, Clients, and Servers working together.</li>
-          <li>Universal Connectivity: One server for multiple AI clients.</li>
+          <li><strong>Protocol:</strong> a set of rules for structured requests/responses between an AI client and tools.</li>
+          <li><strong>Standard interfaces:</strong> predictable ways to discover capabilities, call tools, and exchange context.</li>
+          <li><strong>Separation of concerns:</strong> the model reasons; the server executes; the client orchestrates.</li>
         </ul>
 
+        <h4>The architecture (big picture)</h4>
+        <ul>
+          <li><strong>Host:</strong> the application where the user and AI experience lives (e.g., IDE, desktop app, web app).</li>
+          <li><strong>Client:</strong> the connector/orchestrator that manages sessions and talks MCP to servers.</li>
+          <li><strong>Server:</strong> the tool provider (local or remote) that exposes actions and data safely.</li>
+        </ul>
+
+        <h4>Universal connectivity</h4>
+        <p>One MCP server can serve multiple AI clients. That means you build tool integrations once, then reuse them across apps—without rewriting the tool layer for every vendor.</p>
+
         <h3>A.3 Why MCP Matters</h3>
-        <p>LLMs are smart but isolated. Traditional APIs are too complex for them to navigate reliably without standard interfaces. MCP simplifies this, providing a faster, more reliable alternative to RAG or ad-hoc API scripts.</p>
-        <blockquote class="callout">Analogy: Traditional API integration is like teaching an AI to drive a new car every time (complex). MCP is like giving the AI a "Universal Remote" that works on every TV in the world.</blockquote>
+        <p>LLMs are smart but isolated. In production, the hard part isn’t “can the model explain something?”—it’s “can the system reliably get the right context and take the right action without breaking things?” MCP addresses that by standardizing tool access and reducing integration chaos.</p>
+
+        <blockquote class="callout">Analogy: Traditional API integration is like teaching an AI to drive a different car every time. MCP is like giving it a universal dashboard—consistent controls, predictable signals, safer automation.</blockquote>
+
+        <h4>Key benefits</h4>
+        <ul>
+          <li><strong>Reliability:</strong> structured tool schemas reduce ambiguity and brittle prompt hacks.</li>
+          <li><strong>Speed to integrate:</strong> connect tools once and reuse them across MCP-compatible clients.</li>
+          <li><strong>Security boundaries:</strong> servers can enforce permissions, filtering, rate limits, and auditing.</li>
+          <li><strong>Better than “random scripts”:</strong> fewer one-off glue layers and hidden assumptions.</li>
+          <li><strong>Complements RAG:</strong> MCP doesn’t replace retrieval; it standardizes access to retrieval, databases, and actions.</li>
+        </ul>
+
+        <h4>Real-world examples</h4>
+        <ul>
+          <li>Search internal documentation and return citations.</li>
+          <li>Query a database with safe, parameterized access patterns.</li>
+          <li>Create tickets, open pull requests, or run CI checks via controlled tool endpoints.</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB B ==================== -->
@@ -271,16 +315,61 @@
         <h2>BAB B. MCP Fundamentals</h2>
 
         <h3>B.1 MCP Core Concepts</h3>
-        <p>Understand the three pillars: **Host** (the app running the AI), **Client** (the logic connecting them), and **Server** (the tool providing the data). This trio forms the MCP ecosystem.</p>
-        <blockquote class="callout">Analogy: Think of it like a Restaurant. The Host is the dining room where the customer (User) sits. The Client is the Waiter taking orders. The Server is the Kitchen where the actual work (Tool execution) happens.</blockquote>
+        <p>MCP is easiest to understand through its three pillars: <strong>Host</strong>, <strong>Client</strong>, and <strong>Server</strong>. Each plays a distinct role, and keeping these boundaries clean is what makes MCP integrations reusable and production-friendly.</p>
+
+        <blockquote class="callout">Analogy: Think of it like a restaurant. The Host is the dining room (where the customer experience happens). The Client is the waiter (takes orders, manages the conversation). The Server is the kitchen (does the real work and returns results).</blockquote>
+
+        <h4>The three pillars (practical definition)</h4>
+        <ul>
+          <li><strong>Host:</strong> the app the user interacts with (IDE, desktop app, web app). It owns the UI/UX and user workflow.</li>
+          <li><strong>Client:</strong> the MCP connector/orchestrator. It manages sessions, sends tool calls, and translates responses into usable context for the model.</li>
+          <li><strong>Server:</strong> the tool provider. It exposes capabilities (tools/resources) and enforces rules (permissions, validation, rate limits).</li>
+        </ul>
+
+        <h4>What “good MCP design” looks like</h4>
+        <ul>
+          <li><strong>Clear tool contracts:</strong> inputs/outputs are structured and predictable.</li>
+          <li><strong>Small, composable tools:</strong> prefer “do one thing well” over giant do-everything endpoints.</li>
+          <li><strong>Guardrails by default:</strong> safe defaults, scoped access, and explicit user intent.</li>
+        </ul>
 
         <h3>B.2 MCP Architecture</h3>
-        <p>Go deep into the request-response lifecycle and how sessions are managed between the AI and your custom tools.</p>
-        <blockquote class="callout">Analogy: MCP Architecture is like a "High-Speed Rail System." The tracks are the protocol, the stations are the endpoints, and the trains (Requests) carry data back and forth with perfect timing.</blockquote>
+        <p>Now zoom in: MCP is essentially a structured request/response loop with <strong>session context</strong>. The client and server maintain a stable conversation channel so the model can reliably call tools over multiple steps.</p>
+
+        <blockquote class="callout">Analogy: MCP Architecture is like a high-speed rail system. The tracks are the protocol, the stations are the endpoints, and the trains (requests) carry structured payloads back and forth on schedule.</blockquote>
+
+        <h4>Typical lifecycle (high-level)</h4>
+        <ol>
+          <li><strong>Discovery:</strong> the client learns what the server can do (available tools, schemas, and capabilities).</li>
+          <li><strong>Planning:</strong> the model decides which tool(s) to use and with what inputs.</li>
+          <li><strong>Execution:</strong> the client calls the tool on the server; the server validates and performs the action.</li>
+          <li><strong>Return & grounding:</strong> results come back in structured form so the model can reference them accurately.</li>
+          <li><strong>Iteration:</strong> the model may call additional tools until the task is complete.</li>
+        </ol>
+
+        <h4>Sessions (why they matter)</h4>
+        <ul>
+          <li><strong>Stateful workflows:</strong> multi-step tasks need continuity (e.g., “search → filter → summarize → create ticket”).</li>
+          <li><strong>Consistency:</strong> a session helps ensure the same server rules and tool set apply throughout the task.</li>
+          <li><strong>Auditability:</strong> tool calls can be logged per session for debugging and governance.</li>
+        </ul>
 
         <h3>B.3 MCP Transport Layer</h3>
-        <p>MCP supports different ways of talking, primarily through STDIO (local) and HTTP/SSE (remote). Choosing the right layer is key for performance and security.</p>
-        <blockquote class="callout">Analogy: Transport layers are like choosing between "Talking face-to-face" (STDIO) or "Sending a package through the mail" (HTTP). Both get the message across, but one is faster for local tasks.</blockquote>
+        <p>MCP can run over different transport mechanisms. The transport layer answers: <em>How do the client and server physically exchange messages?</em> Your choice impacts performance, security posture, deployment complexity, and latency.</p>
+
+        <blockquote class="callout">Analogy: Transport is like choosing between talking face-to-face (local, fast) or mailing a package (remote, flexible). Both work, but they have different tradeoffs.</blockquote>
+
+        <h4>Common transports</h4>
+        <ul>
+          <li><strong>STDIO (local):</strong> great for running a server as a local process. Fast, simple, and ideal for developer tools.</li>
+          <li><strong>HTTP/SSE (remote):</strong> better for networked servers (team/shared tools, cloud deployments). Adds network considerations like auth, rate limits, and zero-trust boundaries.</li>
+        </ul>
+
+        <h4>How to choose (rule of thumb)</h4>
+        <ul>
+          <li>Choose <strong>STDIO</strong> when the tool is local, developer-focused, and needs minimal setup.</li>
+          <li>Choose <strong>HTTP/SSE</strong> when multiple users/clients must share a server, you need centralized governance, or you’re deploying to cloud infrastructure.</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB C ==================== -->
@@ -288,16 +377,59 @@
         <h2>BAB C. MCP Hands-On Basics</h2>
 
         <h3>C.1 Setup Development Environment</h3>
-        <p>Get your toolkit ready. We use Node.js or Python to build servers, and tools like Cursor or Claude Desktop as our primary hosts to test our MCP connections.</p>
-        <blockquote class="callout">Analogy: Setting up your environment is like organizing your "AI Lab." Once your sensors (CLI) and screens (IDE) are calibrated, you're ready to start experimenting.</blockquote>
+        <p>This chapter is about getting your “AI toolchain” ready so you can build and test MCP servers quickly, without fighting your environment. You’ll typically build MCP servers in <strong>Node.js</strong> or <strong>Python</strong>, then connect them to a host like <strong>Cursor</strong> or <strong>Claude Desktop</strong> to validate tool discovery and execution.</p>
+        <blockquote class="callout">Analogy: Setting up your environment is like organizing an “AI lab.” Once your instruments (CLI, runtime, dependencies) and screens (IDE/Host app) are calibrated, you can run experiments consistently.</blockquote>
+
+        <h4>Recommended setup checklist</h4>
+        <ul>
+          <li><strong>Runtime:</strong> install a current Node.js LTS and/or Python 3.x.</li>
+          <li><strong>Package manager:</strong> npm/pnpm (Node) or pip/uv (Python) to manage dependencies cleanly.</li>
+          <li><strong>Host app:</strong> pick one primary place to run your AI (Cursor, Claude Desktop) so debugging is consistent.</li>
+          <li><strong>Project hygiene:</strong> use env files, consistent scripts, and a clean folder structure for servers.</li>
+        </ul>
+
+        <h4>What “working” looks like</h4>
+        <ul>
+          <li>You can start an MCP server locally (no crashes, clear logs).</li>
+          <li>Your host can connect and <strong>discover tools</strong>.</li>
+          <li>You can run a tool call end-to-end and see structured results returned.</li>
+        </ul>
 
         <h3>C.2 Running Prebuilt MCP Servers</h3>
-        <p>Don't reinvent the wheel. We'll start by connecting to existing servers like Weather or Google Search to see how the protocol exposes tools to the AI.</p>
-        <blockquote class="callout">Analogy: Using prebuilt servers is like "installing apps" on your smartphone. You don't need to know how the weather app is coded to use it on your screen.</blockquote>
+        <p>Before writing your own server, you’ll learn MCP faster by using prebuilt servers. This lets you observe the “shape” of real tool definitions (names, descriptions, schemas), and how a host surfaces them to the model during an agent workflow.</p>
+        <blockquote class="callout">Analogy: Running prebuilt servers is like installing apps on your phone. You don’t need to know how the app is coded to understand what it can do—and you can learn the UI patterns before building your own.</blockquote>
+
+        <h4>What you’re practicing here</h4>
+        <ul>
+          <li><strong>Tool discovery:</strong> confirm the host can list tools and understand their input requirements.</li>
+          <li><strong>Execution flow:</strong> see how tool calls are requested, executed, and returned.</li>
+          <li><strong>Failure modes:</strong> learn what errors look like (bad inputs, missing permissions, connectivity issues).</li>
+        </ul>
+
+        <h4>Best practice mindset</h4>
+        <ul>
+          <li>Start simple (1–2 tools) and validate the loop.</li>
+          <li>Prefer deterministic tools first (search, fetch, parse) before “dangerous” ones (write/delete actions).</li>
+          <li>Always log inputs/outputs during development so you can debug quickly.</li>
+        </ul>
 
         <h3>C.3 Connecting MCP Client</h3>
-        <p>Learn to pair your local MCP server with a host app. This is the moment your AI gains new powers by "discovering" the tools you've exposed.</p>
-        <blockquote class="callout">Analogy: Connecting the client is like "Pairing Bluetooth headphones." Once the 'handshake' is done, the data (Sound/Tools) flows seamlessly between both devices.</blockquote>
+        <p>This is the moment your AI gains new “capabilities.” Connecting the MCP client means your host app establishes a session with your server, discovers the available tools/resources, and can start calling them as part of an agentic workflow.</p>
+        <blockquote class="callout">Analogy: Connecting the client is like pairing Bluetooth headphones. Once the handshake is complete, information flows both ways reliably—until something changes (permissions, network, process restarts).</blockquote>
+
+        <h4>What’s happening under the hood</h4>
+        <ul>
+          <li><strong>Handshake/session:</strong> the client and server agree on a communication channel.</li>
+          <li><strong>Capability discovery:</strong> the host/client learns which tools exist and their schemas.</li>
+          <li><strong>Tool calls:</strong> the model proposes tool usage; the client executes calls; results return as structured payloads.</li>
+        </ul>
+
+        <h4>Common issues (and what to check)</h4>
+        <ul>
+          <li><strong>Server won’t start:</strong> dependency/runtime mismatch, port conflicts (HTTP), or invalid config.</li>
+          <li><strong>Tools not showing up:</strong> server not registered correctly with the host/client, or schema errors.</li>
+          <li><strong>Tool calls fail:</strong> missing permissions, invalid inputs, or unhandled server exceptions.</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB D ==================== -->
@@ -305,25 +437,79 @@
         <h2>BAB D. MCP Servers Development</h2>
 
         <h3>D.1 Building MCP Servers</h3>
-        <p>Step-by-step guidance on creating a custom server from scratch. Learn about tool definitions and the JSON-RPC structure under the hood.</p>
-        <blockquote class="callout">Analogy: Building a server is like "writing a menu" for a restaurant. You list exactly what's available (Tools) and what the chef needs to cook them (Parameters).</blockquote>
+        <p>This is where you move from “using tools” to <strong>building tools</strong>. An MCP server is a process (local or remote) that exposes well-defined capabilities the model can call through the MCP client. Your job as an engineer is to design those capabilities so they’re <strong>safe, composable, and predictable</strong>.</p>
+        <blockquote class="callout">Analogy: Building a server is like writing a menu for a restaurant. You list what’s available (tools), what ingredients are needed (inputs), and what the customer gets back (outputs). A good menu is clear and prevents confusion.</blockquote>
+
+        <h4>What you define in a tool</h4>
+        <ul>
+          <li><strong>Name:</strong> stable, descriptive identifier (avoid vague names like “doStuff”).</li>
+          <li><strong>Description:</strong> what it does, constraints, and when to use it.</li>
+          <li><strong>Input schema:</strong> structured parameters with types and required fields.</li>
+          <li><strong>Output shape:</strong> consistent result format so the model can reliably use the response.</li>
+        </ul>
+
+        <h4>Example tool shape (conceptual)</h4>
         <pre><code>{
   "name": "get_weather",
-  "description": "Returns current weather",
-  "inputSchema": { "type": "object", "properties": { "city": { "type": "string" } } }
+  "description": "Returns current weather for a city",
+  "inputSchema": {
+    "type": "object",
+    "properties": { "city": { "type": "string" } },
+    "required": ["city"]
+  }
 }</code></pre>
 
-        <h3>D.2 Tools & Resources</h3>
-        <p>Expose your local files or internal APIs as "Resources" that the AI can browse and "Tools" that the AI can execute. This is how you bridge your private data to the LLM.</p>
-        <blockquote class="callout">Analogy: Resources are like "Reference Books" on a shelf that the AI can read. Tools are the "Active Machines" that the AI can press buttons on to change things.</blockquote>
+        <h4>Engineering principles</h4>
+        <ul>
+          <li><strong>Make tools deterministic:</strong> the same input should yield the same style of output.</li>
+          <li><strong>Validate aggressively:</strong> reject invalid inputs early with clear errors.</li>
+          <li><strong>Prefer least privilege:</strong> don’t expose powerful actions unless you must.</li>
+        </ul>
+
+        <h3>D.2 Tools &amp; Resources</h3>
+        <p>MCP typically exposes two categories of capability:</p>
+        <ul>
+          <li><strong>Resources:</strong> read-oriented access to information (files, documents, database views). Think “browsing and retrieving.”</li>
+          <li><strong>Tools:</strong> action-oriented operations (query, transform, create, update). Think “doing work.”</li>
+        </ul>
+        <blockquote class="callout">Analogy: Resources are reference books on a shelf the AI can read. Tools are machines in a workshop the AI can operate—under supervision and with safety rules.</blockquote>
+
+        <h4>Common patterns</h4>
+        <ul>
+          <li><strong>Read-only first:</strong> start with safe retrieval resources and tools (search, list, fetch).</li>
+          <li><strong>Write with guardrails:</strong> when you add write tools, enforce confirmation steps, allow-lists, and scoped permissions.</li>
+          <li><strong>Parameterize everything:</strong> avoid free-form “SQL strings” or “shell commands” when you can accept structured parameters instead.</li>
+        </ul>
 
         <h3>D.3 Prompt Integration</h3>
-        <p>Learn to use Prompt-based workflows where the server doesn't just provide data, but also helps steer the AI on *how* to use it effectively.</p>
-        <blockquote class="callout">Analogy: Prompt integration is like a "Guided Tour." The AI isn't just wandering around; the server is giving it a script and context on what to focus on.</blockquote>
+        <p>Prompt integration is about shaping the model’s behavior around your tools: <strong>when to call them</strong>, <strong>how to format inputs</strong>, and <strong>how to interpret outputs</strong>. The goal isn’t to “make the model smarter”—it’s to make the workflow <strong>more reliable</strong>.</p>
+        <blockquote class="callout">Analogy: Prompt integration is like a guided tour. Instead of letting someone wander a museum randomly, you give them a map, rules, and a recommended route so they don’t miss the important exhibits.</blockquote>
 
-        <h3>D.4 Debugging & Observability</h3>
-        <p>Use the MCP Inspector to see exactly what's going on. Master logging and tracing to find where the "handshake" or "tool execution" failed.</p>
-        <blockquote class="callout">Analogy: Debugging is like using an "X-ray machine" to see inside a patient. You can see the request moving through the protocol and catch the exact moment it gets blocked.</blockquote>
+        <h4>What you want to enforce</h4>
+        <ul>
+          <li><strong>Tool-use discipline:</strong> call tools for facts, not guesswork.</li>
+          <li><strong>Output discipline:</strong> summarize results, cite sources, and avoid leaking raw sensitive data.</li>
+          <li><strong>Fallbacks:</strong> if a tool fails, retry safely or ask the user for missing info.</li>
+        </ul>
+
+        <h3>D.4 Debugging &amp; Observability</h3>
+        <p>Tool calling is a distributed system problem: model ↔ client ↔ server ↔ dependencies. Debugging gets easy when you can answer: <em>What was called? With what inputs? What happened? What came back?</em></p>
+        <blockquote class="callout">Analogy: Debugging is like using an X-ray machine. You can see the request moving through the protocol and catch the exact moment it gets blocked, malformed, or denied.</blockquote>
+
+        <h4>What to instrument</h4>
+        <ul>
+          <li><strong>Request logs:</strong> tool name + sanitized inputs (never log secrets).</li>
+          <li><strong>Response logs:</strong> status + shape of outputs (and error messages).</li>
+          <li><strong>Timing:</strong> measure latency per call so you can optimize UX.</li>
+          <li><strong>Tracing:</strong> correlate tool calls within a session for end-to-end visibility.</li>
+        </ul>
+
+        <h4>Common failure modes</h4>
+        <ul>
+          <li><strong>Schema mismatch:</strong> tool expects one shape; the model sends another.</li>
+          <li><strong>Permissions:</strong> server rejects access (as it should) due to missing auth/scopes.</li>
+          <li><strong>Non-deterministic outputs:</strong> inconsistent response format confuses downstream steps.</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB E ==================== -->
@@ -331,16 +517,59 @@
         <h2>BAB E. MCP Clients & AI Integration</h2>
 
         <h3>E.1 MCP Clients</h3>
-        <p>Explore the host ecosystems. From Claude Desktop to the Cursor IDE, learn how to configure each one to recognize your custom MCP servers.</p>
-        <blockquote class="callout">Analogy: Host apps are the "Houses" for your AI. Each house has a slightly different way of plugging in the appliances (MCP Servers), but the electricity (Protocol) is always the same.</blockquote>
+        <p>MCP becomes real when you connect it to an AI product people actually use. MCP clients live inside host apps (or your own application) and handle the operational work: starting/stopping servers, establishing sessions, discovering tools, and routing tool calls safely.</p>
+        <blockquote class="callout">Analogy: Host apps are “houses” for your AI. Each house has a slightly different way of plugging in appliances (MCP servers), but the electricity (the protocol) is consistent.</blockquote>
+
+        <h4>What you configure (in practice)</h4>
+        <ul>
+          <li><strong>Server registration:</strong> tell the host where the MCP server is and how to launch it (local process) or reach it (remote endpoint).</li>
+          <li><strong>Permissions/scopes:</strong> define what the server is allowed to access (files, network, databases).</li>
+          <li><strong>Environment variables:</strong> pass required settings (API endpoints, feature flags). Never hardcode secrets in HTML or source.</li>
+        </ul>
+
+        <h4>What “good” looks like</h4>
+        <ul>
+          <li>Tools show up with clear names/descriptions.</li>
+          <li>Tool calls are reproducible and logged per session.</li>
+          <li>Failures are understandable (actionable errors, not silent breaks).</li>
+        </ul>
 
         <h3>E.2 LLM Integration</h3>
-        <p>Understand how the LLM decides *when* to call a tool. Master context passing to ensure the AI has enough info to make the right call.</p>
-        <blockquote class="callout">Analogy: Integration is like "Giving a calculator to a student." They don't use it for every problem; only when they realize the math is too complex for mental arithmetic.</blockquote>
+        <p>LLM integration is the discipline of getting the model to use tools <strong>at the right time</strong> and <strong>in the right way</strong>. In production, you want the model to rely on tools for facts and actions, and rely on reasoning for planning and summarization.</p>
+        <blockquote class="callout">Analogy: Giving an LLM tools is like giving a student a calculator and a library card. They shouldn’t use the calculator for every thought—but they should use it whenever exact computation matters.</blockquote>
+
+        <h4>Key integration techniques</h4>
+        <ul>
+          <li><strong>Grounding rules:</strong> “If you don’t know, call a tool or ask a question.”</li>
+          <li><strong>Context discipline:</strong> pass only what’s needed (avoid dumping huge logs/docs into context).</li>
+          <li><strong>Structured outputs:</strong> keep tool results structured and stable so downstream steps don’t break.</li>
+          <li><strong>Guarded actions:</strong> require confirmations for write/delete operations.</li>
+        </ul>
+
+        <h4>Common integration failures</h4>
+        <ul>
+          <li><strong>Tool avoidance:</strong> model “guesses” instead of calling tools.</li>
+          <li><strong>Over-calling:</strong> model spams tools unnecessarily, increasing latency and cost.</li>
+          <li><strong>Bad input formatting:</strong> schema mismatch causes repeated failures.</li>
+        </ul>
 
         <h3>E.3 Multi-Tool Systems</h3>
-        <p>The power of MCP shines when you combine servers. Imagine an AI that can pull data from SQLite, search GitHub, and post to Slack simultaneously.</p>
-        <blockquote class="callout">Analogy: Multi-tool systems are like an "Automated Factory Line." One arm grabs the piece (Database), the next welds it (API), and the last one packs it (Messaging).</blockquote>
+        <p>The real power of MCP shows up when you combine specialized tools into workflows. Instead of building one giant server that does everything, you compose smaller servers (or tool groups) and let the client orchestrate multi-step tasks.</p>
+        <blockquote class="callout">Analogy: Multi-tool systems are like an automated factory line. One station reads inventory (database), another verifies specs (API), and another ships the result (messaging). The orchestration keeps everything in order.</blockquote>
+
+        <h4>Examples of multi-tool workflows</h4>
+        <ul>
+          <li><strong>Engineering:</strong> search code → open files → propose patch → run checks → open PR.</li>
+          <li><strong>Operations:</strong> read metrics → detect anomaly → fetch logs → create incident ticket → notify Slack.</li>
+          <li><strong>Knowledge work:</strong> retrieve docs → extract facts → generate summary → publish to Notion/Confluence.</li>
+        </ul>
+
+        <h4>Design tips</h4>
+        <ul>
+          <li><strong>Prefer composition over complexity:</strong> many small tools beat one “mega-tool.”</li>
+          <li><strong>Define ownership:</strong> each server should have a clear domain boundary.</li>
+          <li><strong>Plan for failure:</strong> retries, timeouts, and fallbacks should be first-class.</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB F ==================== -->
@@ -348,16 +577,61 @@
         <h2>BAB F. A2A (Agent-to-Agent Systems)</h2>
 
         <h3>F.1 Introduction to A2A</h3>
-        <p>Move beyond human-to-AI interaction. A2A is about agents talking to other agents to solve multi-step, complex problems autonomously.</p>
-        <blockquote class="callout">Analogy: A2A is like a "Board Meeting" where everyone is an AI. The Finance Agent talks to the Marketing Agent, and together they produce a report without a human sitting in the room.</blockquote>
+        <p>A2A (Agent-to-Agent) systems go beyond “user ↔ AI” chat. Instead, you design multiple specialized agents that communicate with each other to solve complex, multi-step problems. The key shift is that coordination becomes a first-class engineering concern: <strong>roles, interfaces, handoffs, and accountability</strong>.</p>
+        <blockquote class="callout">Analogy: A2A is like a board meeting where everyone is an AI. Finance, Marketing, Legal, and Engineering each bring their own expertise, and decisions happen through structured discussion—without a human micromanaging every step.</blockquote>
+
+        <h4>What makes A2A different from “one big agent”</h4>
+        <ul>
+          <li><strong>Specialization:</strong> each agent has a narrower scope (better quality, less confusion).</li>
+          <li><strong>Parallelism:</strong> agents can work simultaneously on different subproblems.</li>
+          <li><strong>Verifiability:</strong> outputs can be cross-checked by other agents (reviewer/critic roles).</li>
+          <li><strong>Tool boundaries:</strong> each agent can have different tool permissions (least privilege).</li>
+        </ul>
+
+        <h4>Core building blocks</h4>
+        <ul>
+          <li><strong>Agent roles:</strong> e.g., Planner, Researcher, Implementer, Reviewer, Executor.</li>
+          <li><strong>Messages/contracts:</strong> structured handoff formats (task, constraints, context, expected output).</li>
+          <li><strong>Orchestrator:</strong> routing logic that decides who does what, when to stop, and what counts as “done.”</li>
+        </ul>
 
         <h3>F.2 Agent Collaboration</h3>
-        <p>Master task delegation and workflow orchestration. Learn how to prevent agents from getting into "infinite loops" and how to keep them on-task.</p>
-        <blockquote class="callout">Analogy: Agent collaboration is like an "Orchestra." Each agent plays its own part, but they need a conductor (Orchestrator) to make sure they play in sync and don't play over each other.</blockquote>
+        <p>Collaboration is the difference between an impressive demo and a stable system. You need explicit coordination rules: how tasks are delegated, how results are validated, and how the system prevents runaway behavior.</p>
+        <blockquote class="callout">Analogy: Agent collaboration is like an orchestra. Each musician is highly skilled, but without a conductor (orchestrator), they’ll drift out of sync, duplicate effort, or drown each other out.</blockquote>
+
+        <h4>Collaboration patterns that work</h4>
+        <ul>
+          <li><strong>Planner → Doer → Reviewer:</strong> one agent plans, one executes, one checks quality/safety.</li>
+          <li><strong>Divide-and-conquer:</strong> break a large goal into independent subtasks handled in parallel.</li>
+          <li><strong>Critic / red-team agent:</strong> actively searches for errors, security issues, or hallucinations.</li>
+        </ul>
+
+        <h4>Stopping loops (practical guardrails)</h4>
+        <ul>
+          <li><strong>Budgets:</strong> max steps, max tool calls, max time per task.</li>
+          <li><strong>Exit criteria:</strong> explicit “definition of done” + required evidence (logs, citations, test results).</li>
+          <li><strong>Escalation:</strong> if blocked, ask the user for missing info instead of guessing.</li>
+          <li><strong>Memory discipline:</strong> write summaries, not raw transcripts; keep state compact and relevant.</li>
+        </ul>
 
         <h3>F.3 Real Use Cases</h3>
-        <p>From automated customer support pipelines to AI-driven software testing, uncover where A2A systems are currently winning in the industry.</p>
-        <blockquote class="callout">Analogy: A2A use cases are like "Smart Logistics Centers." Robots moving packages, scanners checking labels, and conveyors sorting boxes—all working together to deliver your package without human hands.</blockquote>
+        <p>A2A systems are winning where work is naturally collaborative and multi-stage: gathering information, taking actions across tools, and verifying outcomes. The goal is not “autonomy at all costs”—it’s <strong>throughput + reliability</strong> with strong guardrails.</p>
+        <blockquote class="callout">Analogy: A2A use cases are like a smart logistics center. Specialized machines handle scanning, sorting, routing, and packing—each step is coordinated, monitored, and measured.</blockquote>
+
+        <h4>Where A2A shines today</h4>
+        <ul>
+          <li><strong>Customer support ops:</strong> triage agent classifies → knowledge agent retrieves policy → action agent creates/refunds → QA agent audits response.</li>
+          <li><strong>Software engineering:</strong> spec agent clarifies requirements → coding agent implements → test agent runs suites → reviewer agent checks style/security.</li>
+          <li><strong>Security & compliance:</strong> monitor agent detects issues → investigation agent gathers evidence → remediation agent proposes fixes → compliance agent generates report.</li>
+        </ul>
+
+        <h4>What to measure</h4>
+        <ul>
+          <li><strong>Accuracy / defect rate</strong> (before vs. after A2A).</li>
+          <li><strong>Latency</strong> (end-to-end time per task).</li>
+          <li><strong>Cost</strong> (tokens + tool usage).</li>
+          <li><strong>Safety</strong> (policy violations, dangerous actions attempted/blocked).</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB G ==================== -->
@@ -365,16 +639,60 @@
         <h2>BAB G. Advanced MCP Concepts</h2>
 
         <h3>G.1 MCP + Frameworks</h3>
-        <p>Integrate MCP into popular agent frameworks like LangChain or LangGraph. Leverage existing patterns while using MCP for the heavy-duty tool calling.</p>
-        <blockquote class="callout">Analogy: Frameworks are like "Pre-built car chassis." MCP is the "High-Performance Engine" you drop in to give it the power to interact with the world.</blockquote>
+        <p>MCP plays well with agent frameworks. The clean mental model is: let the framework handle <strong>graph orchestration</strong> and <strong>control flow</strong>, while MCP provides the <strong>standardized tool interface</strong> to your real systems (files, databases, internal APIs).</p>
+        <blockquote class="callout">Analogy: Frameworks are like a pre-built car chassis. MCP is the high-performance engine you drop in so the car can actually move—reliably—on real roads.</blockquote>
 
-        <h3>G.2 Streaming & Real-time Systems</h3>
-        <p>Explore Server-Sent Events (SSE) for remote MCP servers. Build systems that can send data to the AI in real-time as events occur.</p>
-        <blockquote class="callout">Analogy: Streaming is like a "Live Radio Broadcast." You're not waiting for a pre-recorded tape; you're hearing the events as they happen on the field.</blockquote>
+        <h4>Where frameworks help</h4>
+        <ul>
+          <li><strong>Routing:</strong> choose which agent/tool to call based on state.</li>
+          <li><strong>Memory/state:</strong> store summaries, decisions, and intermediate artifacts.</li>
+          <li><strong>Retries & branching:</strong> handle failures, alternative paths, and “human-in-the-loop” steps.</li>
+        </ul>
+
+        <h4>Where MCP helps</h4>
+        <ul>
+          <li><strong>Standardization:</strong> one tool server can work across multiple clients/hosts.</li>
+          <li><strong>Governance:</strong> enforce permissions, validation, rate limits, and audit logs at the server boundary.</li>
+          <li><strong>Portability:</strong> swap AI clients without rewriting your tool layer.</li>
+        </ul>
+
+        <h3>G.2 Streaming &amp; Real-time Systems</h3>
+        <p>Many real systems are event-driven: logs stream, metrics update, tickets change state, alerts fire. Streaming support (often via <strong>SSE</strong> or similar mechanisms) allows the AI system to receive updates continuously instead of polling.</p>
+        <blockquote class="callout">Analogy: Streaming is like a live radio broadcast. You’re not waiting for a recorded recap—you’re hearing the game as it happens.</blockquote>
+
+        <h4>Why streaming matters</h4>
+        <ul>
+          <li><strong>Faster feedback:</strong> the model can react to new information immediately.</li>
+          <li><strong>Better UX:</strong> users see incremental progress (partial results) instead of waiting silently.</li>
+          <li><strong>Operational awareness:</strong> agents can monitor systems and trigger workflows on events.</li>
+        </ul>
+
+        <h4>Common streaming use cases</h4>
+        <ul>
+          <li><strong>Live incident response:</strong> stream alerts/logs → summarize → recommend actions.</li>
+          <li><strong>Long-running tasks:</strong> show progress updates (builds, migrations, large searches).</li>
+          <li><strong>Realtime dashboards:</strong> watch metrics and notify when thresholds are crossed.</li>
+        </ul>
 
         <h3>G.3 Performance Optimization</h3>
-        <p>Latency is the enemy of AI UX. Learn techniques to optimize message sizes, handle connection pooling, and scale your AI systems effectively.</p>
-        <blockquote class="callout">Analogy: Optimization is like "Tuning a Racing Engine." You're stripping away the weight (unnecessary data) to make sure your AI reaches the finish line (the answer) as fast as possible.</blockquote>
+        <p>Latency is the enemy of AI UX. Performance optimization is about reducing the time and cost from “user intent” to “verified outcome,” while keeping reliability and safety intact.</p>
+        <blockquote class="callout">Analogy: Optimization is like tuning a racing engine. You remove unnecessary weight (extra context), reduce friction (fewer round-trips), and improve traction (more deterministic tool outputs) so you finish faster without crashing.</blockquote>
+
+        <h4>High-impact optimization levers</h4>
+        <ul>
+          <li><strong>Reduce context bloat:</strong> summarize and compress; avoid pasting entire docs/logs when a snippet will do.</li>
+          <li><strong>Fewer tool calls:</strong> design tools that return the right granularity (not too small, not too big).</li>
+          <li><strong>Cache smartly:</strong> memoize stable queries and resource reads where safe.</li>
+          <li><strong>Parallelize:</strong> run independent tool calls concurrently when possible.</li>
+          <li><strong>Bounded retries:</strong> retry transient failures with backoff; don’t loop forever.</li>
+        </ul>
+
+        <h4>What to measure</h4>
+        <ul>
+          <li><strong>p50/p95 latency</strong> per tool call and end-to-end workflow.</li>
+          <li><strong>Tool error rate</strong> (by tool name and failure type).</li>
+          <li><strong>Token usage</strong> per task (proxy for cost + context size).</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB H ==================== -->
@@ -382,16 +700,57 @@
         <h2>BAB H. Security & Governance</h2>
 
         <h3>H.1 MCP Security Risks</h3>
-        <p>Giving AI access to your tools is dangerous. We explore prompt injection risks and how to prevent data leakage in a tool-calling environment.</p>
-        <blockquote class="callout">Analogy: Security risks are like "Giving your house keys to a stranger." Even if they seem nice (The AI), you still want to make sure they can only open the doors you've permitted.</blockquote>
+        <p>Giving AI access to tools is powerful—and risky. The biggest mistake is treating tool calls like “just another API request.” With agents, the model is a decision-maker that can be manipulated by untrusted input. Security in MCP systems is about controlling <strong>what the model can do</strong>, <strong>what it can see</strong>, and <strong>how it can be influenced</strong>.</p>
+        <blockquote class="callout">Analogy: Security risks are like giving your house keys to a stranger. Even if they seem helpful, you still want doors they can’t open, rooms they can’t enter, and a camera that records what happened.</blockquote>
+
+        <h4>Top risks to understand</h4>
+        <ul>
+          <li><strong>Prompt injection:</strong> untrusted text (web pages, documents, emails) instructs the model to leak secrets or take harmful actions.</li>
+          <li><strong>Data exfiltration:</strong> tool outputs contain sensitive info that gets copied into chat, logs, or external tools.</li>
+          <li><strong>Over-privileged tools:</strong> a single tool has too much power (filesystem write + network + admin APIs).</li>
+          <li><strong>Confused deputy:</strong> the model uses a high-privilege tool on behalf of low-trust input.</li>
+          <li><strong>Supply-chain/tool server risk:</strong> a compromised server or dependency becomes a backdoor.</li>
+        </ul>
+
+        <h4>Security mindset for tool calling</h4>
+        <ul>
+          <li><strong>Assume inputs are adversarial:</strong> treat retrieved content as untrusted.</li>
+          <li><strong>Make dangerous actions explicit:</strong> require confirmations and clear user intent.</li>
+          <li><strong>Prefer allow-lists:</strong> restrict domains, file paths, operations, and schemas.</li>
+        </ul>
 
         <h3>H.2 Access Control</h3>
-        <p>Master authentication strategies. Don't let your MCP servers be exposed to the open web without strict "Gatekeepers."</p>
-        <blockquote class="callout">Analogy: Access control is like a "Strict Bouncer" at a V.I.P. club. No valid ID (Token), no entry into the Toolroom.</blockquote>
+        <p>Access control is your primary safety boundary. Don’t expose MCP servers to the open web without strong authentication and authorization. In production, you want defense-in-depth: the client, the server, and the underlying systems all enforce policy.</p>
+        <blockquote class="callout">Analogy: Access control is like a strict bouncer at a VIP club. No valid ID (token), no entry—and even with ID, you only get into the rooms you’re allowed to enter.</blockquote>
+
+        <h4>What to implement</h4>
+        <ul>
+          <li><strong>Authentication:</strong> prove who is calling (API keys, OAuth, mTLS, signed tokens).</li>
+          <li><strong>Authorization:</strong> prove what they’re allowed to do (scopes/roles per tool and per resource).</li>
+          <li><strong>Least privilege:</strong> default to read-only; grant write access only where required.</li>
+          <li><strong>Rate limiting:</strong> protect your systems from accidental “agent DDoS.”</li>
+        </ul>
+
+        <h4>Operational controls</h4>
+        <ul>
+          <li><strong>Audit logs:</strong> record tool calls (who/what/when) with sensitive values redacted.</li>
+          <li><strong>Secrets management:</strong> store keys in secure vaults/env vars; never embed in prompts or HTML.</li>
+          <li><strong>Network boundaries:</strong> isolate servers in private networks where possible.</li>
+        </ul>
 
         <h3>H.3 Best Practices</h3>
-        <p>Build secure-by-design architectures. Learn to limit the AI's "Radius of Destruction" by using read-only access where possible.</p>
-        <blockquote class="callout">Analogy: Best practices are like a "Safety Fuse." If something goes wrong in one part of the system, the fuse blows (fails safely) and prevents the whole house from catching fire.</blockquote>
+        <p>Security best practices make failures safe and recoverable. Your goal is to reduce the system’s “blast radius” and make it obvious when something abnormal happens.</p>
+        <blockquote class="callout">Analogy: Best practices are like a safety fuse. If something goes wrong, the fuse blows (fails safely), stops the dangerous flow, and prevents a bigger fire.</blockquote>
+
+        <h4>Practical checklist</h4>
+        <ul>
+          <li><strong>Read-only by default</strong> (especially for file/db access).</li>
+          <li><strong>Confirm before write/delete</strong> and show a clear summary of what will change.</li>
+          <li><strong>Schema validation everywhere</strong> (reject malformed inputs).</li>
+          <li><strong>Output filtering:</strong> redact secrets and PII before returning tool results to the model.</li>
+          <li><strong>Sandbox execution:</strong> isolate risky tools (filesystem, shell, network) in containers or restricted environments.</li>
+          <li><strong>Test prompt injection</strong> with red-team examples and regression suites.</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB I ==================== -->
@@ -399,16 +758,62 @@
         <h2>BAB I. Cloud & Deployment</h2>
 
         <h3>I.1 Dockerizing MCP Systems</h3>
-        <p>Containerize your servers for consistency. If an MCP server runs on your machine, it should run perfectly in the cloud.</p>
-        <blockquote class="callout">Analogy: Docker is like a "Self-sustaining Greenhouse." It brings its own soil, water, and air, so you can grow your plants (Servers) in the Middle of a desert (any OS) without a problem.</blockquote>
+        <p>Containerization helps you ship MCP servers with consistent behavior across machines and environments. If it runs on your laptop but fails on the build server, you don’t have a deployment strategy—you have a demo. Docker gives you a repeatable runtime, predictable dependencies, and cleaner isolation for risky tools.</p>
+        <blockquote class="callout">Analogy: Docker is like a self-sustaining greenhouse. It brings its own soil, water, and air—so your plants (servers) grow the same way whether you’re in a garden (local) or a desert (cloud).</blockquote>
+
+        <h4>Why Docker matters for MCP</h4>
+        <ul>
+          <li><strong>Reproducibility:</strong> same runtime, same deps, fewer “works on my machine” problems.</li>
+          <li><strong>Isolation:</strong> limit filesystem/network access and reduce blast radius for tool execution.</li>
+          <li><strong>Operational clarity:</strong> standardized start/stop, logs, health checks.</li>
+        </ul>
+
+        <h4>Practical checklist</h4>
+        <ul>
+          <li><strong>Non-root containers</strong> wherever possible.</li>
+          <li><strong>Minimal images</strong> (smaller attack surface, faster deploys).</li>
+          <li><strong>Explicit env vars</strong> for config; no secrets baked into images.</li>
+          <li><strong>Health checks</strong> and structured logs for observability.</li>
+        </ul>
 
         <h3>I.2 Cloud Deployment</h3>
-        <p>Take your servers global. We'll explore Cloudflare Workers and AWS integration to hosting scalable MCP services.</p>
-        <blockquote class="callout">Analogy: Cloud deployment is graduating from "Your Garage" to a "Global Logistics Hub." Now, your tools are available from anywhere on the planet at light speed.</blockquote>
+        <p>Cloud deployment is about making MCP tool servers reliable for teams and production traffic. Once you go remote, the problem space expands: authentication, multi-tenancy, rate limits, network policies, and uptime. The goal is to expose capabilities safely—without turning your tool server into a public attack surface.</p>
+        <blockquote class="callout">Analogy: Cloud deployment is graduating from your garage to a global logistics hub. Now your tools can be reached from anywhere, but you need gates, rules, and monitoring.</blockquote>
+
+        <h4>Common deployment approaches</h4>
+        <ul>
+          <li><strong>Container platforms:</strong> run MCP servers on managed container services for predictable scaling.</li>
+          <li><strong>Edge/serverless:</strong> useful for lightweight, stateless tools and low-latency access (with careful limits).</li>
+          <li><strong>Private networking:</strong> keep tool servers internal and accessible only through VPN/zero-trust access.</li>
+        </ul>
+
+        <h4>Cloud gotchas to plan for</h4>
+        <ul>
+          <li><strong>Auth everywhere:</strong> never rely on “security by obscurity.”</li>
+          <li><strong>Rate limiting:</strong> protect downstream services from bursty agent behavior.</li>
+          <li><strong>Versioning:</strong> evolve tool schemas without breaking clients.</li>
+          <li><strong>Data residency:</strong> ensure sensitive data stays in the right region/boundary.</li>
+        </ul>
 
         <h3>I.3 Production Systems</h3>
-        <p>Scaling MCP isn't just about more servers. It's about monitoring, logging, and ensuring your AI agents don't accidentally D.D.o.S. your own backend.</p>
-        <blockquote class="callout">Analogy: Production is like a "Mega City." You need traffic lights (Rate limiting), surveillance (Monitoring), and power grids (Scaling) to keep everything alive.</blockquote>
+        <p>Scaling MCP isn’t just “more servers.” Production means you can observe, debug, and govern behavior under real load. You want predictable performance, safe failure modes, and clear accountability for every tool call.</p>
+        <blockquote class="callout">Analogy: Production is like a mega city. You need traffic lights (rate limits), surveillance (monitoring), and power grids (scaling) to keep everything running without chaos.</blockquote>
+
+        <h4>What production-ready looks like</h4>
+        <ul>
+          <li><strong>Monitoring:</strong> dashboards for latency, throughput, error rates per tool.</li>
+          <li><strong>Logging:</strong> structured logs with session correlation and redaction.</li>
+          <li><strong>Alerting:</strong> actionable alerts on error spikes, auth failures, and unusual tool usage.</li>
+          <li><strong>Governance:</strong> approval flows for high-risk tools, audit trails, and periodic access reviews.</li>
+        </ul>
+
+        <h4>Preventing “agent DDoS”</h4>
+        <ul>
+          <li><strong>Budgets:</strong> cap tool calls per session/task.</li>
+          <li><strong>Backpressure:</strong> queue requests; fail fast when limits are exceeded.</li>
+          <li><strong>Caching:</strong> avoid repeated identical reads.</li>
+          <li><strong>Timeouts:</strong> don’t let tool calls hang indefinitely.</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB J ==================== -->
@@ -416,16 +821,59 @@
         <h2>BAB J. Real-World Projects</h2>
 
         <h3>J.1 AI Tool Integration Project</h3>
-        <p>The "Connect Everything" project. Build an MCP server that talks to your favorite API (Slack, Notion, or Weather) and lets an AI manage it for you.</p>
-        <blockquote class="callout">Analogy: This project is like building a "Personal Assistant." You're teaching the AI to handle your boring digital errands while you focus on the big stuff.</blockquote>
+        <p>This project is where you build your first “real” MCP server integration. The objective is to expose a small set of tools that connect to one external service (e.g., Slack, Notion, Weather, GitHub) and make those tools usable from an MCP-compatible host.</p>
+        <blockquote class="callout">Analogy: This project is like building a personal assistant. You’re teaching the AI to handle boring digital errands with clear rules and safe boundaries.</blockquote>
+
+        <h4>Suggested scope (keep it shippable)</h4>
+        <ul>
+          <li>Pick <strong>one service</strong>.</li>
+          <li>Implement <strong>2–4 tools</strong> (read-focused first, then one safe write action).</li>
+          <li>Add <strong>validation + clear errors</strong> so tool calls are predictable.</li>
+        </ul>
+
+        <h4>Example tool set (Slack)</h4>
+        <ul>
+          <li><strong>list_channels</strong></li>
+          <li><strong>get_recent_messages</strong> (channel + time window)</li>
+          <li><strong>post_message</strong> (guarded; optional confirmation step)</li>
+        </ul>
+
+        <h4>Success criteria</h4>
+        <ul>
+          <li>Tools discover correctly in the host.</li>
+          <li>End-to-end tool calls work reliably with structured outputs.</li>
+          <li>Secrets are handled safely (env vars/vault), not hardcoded.</li>
+        </ul>
 
         <h3>J.2 Multi-Agent System Project</h3>
-        <p>The "Teamwork" project. Build an A2A workflow where two different agents collaborate to research a topic and write a full report autonomously.</p>
-        <blockquote class="callout">Analogy: This project is like "Building a Small Company." One agent is the researcher, the other is the writer. Your job is to make sure they're talking to each other correctly.</blockquote>
+        <p>This project focuses on orchestration. You’ll build an A2A workflow where two or more agents collaborate with explicit roles (researcher, writer, reviewer) to produce a higher-quality result than a single agent would.</p>
+        <blockquote class="callout">Analogy: This project is like building a small company. One agent researches, one writes, and one reviews. Your job is to make the handoffs clean and prevent chaos.</blockquote>
+
+        <h4>Recommended agent roles</h4>
+        <ul>
+          <li><strong>Research agent:</strong> gathers sources and extracts facts.</li>
+          <li><strong>Writer agent:</strong> produces the draft from the research packet.</li>
+          <li><strong>Reviewer agent:</strong> checks for gaps, contradictions, and quality issues.</li>
+        </ul>
+
+        <h4>Guardrails</h4>
+        <ul>
+          <li><strong>Budgets:</strong> max steps/tool calls per agent.</li>
+          <li><strong>Definition of done:</strong> explicit checklist (citations, outline, final output format).</li>
+          <li><strong>Escalation:</strong> ask the user if requirements are unclear.</li>
+        </ul>
 
         <h3>J.3 End-to-End MCP System</h3>
-        <p>The Capstone. Build a production-ready system that integrates custom local databases with cloud-based AI tools via MCP—fully secured and logged.</p>
-        <blockquote class="callout">Analogy: This is the "Grand Opening." You've built the whole skyscraper from foundation to antenna. Now let's see residents (Users) move in!</blockquote>
+        <p>This is the capstone: a production-ready MCP system that combines local data (files, SQLite, internal docs) with remote services (cloud APIs) under strong security and observability. The emphasis is on building something you can demo—and also operate safely.</p>
+        <blockquote class="callout">Analogy: This is the grand opening. You built the whole skyscraper—from foundation (tool contracts) to antenna (deployment). Now real users move in, and the building must stay safe and functional.</blockquote>
+
+        <h4>What “production-ready” means here</h4>
+        <ul>
+          <li><strong>Security:</strong> auth, least privilege, redaction, and safe write controls.</li>
+          <li><strong>Observability:</strong> structured logs, tracing by session, dashboards for errors/latency.</li>
+          <li><strong>Deployment:</strong> containerized services with versioning and rollback strategy.</li>
+          <li><strong>Evaluation:</strong> regression tests for tool schemas + red-team prompt injection checks.</li>
+        </ul>
       </section>
 
       <!-- ==================== BAB K ==================== -->
@@ -433,16 +881,60 @@
         <h2>BAB K. Future of AI Engineering</h2>
 
         <h3>K.1 MCP as Industry Standard</h3>
-        <p>The industry is moving toward "interoperability." Learn why MCP is positioned to become the foundation of all AI tool-calling in the next decade.</p>
-        <blockquote class="callout">Analogy: This is like being the first person in the city to have a "Universal Passport." While everyone else is stuck at borders, you're moving through the whole world of AI seamlessly.</blockquote>
+        <p>The industry is moving toward <strong>interoperability</strong>. As more AI products adopt tool calling, the cost of “custom integrations per vendor” becomes unbearable. MCP is positioned as a shared contract layer so tools can be built once and reused across clients, teams, and environments.</p>
+        <blockquote class="callout">Analogy: MCP as a standard is like getting a universal passport. While others get stuck at borders (vendor lock-in), you move across the AI ecosystem with the same toolchain.</blockquote>
+
+        <h4>Why standards win</h4>
+        <ul>
+          <li><strong>Lower integration cost:</strong> build one server, connect many clients.</li>
+          <li><strong>Faster iteration:</strong> tools evolve independently from the host UI.</li>
+          <li><strong>Shared governance:</strong> security patterns and audits can standardize around the same interfaces.</li>
+        </ul>
+
+        <h4>What to watch next</h4>
+        <ul>
+          <li><strong>Tool marketplaces:</strong> reusable MCP servers for common systems.</li>
+          <li><strong>Enterprise adoption:</strong> standard controls for auth, logging, and compliance.</li>
+          <li><strong>Better developer experience:</strong> testing, simulators, inspectors, and schema tooling.</li>
+        </ul>
 
         <h3>K.2 AI-Native Architecture</h3>
-        <p>Modern apps are being built "AI-first." Learn to design systems that aren't just for humans, but are optimized for AI agents to inhabit and operate.</p>
-        <blockquote class="callout">Analogy: AI-native is like building a "Self-driving car." You don't just add a robot to a normal car; you build a vehicle that doesn't even have a steering wheel (Human-only UI).</blockquote>
+        <p>AI-native architecture means designing systems where AI agents aren’t “bolt-ons.” They become first-class users of your system—with interfaces, permissions, and workflows designed for machine use. That changes how you think about APIs, UI, and data boundaries.</p>
+        <blockquote class="callout">Analogy: AI-native is like building a self-driving car. You don’t just add a robot driver to a normal car—you redesign the vehicle and the roads around autonomy and safety.</blockquote>
+
+        <h4>Principles of AI-native systems</h4>
+        <ul>
+          <li><strong>Machine-friendly interfaces:</strong> structured tools, schemas, and predictable outputs.</li>
+          <li><strong>Verification loops:</strong> tests, checks, and reviewers built into workflows.</li>
+          <li><strong>Observability by default:</strong> traceable decisions and tool calls.</li>
+          <li><strong>Safety boundaries:</strong> least privilege, confirmation steps, and sandboxing.</li>
+        </ul>
+
+        <h4>Practical examples</h4>
+        <ul>
+          <li><strong>Agent-ready APIs:</strong> endpoints that accept structured inputs instead of free-form text.</li>
+          <li><strong>Event-driven workflows:</strong> agents react to signals (alerts, tickets, webhooks) with controlled actions.</li>
+          <li><strong>Human-in-the-loop:</strong> approvals for high-impact changes (deployments, deletes, payments).</li>
+        </ul>
 
         <h3>K.3 Career Path</h3>
-        <p>From prompt engineers to LLM Engineers and AI Architects. Discover how to position your new MCP skills in the professional job market.</p>
-        <blockquote class="callout">Analogy: This is your "Graduation Day." You are now an AI Engineer. You have the tools, the knowledge, and the mindset to build the next generation of software. Go build something incredible!</blockquote>
+        <p>The job market is shifting from “prompting” to “building AI systems.” MCP skills map directly to roles that require shipping agentic products with security, reliability, and scale.</p>
+        <blockquote class="callout">Analogy: This is your graduation day. You now know how to give models safe hands—and how to build the environment they can operate in.</blockquote>
+
+        <h4>Roles you’re building toward</h4>
+        <ul>
+          <li><strong>AI Engineer / LLM Engineer:</strong> tool calling, evaluation, reliability, and integration.</li>
+          <li><strong>Agentic Systems Engineer:</strong> orchestrators, multi-agent design, and workflow automation.</li>
+          <li><strong>AI Platform / Infra Engineer:</strong> serving, auth, logging, governance, and deployment of tool servers.</li>
+          <li><strong>AI Architect:</strong> end-to-end design across product, data, and security boundaries.</li>
+        </ul>
+
+        <h4>Portfolio ideas</h4>
+        <ul>
+          <li>One MCP server integrating a real API with safe write controls.</li>
+          <li>One A2A workflow with measurable quality improvements and guardrails.</li>
+          <li>One “production-style” demo with logs, dashboards, and a threat model write-up.</li>
+        </ul>
 
       <section class="node">
         <h1>🚀 Tips</h1>
@@ -476,7 +968,7 @@
       const clone = docNode.cloneNode(true);
       clone.querySelectorAll(COPY_BUTTON_SELECTOR).forEach((el) => el.remove());
       clone.querySelectorAll(".meta, h1, .subtitle").forEach((el) => el.remove());
-      
+
       clone.querySelectorAll(".summary").forEach((el) => {
         const p = document.createElement("p");
         p.innerHTML = el.innerHTML;
@@ -535,7 +1027,7 @@
         const h2Text = h2.textContent.trim();
         const prefixMatch = h2Text.match(/BAB\s+([A-Z])/);
         const prefix = prefixMatch ? "BAB " + prefixMatch[1] : "BAB";
-        
+
         const babButton = document.createElement("button");
         babButton.type = "button";
         babButton.className = "copy-btn section-copy-btn bab-copy-btn";
